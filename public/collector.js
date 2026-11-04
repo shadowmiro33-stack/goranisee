@@ -66,8 +66,8 @@
       data.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6); data.competitor = competitor; data.stage = $("__fc_s").value; data.device = $("__fc_d").value; data.note = clean($("__fc_n").value); data.capturedAt = new Date().toISOString();
       try { localStorage.setItem("__fc_last", JSON.stringify({ competitor: competitor, stage: data.stage })); } catch (e) {}
       fetch(SERVER + "/api/captures", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + PASSWORD }, body: JSON.stringify(data) })
-        .then(function (r) { if (r.status === 401) throw new Error("비밀번호가 틀렸습니다. 어드민에서 버튼을 다시 만드세요."); if (!r.ok) throw new Error("서버 오류 " + r.status); $("__fc_m").style.color = "#1f8a4c"; $("__fc_m").textContent = "전송 완료: CTA " + data.ctas.length + "개, 소구 문구 " + data.benefits.length + "개"; btn.disabled = false; })
-        .catch(function (e) { $("__fc_m").style.color = "#b42318"; $("__fc_m").textContent = "실패: " + e.message; btn.disabled = false; });
+        .then(function (r) { if (r.status === 401) throw new Error("비밀번호가 틀렸습니다. 어드민에서 버튼을 다시 만드세요."); if (!r.ok) throw new Error("서버 오류 " + r.status + " (" + SERVER + ")"); $("__fc_m").style.color = "#1f8a4c"; $("__fc_m").textContent = "전송 완료: CTA " + data.ctas.length + "개, 소구 문구 " + data.benefits.length + "개"; btn.disabled = false; })
+        .catch(function (e) { $("__fc_m").style.color = "#b42318"; $("__fc_m").textContent = "실패: " + e.message + (e.message.indexOf("(") < 0 ? " → " + SERVER : ""); btn.disabled = false; });
     } catch (e) { $("__fc_m").style.color = "#b42318"; $("__fc_m").textContent = "분석 실패: " + e.message; btn.disabled = false; }
   };
 })();
