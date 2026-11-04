@@ -97,6 +97,82 @@ function renderTable() {
   });
 }
 
+// ---------- 화면 비교 (두 경쟁사 나란히 + 핀) ----------
+const PIN_TYPES = { cta: ["CTA", "#d9442b"], reco: ["추천·광고", "#7a3fd1"], pop: ["팝업·플로팅", "#0f8a7a"], price: ["가격·혜택", "#d98c00"], trust: ["신뢰", "#2662c9"], urg: ["긴급성", "#c2187a"] };
+const cmpState = { stage: "", a: "", b: "" };
+const SHOT_CACHE = {};
+async function shotOf(id) { if (!(id in SHOT_CACHE)) { try { SHOT_CACHE[id] = (await api("/api/captures?id=" + id)).screenshot || null; } catch { SHOT_CACHE[id] = null; } } return SHOT_CACHE[id]; }
+
+// 캡처 1건 → 핀 목록. 자동 수집(funnel_collector)은 페이지 비율 좌표가 있어 스크린샷 위에 찍고, 확장 수집은 위치 띠(첫화면/스크롤1…)로만 표시.
+function pinsOf(c) {
+  const d = c.data || {}, out = [];
+  const bandY = (pos) => ({ "첫화면": 0.06, "스크롤1": 0.3, "스크롤2": 0.55, "하단": 0.85 })[String(pos || "").split("/")[0]];
+  const bandX = (pos) => ({ "좌": 0.15, "중앙": 0.5, "우": 0.85 })[String(pos || "").split("/")[1]] ?? 0.5;
+  if (d.ctaDetail) d.ctaDetail.forEach((x) => out.push({ t: "cta", x: x.pos.x, y: x.pos.y, n: x.text + (x.fixed ? " · 고정" : "") + (x.fullWidth ? " · 전폭" : ""), exact: true }));
+  else (d.ctas || []).filter((x) => x.match).slice(0, 12).forEach((x) => out.push({ t: "cta", x: bandX(x.pos), y: bandY(x.pos), n: x.text + (x.fixed ? " · 고정" : "") + (x.strong ? " · 강조색" : ""), d: x.pos }));
+  if (d.promoDetail) d.promoDetail.forEach((p) => out.push({ t: "reco", x: p.pos.x, y: p.pos.y, n: (p.kind === "banner" ? "배너 · " : p.kind === "ad" ? "광고 · " : "") + p.label + (p.items > 1 ? ` (${p.items}개)` : ""), exact: true }));
+  else (d.sections || []).forEach((s) => out.push({ t: "reco", x: bandX(s.pos), y: bandY(s.pos), n: `${s.title} (${s.cards}개)`, d: s.pos }));
+  if (d.overlaysByTrigger) d.overlaysByTrigger.forEach((tr) => tr.overlays.forEach((o) => out.push({ t: "pop", x: o.pos ? o.pos.x : 0.85, y: o.pos ? o.pos.y : 0.03, n: `${o.kind} · ${o.purpose} · ${o.text.slice(0, 50)}`, d: tr.trigger, exact: !!o.pos })));
+  else (d.overlays || []).forEach((o) => out.push({ t: "pop", x: 0.85, y: o.kind === "하단바" ? 0.1 : 0.03, n: `${o.kind} · ${o.text.slice(0, 50)}`, d: o.size }));
+  const ap = d.appeals;
+  if (ap) { (ap.price || []).slice(0, 4).forEach((s, i) => out.push({ t: "price", x: 0.08, y: 0.2 + i * 0.03, n: s })); (ap.trust || []).slice(0, 4).forEach((s, i) => out.push({ t: "trust", x: 0.08, y: 0.4 + i * 0.03, n: s })); (ap.urgency || []).slice(0, 4).forEach((s, i) => out.push({ t: "urg", x: 0.08, y: 0.6 + i * 0.03, n: s })); }
+  else (d.benefits || []).slice(0, 10).forEach((b) => { const t = /한정|오늘만|마감|선착순|마지막|남음/.test(b.text) ? "urg" : /후기|리뷰|평점|★|별점|보장|환불|인증/.test(b.text) ? "trust" : "price"; out.push({ t, x: bandX(b.pos), y: bandY(b.pos), n: b.text, d: b.pos }); });
+  return out.map((p, i) => ({ ...p, i: i + 1, x: Math.min(97, Math.max(3, (p.x ?? 0.5) * 100)), y: Math.min(99, Math.max(1, (p.y ?? 0.1) * 100)) }));
+}
+function cmpColumn(side, c) {
+  if (!c) return `<div class="cmp-col"><h2>${side}</h2><div class="shot"><div class="none">이 단계의 캡처가 없습니다</div></div></div>`;
+  const pins = pinsOf(c), d = c.data || {};
+  const exact = !!(d.ctaDetail || d.promoDetail);
+  const pinHtml = pins.map((p) => `<button class="pin" data-pin="${side}-${p.i}" style="left:${p.x}%;top:${p.y}%;--c:${PIN_TYPES[p.t][1]}" title="${esc(p.n)}">${p.i}</button>`).join("");
+  const groups = Object.keys(PIN_TYPES).map((t) => { const l = pins.filter((p) => p.t === t); return l.length ? `<div class="grp">${PIN_TYPES[t][0]} ${l.length}</div>${l.map((p) => `<div class="row" data-row="${side}-${p.i}" style="--c:${PIN_TYPES[t][1]}"><span class="dot">${p.i}</span><span>${esc(p.n)}${p.d ? ` <span class="d">(${esc(p.d)})</span>` : ""}</span></div>`).join("")}` : ""; }).join("");
+  return `<div class="cmp-col" data-side="${side}">
+    <h2><span>${side} · ${esc(c.competitor)}</span><a data-id="${c.id}">상세 ›</a></h2>
+    <div class="sub">${fmt(c.captured_at)} · ${esc(c.device || "")}${c.note ? " · " + esc(c.note) : ""} · <a href="${esc(c.url)}" target="_blank" rel="noopener" style="color:var(--accent)">${esc((c.url || "").replace(/^https?:\/\//, "").slice(0, 60))}</a></div>
+    <div class="shot" data-shot-box="${side}"><div class="frame"><img data-cmp-shot="${c.id}" alt="">${pinHtml}</div><div class="none">스크린샷 불러오는 중…</div></div>
+    <div class="pinlist">${groups || '<span class="none">추출된 항목이 없습니다</span>'}</div>
+    ${exact ? "" : `<div class="cmp-note">확장·즐겨찾기 수집본은 정확한 좌표가 없어 핀을 대략적인 위치 띠(첫화면·스크롤·하단)에 놓았습니다. 정확한 위치는 자동 수집본에서 보입니다.</div>`}
+  </div>`;
+}
+function renderCompare() {
+  const rows = filtered();
+  const el = $("#tab-compare");
+  if (!rows.length) { el.innerHTML = `<div class="empty">비교할 캡처가 없습니다.</div>`; return; }
+  const { comps, m } = matrix(rows);
+  const stages = STAGES.filter((s) => comps.some((c) => m[c + "|" + s]));
+  if (!stages.includes(cmpState.stage)) cmpState.stage = stages[0];
+  if (!comps.includes(cmpState.a)) cmpState.a = comps[0];
+  if (!comps.includes(cmpState.b) || cmpState.b === cmpState.a) cmpState.b = comps.find((c) => c !== cmpState.a) || comps[0];
+  const A = m[cmpState.a + "|" + cmpState.stage]?.[0], B = m[cmpState.b + "|" + cmpState.stage]?.[0];
+  const opt = (list, v) => list.map((x) => `<option ${x === v ? "selected" : ""}>${esc(x)}</option>`).join("");
+  el.innerHTML = `<div class="cmp-bar">
+      <span>단계</span><select id="cmp-stage">${opt(stages, cmpState.stage)}</select>
+      <span>A</span><select id="cmp-a">${opt(comps, cmpState.a)}</select>
+      <span>B</span><select id="cmp-b">${opt(comps, cmpState.b)}</select>
+      <button class="sm" id="cmp-swap">↔ 바꾸기</button>
+      <div class="cmp-legend">${Object.entries(PIN_TYPES).map(([k, [l, c]]) => `<span style="--c:${c}"><i></i>${l}</span>`).join("")}</div>
+    </div>
+    <div class="cmp-cols">${cmpColumn("A", A)}${cmpColumn("B", B)}</div>
+    <div class="cmp-note">두 화면은 스크롤이 함께 움직입니다. 핀이나 목록 항목을 누르면 서로 강조됩니다.</div>`;
+  $("#cmp-stage").onchange = (e) => { cmpState.stage = e.target.value; renderCompare(); };
+  $("#cmp-a").onchange = (e) => { cmpState.a = e.target.value; renderCompare(); };
+  $("#cmp-b").onchange = (e) => { cmpState.b = e.target.value; renderCompare(); };
+  $("#cmp-swap").onclick = () => { [cmpState.a, cmpState.b] = [cmpState.b, cmpState.a]; renderCompare(); };
+  el.querySelectorAll("img[data-cmp-shot]").forEach(async (img) => {
+    const box = img.closest(".shot"); const src = await shotOf(img.dataset.cmpShot);
+    if (src) { img.src = src; box.querySelector(".none")?.remove(); } else { box.querySelector(".none").textContent = "스크린샷 없음 (즐겨찾기 수집본은 스크린샷이 빠집니다)"; }
+  });
+  const boxes = [...el.querySelectorAll("[data-shot-box]")];
+  boxes.forEach((box) => box.addEventListener("scroll", () => {
+    if (box._lock) return;
+    const other = boxes.find((b) => b !== box); if (!other) return;
+    const max = box.scrollHeight - box.clientHeight, omax = other.scrollHeight - other.clientHeight; if (max <= 0 || omax <= 0) return;
+    other._lock = true; other.scrollTop = (box.scrollTop / max) * omax; requestAnimationFrame(() => (other._lock = false));
+  }, { passive: true }));
+  const hi = (key) => { el.querySelectorAll(".pin,.row").forEach((n) => n.classList.toggle("on", (n.dataset.pin || n.dataset.row) === key)); };
+  el.querySelectorAll(".pin").forEach((p) => p.addEventListener("click", () => { hi(p.dataset.pin); el.querySelector(`[data-row="${p.dataset.pin}"]`)?.scrollIntoView({ block: "nearest" }); }));
+  el.querySelectorAll(".row").forEach((r) => r.addEventListener("click", () => { hi(r.dataset.row); const p = el.querySelector(`[data-pin="${r.dataset.row}"]`); if (p) { const box = p.closest(".shot"); box.scrollTo({ top: p.offsetTop - box.clientHeight / 2, behavior: "smooth" }); } }));
+}
+
 // ---------- 타임라인 ----------
 function renderTimeline() {
   const rows = filtered();
@@ -211,11 +287,11 @@ $("#btn-csv").addEventListener("click", () => {
 function render() {
   const rows = filtered();
   $("#stat").textContent = `${rows.length}건 / 전체 ${ALL.length}건`;
-  renderTable(); renderTimeline(); $("#prompt").value = buildPrompt();
+  renderTable(); renderCompare(); renderTimeline(); $("#prompt").value = buildPrompt();
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
-  ["table", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  ["table", "compare", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
 }));
 $("#f-device").addEventListener("change", render);
 $("#f-comp").addEventListener("change", render);
