@@ -50,6 +50,14 @@
 4. 툴바의 퍼즐 아이콘 → **퍼널 비교 수집기** 고정.
 5. 아이콘 클릭 → **어드민 연결 설정** → 1-2의 주소(예: `https://xxxx.netlify.app`)와 비밀번호 입력 → **연결 테스트** → 저장.
 
+## 2-C. 자동 수집 — `car-data` 저장소의 GitHub Actions (사내 IP 노출 없음)
+
+확장·즐겨찾기 없이도 `shadowmiro33-stack/car-data`의 **Competitor Funnel Snapshot** 워크플로우가 매주 월요일 경쟁사 공개 페이지(첫 화면·리스트·매물 상세)를 모바일 화면으로 열어 같은 형식으로 이 어드민에 전송합니다. 전송된 행은 메모가 "자동 수집 (GitHub Actions · funnel_collector)"로 표시됩니다.
+
+설정은 `car-data` 저장소 Secrets에 두 개만 넣으면 됩니다: `FUNNEL_ADMIN_URL` = 이 어드민 주소, `FUNNEL_ADMIN_PASSWORD` = `ADMIN_PASSWORD`와 같은 값. 대상 URL은 `car-data/funnel/funnel_targets.json`에서 관리합니다. 자세한 내용은 그 저장소의 `funnel/README.md` 참고.
+
+로그인이 필요한 단계(상담 신청·결제)는 자동 수집하지 않으므로 2-A/2-B로 직접 캡처합니다.
+
 ---
 
 ## 3. 사용법
