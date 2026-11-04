@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>경쟁사 퍼널 비교 어드민</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --fg:#17181c; --muted:#6b7280; --line:#e5e7eb; --accent:#2f5bea; --soft:#eef2ff; --warn:#fff4e5; --danger:#b42318; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 -apple-system, "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif; color:var(--fg); background:var(--bg); }
+  header { display:flex; align-items:center; gap:10px; padding:12px 22px; background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; flex-wrap:wrap; }
+  header h1 { font-size:16px; margin:0 auto 0 0; }
+  button { padding:7px 13px; border:1px solid var(--line); background:var(--card); border-radius:8px; font:inherit; cursor:pointer; color:var(--fg); }
+  button:hover { background:#f3f4f6; }
+  button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  button.primary:hover { background:#2449c2; }
+  button.danger { color:var(--danger); }
+  button.sm { padding:3px 9px; font-size:12px; }
+  select, input { padding:7px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; background:var(--card); }
+  main { padding:18px 22px 80px; }
+  .tabs { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+  .tabs button.active { background:var(--soft); border-color:var(--accent); color:var(--accent); font-weight:600; }
+  .filters { display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap; color:var(--muted); font-size:13px; }
+  .empty { padding:70px 20px; text-align:center; color:var(--muted); background:var(--card); border:1px dashed var(--line); border-radius:12px; }
+  .empty code { background:#f3f4f6; padding:2px 6px; border-radius:4px; }
+  .scroll { overflow:auto; border:1px solid var(--line); border-radius:12px; background:var(--card); }
+  table { border-collapse:separate; border-spacing:0; min-width:100%; }
+  th, td { border-bottom:1px solid var(--line); border-right:1px solid var(--line); padding:10px 12px; vertical-align:top; text-align:left; min-width:250px; max-width:340px; }
+  th { background:#f3f4f6; font-weight:600; position:sticky; top:0; z-index:2; }
+  th:first-child, td:first-child { min-width:130px; max-width:130px; background:#fafafa; font-weight:600; position:sticky; left:0; z-index:1; }
+  th:first-child { z-index:3; }
+  th:last-child, td:last-child { border-right:0; }
+  tr:last-child td { border-bottom:0; }
+  th .sub { display:block; font-weight:400; font-size:11px; color:var(--muted); }
+  .cell { font-size:12.5px; }
+  .cell .k { color:var(--muted); font-size:11px; margin-top:7px; letter-spacing:.02em; }
+  .cell .k:first-child { margin-top:0; }
+  .cell .v { white-space:pre-wrap; word-break:break-word; }
+  .cell .meta { display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--muted); margin-bottom:4px; }
+  .cell .meta a { color:var(--accent); cursor:pointer; text-decoration:none; }
+  .chip { display:inline-block; background:var(--soft); border-radius:999px; padding:1px 8px; margin:2px 3px 0 0; font-size:11px; }
+  .chip.strong { background:var(--warn); }
+  .chip.fixed { outline:1px dashed #f59e0b; }
+  .thumb { width:100%; border:1px solid var(--line); border-radius:6px; margin-top:8px; cursor:zoom-in; background:#f3f4f6; min-height:40px; }
+  .none { color:#c4c7cc; }
+  .hist { font-size:11px; color:var(--muted); margin-top:6px; }
+  .hist a { color:var(--accent); cursor:pointer; margin-right:6px; }
+  /* 상세 패널 */
+  #detail { position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; z-index:20; }
+  #detail.on { display:block; }
+  #detail .panel { position:absolute; top:0; right:0; bottom:0; width:min(820px, 96vw); background:var(--card); overflow:auto; padding:20px 26px 40px; box-shadow:-8px 0 30px rgba(0,0,0,.15); }
+  #detail h2 { margin:0 48px 4px 0; font-size:16px; }
+  #detail .sub { color:var(--muted); font-size:12px; margin-bottom:12px; }
+  #detail h3 { font-size:13px; color:var(--muted); margin:18px 0 6px; text-transform:uppercase; letter-spacing:.04em; }
+  #detail pre { background:#f3f4f6; padding:10px; border-radius:8px; white-space:pre-wrap; font-size:12px; margin:0; }
+  #detail img { width:100%; border:1px solid var(--line); border-radius:8px; }
+  #detail .close { position:absolute; top:14px; right:18px; }
+  #detail ul { margin:0; padding-left:18px; font-size:13px; }
+  /* 타임라인 */
+  .tl-comp { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+  .tl-comp h2 { font-size:15px; margin:0 0 10px; }
+  .tl-row { display:grid; grid-template-columns:150px 110px 80px 1fr auto; gap:10px; padding:7px 0; border-top:1px solid var(--line); font-size:13px; align-items:center; }
+  .tl-row .t { color:var(--muted); font-size:12px; }
+  .tl-row .s { font-weight:600; }
+  .tl-row .d { color:var(--muted); font-size:12px; }
+  .tl-row .h { color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  /* 프롬프트 */
+  .box { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:16px; }
+  .box h2 { font-size:15px; margin:0 0 6px; }
+  .box p { color:var(--muted); margin:0 0 10px; font-size:13px; }
+  textarea { width:100%; min-height:360px; font:12px/1.5 ui-monospace, Consolas, monospace; padding:10px; border:1px solid var(--line); border-radius:8px; margin-top:10px; }
+  /* 로그인 */
+  #login { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:var(--bg); z-index:30; }
+  #login.on { display:flex; }
+  #login form { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:28px 30px; width:340px; }
+  #login h1 { font-size:17px; margin:0 0 4px; }
+  #login p { color:var(--muted); font-size:13px; margin:0 0 16px; }
+  #login input { width:100%; margin-bottom:10px; }
+  #login button { width:100%; }
+  #login .err { color:var(--danger); font-size:12px; min-height:16px; margin-top:6px; }
+  #toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#17181c; color:#fff; padding:9px 16px; border-radius:999px; font-size:13px; opacity:0; transition:opacity .2s; pointer-events:none; }
+  #toast.on { opacity:1; }
+</style>
+</head>
+<body>
+<div id="login"><form id="login-form"><h1>경쟁사 퍼널 비교 어드민</h1><p>팀 공용 비밀번호를 입력하세요.</p><input type="password" id="pw" placeholder="비밀번호" autofocus><button class="primary" type="submit">들어가기</button><div class="err" id="login-err"></div></form></div>
+
+<header>
+  <h1>경쟁사 퍼널 비교 어드민</h1>
+  <button id="btn-refresh">새로고침</button>
+  <button id="btn-csv">CSV 내보내기</button>
+  <button id="btn-logout">로그아웃</button>
+</header>
+<main>
+  <div class="tabs">
+    <button class="active" data-tab="table">비교표</button>
+    <button data-tab="timeline">수집 이력 · 변화 추적</button>
+    <button data-tab="prompt">AI 분석용 프롬프트</button>
+  </div>
+  <div class="filters">
+    <span>화면</span>
+    <select id="f-device"><option value="">전체(최신)</option><option>데스크톱</option><option>모바일</option></select>
+    <span>경쟁사</span>
+    <select id="f-comp" multiple size="1" style="min-width:160px"></select>
+    <span id="stat"></span>
+  </div>
+  <section id="tab-table"></section>
+  <section id="tab-timeline" hidden></section>
+  <section id="tab-prompt" hidden>
+    <div class="box">
+      <h2>복붙용 프롬프트</h2>
+      <p>수집한 데이터를 AI 분석 요청문으로 정리한 것입니다. 복사해서 Claude 등에 붙여 넣으면 경쟁사별 소구점·퍼널 흐름·광고/추천 노출 방식을 비교 분석해 줍니다. 필터(화면·경쟁사)가 반영됩니다.</p>
+      <button id="btn-copy" class="primary">프롬프트 복사</button> <span id="copied" style="color:var(--muted);font-size:12px"></span>
+      <textarea id="prompt" readonly></textarea>
+    </div>
+  </section>
+</main>
+<div id="detail"><div class="panel"><button class="close" id="btn-close">닫기</button><div id="detail-body"></div></div></div>
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

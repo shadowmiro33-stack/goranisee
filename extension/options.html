@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>퍼널 비교 수집기 설정</title>
+<style>
+  body { margin:0; padding:40px 20px; font:14px/1.5 -apple-system, "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif; color:#17181c; background:#f6f7f9; }
+  .card { max-width:480px; margin:0 auto; background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:26px 28px; }
+  h1 { font-size:17px; margin:0 0 4px; }
+  p { color:#6b7280; font-size:13px; margin:0 0 18px; }
+  label { display:block; font-size:12px; color:#6b7280; margin:12px 0 4px; }
+  input { width:100%; box-sizing:border-box; padding:9px 11px; border:1px solid #e5e7eb; border-radius:8px; font:inherit; }
+  button { margin-top:16px; padding:10px 16px; border:0; border-radius:8px; background:#2f5bea; color:#fff; font:inherit; font-weight:600; cursor:pointer; }
+  button.ghost { background:#f3f4f6; color:#17181c; margin-left:6px; }
+  #msg { font-size:12px; margin-top:10px; min-height:18px; }
+  .ok { color:#1f8a4c; } .err { color:#b42318; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>어드민 연결 설정</h1>
+  <p>캡처한 데이터를 보낼 팀 어드민 주소와 공용 비밀번호를 입력하세요. 한 번만 설정하면 됩니다.</p>
+  <label>어드민 주소</label>
+  <input id="server" placeholder="https://xxxx.vercel.app">
+  <label>공용 비밀번호</label>
+  <input id="password" type="password" placeholder="팀 비밀번호">
+  <button id="save">저장</button><button id="test" class="ghost">연결 테스트</button>
+  <div id="msg"></div>
+</div>
+<script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+  :root { --bg:#fff; --fg:#1a1a1a; --muted:#6b6b6b; --line:#e4e4e4; --accent:#2f5bea; --ok:#1f8a4c; }
+  body { margin:0; width:340px; font:14px/1.45 -apple-system, "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif; color:var(--fg); background:var(--bg); }
+  .wrap { padding:14px 16px 12px; }
+  h1 { font-size:15px; margin:0 0 10px; }
+  label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
+  input, select { width:100%; box-sizing:border-box; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; }
+  .row { display:flex; gap:8px; }
+  .row > * { flex:1; }
+  button { width:100%; padding:10px; border:0; border-radius:8px; font:inherit; font-weight:600; cursor:pointer; margin-top:12px; }
+  #capture { background:var(--accent); color:#fff; }
+  #capture:disabled { opacity:.6; cursor:wait; }
+  #open { background:#f1f3f8; color:var(--fg); margin-top:8px; }
+  #status { font-size:12px; margin-top:10px; min-height:18px; color:var(--muted); }
+  #status.ok { color:var(--ok); }
+  #status.err { color:#b42318; }
+  .hint { font-size:11px; color:var(--muted); margin-top:4px; }
+  .count { font-size:12px; color:var(--muted); margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>퍼널 비교 수집기</h1>
+
+  <label>경쟁사 이름</label>
+  <input id="competitor" list="competitors" placeholder="예: A사">
+  <datalist id="competitors"></datalist>
+
+  <label>퍼널 단계</label>
+  <select id="stage">
+    <option>첫 화면(랜딩)</option>
+    <option>카테고리/상품 목록</option>
+    <option>상품 상세</option>
+    <option>장바구니</option>
+    <option>결제</option>
+    <option>회원가입/로그인</option>
+    <option>이벤트/기획전</option>
+    <option>기타</option>
+  </select>
+
+  <div class="row">
+    <div>
+      <label>화면</label>
+      <select id="device">
+        <option>데스크톱</option>
+        <option>모바일</option>
+      </select>
+    </div>
+    <div>
+      <label>메모 (선택)</label>
+      <input id="note" placeholder="예: 첫 방문 팝업 뜸">
+    </div>
+  </div>
+  <div class="hint">모바일은 F12 → 기기 툴바(Ctrl+Shift+M)로 모바일 폭으로 바꾼 뒤 캡처하세요.</div>
+
+  <button id="capture">이 페이지 캡처</button>
+  <button id="open">팀 어드민 열기</button>
+  <div id="status"></div>
+  <div class="count" id="count"></div>
+  <div class="count" id="pending"></div>
+  <div class="hint"><a href="#" id="settings">어드민 연결 설정</a></div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>
