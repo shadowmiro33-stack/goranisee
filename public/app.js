@@ -173,6 +173,21 @@ function buildPrompt() {
 }
 $("#btn-copy").addEventListener("click", async () => { await navigator.clipboard.writeText($("#prompt").value); $("#copied").textContent = "복사됨"; setTimeout(() => ($("#copied").textContent = ""), 1500); });
 
+// ---------- 수집 버튼(북마클릿) ----------
+$("#btn-make").addEventListener("click", async () => {
+  const pw = $("#tool-pw").value; if (!pw) return toast("비밀번호를 입력하세요.");
+  try {
+    const chk = await fetch("/api/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw }) });
+    if (!chk.ok) return toast("비밀번호가 틀렸습니다.");
+    let src = await fetch("/collector.js").then((r) => r.text());
+    src = src.replace("__SERVER__", location.origin).replace("__PASSWORD__", pw.replace(/\\/g, "\\\\").replace(/"/g, '\\"'));
+    const href = "javascript:" + encodeURIComponent(src);
+    $("#bm-link").href = href; $("#bm-link").dataset.code = href; $("#tool-out").hidden = false; $("#tool-pw").value = "";
+  } catch (e) { toast("생성 실패: " + e.message); }
+});
+$("#bm-link").addEventListener("click", (e) => { e.preventDefault(); toast("클릭이 아니라 즐겨찾기 바로 드래그하세요."); });
+$("#btn-copy-bm").addEventListener("click", async () => { await navigator.clipboard.writeText($("#bm-link").dataset.code || ""); $("#bm-copied").textContent = "복사됨"; setTimeout(() => ($("#bm-copied").textContent = ""), 1500); });
+
 // ---------- CSV ----------
 $("#btn-csv").addEventListener("click", () => {
   const rows = filtered();
@@ -199,7 +214,7 @@ function render() {
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
-  ["table", "timeline", "prompt"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  ["table", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
 }));
 $("#f-device").addEventListener("change", render);
 $("#f-comp").addEventListener("change", render);

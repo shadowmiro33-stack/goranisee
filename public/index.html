@@ -96,6 +96,7 @@
     <button class="active" data-tab="table">비교표</button>
     <button data-tab="timeline">수집 이력 · 변화 추적</button>
     <button data-tab="prompt">AI 분석용 프롬프트</button>
+    <button data-tab="tool">수집 버튼 만들기</button>
   </div>
   <div class="filters">
     <span>화면</span>
@@ -112,6 +113,28 @@
       <p>수집한 데이터를 AI 분석 요청문으로 정리한 것입니다. 복사해서 Claude 등에 붙여 넣으면 경쟁사별 소구점·퍼널 흐름·광고/추천 노출 방식을 비교 분석해 줍니다. 필터(화면·경쟁사)가 반영됩니다.</p>
       <button id="btn-copy" class="primary">프롬프트 복사</button> <span id="copied" style="color:var(--muted);font-size:12px"></span>
       <textarea id="prompt" readonly></textarea>
+    </div>
+  </section>
+  <section id="tab-tool" hidden>
+    <div class="box">
+      <h2>수집 버튼(즐겨찾기) 만들기</h2>
+      <p>확장 프로그램 설치 없이, 즐겨찾기 바의 버튼 하나로 경쟁사 페이지를 수집합니다. 수집할 사람마다 한 번씩 아래 절차를 하면 됩니다.</p>
+      <ol style="font-size:13px;color:#374151;padding-left:20px;line-height:1.8">
+        <li>어드민 비밀번호를 입력하고 <b>버튼 생성</b>을 누릅니다.</li>
+        <li>크롬에서 <b>Ctrl+Shift+B</b>로 즐겨찾기 바를 켭니다.</li>
+        <li>아래 파란 버튼을 <b>즐겨찾기 바로 드래그</b>해 놓습니다. (드래그가 안 되면 "수동 추가" 안내를 따르세요.)</li>
+        <li>경쟁사 사이트에서 그 즐겨찾기를 클릭 → 오른쪽 위에 패널이 뜨면 경쟁사 이름·단계 선택 → <b>이 페이지 캡처</b>.</li>
+      </ol>
+      <div style="margin:12px 0"><input type="password" id="tool-pw" placeholder="어드민 비밀번호" style="width:260px"> <button id="btn-make" class="primary">버튼 생성</button></div>
+      <div id="tool-out" hidden>
+        <a id="bm-link" href="#" style="display:inline-block;padding:10px 18px;background:var(--accent);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;cursor:grab">📌 퍼널 수집</a>
+        <span style="color:var(--muted);font-size:12px;margin-left:10px">← 이 버튼을 즐겨찾기 바로 끌어다 놓으세요</span>
+        <details style="margin-top:14px;font-size:13px"><summary style="cursor:pointer">드래그가 안 될 때: 수동 추가</summary>
+          <ol style="padding-left:20px;line-height:1.8"><li>즐겨찾기 바 빈 곳에서 우클릭 → <b>페이지 추가…</b></li><li>이름: <code>퍼널 수집</code></li><li>URL: 아래 <b>코드 복사</b>를 눌러 복사한 것을 붙여넣기 → 저장</li></ol>
+          <button id="btn-copy-bm">코드 복사</button> <span id="bm-copied" style="color:var(--muted);font-size:12px"></span>
+        </details>
+      </div>
+      <p style="margin-top:14px;font-size:12px">※ 확장 프로그램 방식과 달리 스크린샷은 수집되지 않습니다. 버튼 안에 비밀번호가 들어가므로 외부에 공유하지 마세요. 비밀번호를 바꾸면 버튼을 다시 만들어야 합니다.</p>
     </div>
   </section>
 </main>
