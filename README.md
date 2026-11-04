@@ -3,7 +3,7 @@
 경쟁사 사이트의 마케팅 소구점·CTA·광고/추천 영역을 퍼널 단계별로 수집하고, 팀이 함께 보는 어드민에서 비교하는 도구입니다.
 
 - `extension/` — 크롬 확장 프로그램 (수집 도구). 경쟁사 페이지에서 버튼 한 번으로 헤드라인·CTA·혜택 문구·팝업·추천/광고 섹션·스크린샷을 수집해 어드민으로 전송합니다.
-- `api/`, `public/` — Vercel 어드민 (조회 화면). 비밀번호 로그인, 경쟁사 × 퍼널 단계 비교표, 수집 이력·변화 추적, CSV 내보내기, AI 분석용 프롬프트 생성.
+- `public/`, `netlify/functions/`(Netlify) 및 `api/`(Vercel) — 어드민 (조회 화면). 비밀번호 로그인, 경쟁사 × 퍼널 단계 비교표, 수집 이력·변화 추적, CSV 내보내기, AI 분석용 프롬프트 생성.
 - `schema.sql` — Supabase 테이블.
 
 ---
@@ -17,9 +17,10 @@
    - `Project URL` → `SUPABASE_URL`
    - `service_role` 키 (secret) → `SUPABASE_SERVICE_KEY` ※ 절대 외부에 공개하지 마세요.
 
-### 1-2. Vercel
-1. https://vercel.com → **Add New → Project** → 이 GitHub 저장소(`goranisee`) 선택 → Framework Preset은 **Other** 그대로.
-2. **Environment Variables** 에 세 개 추가:
+### 1-2. Netlify (또는 Vercel — 둘 다 됩니다)
+**Netlify**: https://app.netlify.com → **Add new site → Import an existing project** → GitHub에서 `goranisee` 선택. 빌드 설정은 저장소의 `netlify.toml`이 알아서 잡으니 그대로 두고, **Site configuration → Environment variables** 에 세 개 추가:
+
+**Vercel**: https://vercel.com → **Add New → Project** → `goranisee` 선택 → Framework Preset **Other** → **Environment Variables** 에 세 개 추가:
 
    | 이름 | 값 |
    |---|---|
@@ -27,9 +28,9 @@
    | `SUPABASE_SERVICE_KEY` | 1-1에서 복사한 service_role 키 |
    | `ADMIN_PASSWORD` | 팀이 쓸 공용 비밀번호 (길고 어렵게) |
 
-3. **Deploy**. 끝나면 `https://xxxx.vercel.app` 주소가 나옵니다. 열어서 비밀번호로 로그인되면 완료.
+3. **Deploy**. 끝나면 `https://xxxx.netlify.app`(또는 `.vercel.app`) 주소가 나옵니다. 열어서 비밀번호로 로그인되면 완료.
 
-> 비밀번호를 바꾸려면 Vercel 환경변수 `ADMIN_PASSWORD`를 바꾸고 **Redeploy** 하세요. 모든 로그인 세션이 함께 무효화됩니다.
+> 환경변수를 배포 **이후**에 넣었다면 한 번 더 배포(**Trigger deploy / Redeploy**)해야 반영됩니다. 비밀번호를 바꿀 때도 마찬가지입니다. 모든 로그인 세션이 함께 무효화됩니다.
 
 ---
 
@@ -39,7 +40,7 @@
 2. 크롬 주소창에 `chrome://extensions` 입력 → 오른쪽 위 **개발자 모드** 켜기.
 3. **압축해제된 확장 프로그램을 로드합니다** → `extension` 폴더 선택.
 4. 툴바의 퍼즐 아이콘 → **퍼널 비교 수집기** 고정.
-5. 아이콘 클릭 → **어드민 연결 설정** → 1-2의 주소와 비밀번호 입력 → **연결 테스트** → 저장.
+5. 아이콘 클릭 → **어드민 연결 설정** → 1-2의 주소(예: `https://xxxx.netlify.app`)와 비밀번호 입력 → **연결 테스트** → 저장.
 
 ---
 
