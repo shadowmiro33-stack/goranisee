@@ -35,7 +35,7 @@ async function load() {
     sel.innerHTML = comps.map((c) => `<option ${prev.includes(c) || !prev.length ? "selected" : ""}>${esc(c)}</option>`).join("");
     sel.size = Math.min(Math.max(comps.length, 1), 4);
     render();
-  } catch (e) { if (e.message !== "unauthorized") toast("불러오기 실패: " + e.message); }
+  } catch (e) { if (e.message !== "unauthorized") { toast("불러오기 실패"); $("#tab-table").innerHTML = `<div class="empty" style="color:var(--danger)">서버 설정 오류<br><br><code style="white-space:pre-wrap">${esc(e.message)}</code><br><br><span style="color:var(--muted)">Netlify 환경변수 또는 Supabase 설정을 확인한 뒤 재배포하고 새로고침하세요.</span></div>`; } }
 }
 
 function filtered() {
