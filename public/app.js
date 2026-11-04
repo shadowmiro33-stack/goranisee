@@ -139,6 +139,7 @@ $("#detail").addEventListener("click", (e) => { if (e.target === $("#detail")) $
 // ---------- 프롬프트 ----------
 function buildPrompt() {
   const rows = filtered();
+  if (!rows.length) return "아직 수집된 데이터가 없습니다.\n\n경쟁사 페이지에서 즐겨찾기 '퍼널 수집' 버튼(또는 확장 프로그램)으로 먼저 캡처한 뒤, 이 탭을 다시 열어 복사하세요.";
   const { comps, m } = matrix(rows);
   const lines = [];
   lines.push("당신은 이커머스/서비스 마케팅 전략 분석가입니다. 아래는 경쟁사 사이트를 퍼널 단계별로 수집한 데이터입니다.");
