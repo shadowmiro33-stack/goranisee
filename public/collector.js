@@ -1,4 +1,4 @@
-// 북마클릿 본체. 어드민의 "수집 버튼" 탭이 __SERVER__ / __PASSWORD__ 를 채워 javascript: 링크로 만듭니다.
+// 북마클릿 본체. 어드민의 "수집 버튼" 탭이 서버 주소와 비밀번호를 채워 javascript: 링크로 만듭니다.
 // 확장 프로그램 extract.js 와 같은 항목을 수집하되, 스크린샷은 없습니다.
 (function () {
   var SERVER = "__SERVER__", PASSWORD = "__PASSWORD__";

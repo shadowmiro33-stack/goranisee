@@ -180,7 +180,7 @@ $("#btn-make").addEventListener("click", async () => {
     const chk = await fetch("/api/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw }) });
     if (!chk.ok) return toast("비밀번호가 틀렸습니다.");
     let src = await fetch("/collector.js").then((r) => r.text());
-    src = src.replace("__SERVER__", location.origin).replace("__PASSWORD__", pw.replace(/\\/g, "\\\\").replace(/"/g, '\\"'));
+    src = src.split("__SERVER__").join(location.origin).split("__PASSWORD__").join(pw.replace(/\\/g, "\\\\").replace(/"/g, '\\"'));
     const href = "javascript:" + encodeURIComponent(src);
     $("#bm-link").href = href; $("#bm-link").dataset.code = href; $("#tool-out").hidden = false; $("#tool-pw").value = "";
   } catch (e) { toast("생성 실패: " + e.message); }
