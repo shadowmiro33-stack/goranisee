@@ -50,7 +50,20 @@
 4. 툴바의 퍼즐 아이콘 → **퍼널 비교 수집기** 고정.
 5. 아이콘 클릭 → **어드민 연결 설정** → 1-2의 주소(예: `https://xxxx.netlify.app`)와 비밀번호 입력 → **연결 테스트** → 저장.
 
-## 2-C. 자동 수집 — `car-data` 저장소의 GitHub Actions (사내 IP 노출 없음)
+## 2-C. URL로 수집 — 어드민에서 주소만 넣기 (사내 IP 노출 없음)
+
+어드민 **URL로 수집** 탭에 경쟁사 페이지 주소·경쟁사 이름·단계를 넣으면 `car-data` 저장소의 GitHub Actions가 즉시 그 페이지를 열어 수집하고 1~2분 뒤 결과가 어드민에 도착합니다(archive.org의 Save Page Now와 같은 흐름). 도착하면 **화면 비교** 탭에서 바로 나란히 볼 수 있습니다.
+
+설정 (Netlify 환경변수, 한 번만):
+
+| 이름 | 값 |
+|---|---|
+| `GH_DISPATCH_TOKEN` | GitHub fine-grained PAT — 저장소 `car-data`, 권한 **Contents: Read and write** |
+| `GH_DISPATCH_REPO` | (선택) 기본 `shadowmiro33-stack/car-data` |
+
+`car-data` 쪽에는 Secrets `FUNNEL_ADMIN_URL`(이 어드민 주소)와 `FUNNEL_ADMIN_PASSWORD`(`ADMIN_PASSWORD`와 같은 값)가 있어야 결과가 돌아옵니다.
+
+## 2-D. 주간 자동 수집 — `car-data` 저장소의 GitHub Actions
 
 확장·즐겨찾기 없이도 `shadowmiro33-stack/car-data`의 **Competitor Funnel Snapshot** 워크플로우가 매주 월요일 경쟁사 공개 페이지(첫 화면·리스트·매물 상세)를 모바일 화면으로 열어 같은 형식으로 이 어드민에 전송합니다. 전송된 행은 메모가 "자동 수집 (GitHub Actions · funnel_collector)"로 표시됩니다.
 

@@ -173,6 +173,51 @@ function renderCompare() {
   el.querySelectorAll(".row").forEach((r) => r.addEventListener("click", () => { hi(r.dataset.row); const p = el.querySelector(`[data-pin="${r.dataset.row}"]`); if (p) { const box = p.closest(".shot"); box.scrollTo({ top: p.offsetTop - box.clientHeight / 2, behavior: "smooth" }); } }));
 }
 
+// ---------- URL로 수집 (GitHub Actions 즉시 실행 + 도착 폴링) ----------
+let CAP_Q = [];
+try { CAP_Q = JSON.parse(localStorage.getItem("capQueue") || "[]"); } catch {}
+const saveQ = () => { try { localStorage.setItem("capQueue", JSON.stringify(CAP_Q.slice(0, 30))); } catch {} };
+function renderCaptureQueue() {
+  const el = $("#cap-queue"); if (!el) return;
+  $("#cap-comp-list").innerHTML = [...new Set(ALL.map((c) => c.competitor))].sort().map((c) => `<option value="${esc(c)}">`).join("");
+  if (!CAP_Q.length) { el.innerHTML = ""; return; }
+  el.innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:4px">요청 내역 (이 브라우저)</div>` + CAP_Q.map((q) => {
+    const done = ALL.find((c) => c.id === q.id);
+    const age = (Date.now() - q.at) / 1000;
+    const st = done ? ["ok", "도착"] : q.error ? ["err", "실패"] : age > 600 ? ["err", "10분 경과 · Actions 확인"] : ["wait", "수집 중…"];
+    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}</span><span class="t">${esc(q.device)}</span><span>${done ? `<button class="sm" data-cmp-open="${q.id}">화면 비교</button> <button class="sm" data-id="${q.id}">상세</button>` : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`}</span></div>`;
+  }).join("");
+  el.querySelectorAll("[data-cmp-open]").forEach((b) => b.addEventListener("click", () => {
+    const c = ALL.find((x) => x.id === b.dataset.cmpOpen); if (!c) return;
+    cmpState.stage = c.stage; cmpState.a = c.competitor;
+    document.querySelector('.tabs button[data-tab="compare"]').click(); renderCompare();
+  }));
+}
+let capPoll = null;
+function startCapPoll() {
+  if (capPoll) return;
+  capPoll = setInterval(async () => {
+    const pending = CAP_Q.filter((q) => !q.error && !ALL.find((c) => c.id === q.id) && Date.now() - q.at < 600000);
+    if (!pending.length) { clearInterval(capPoll); capPoll = null; return; }
+    try { ALL = await api("/api/captures"); } catch { return; }
+    const arrived = pending.filter((q) => ALL.find((c) => c.id === q.id));
+    if (arrived.length) { toast(`수집 도착: ${arrived.map((q) => q.competitor || q.url).join(", ")}`); render(); }
+    else renderCaptureQueue();
+  }, 15000);
+}
+$("#cap-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value };
+  $("#cap-go").disabled = true;
+  try {
+    const r = await api("/api/capture-request", { method: "POST", body: JSON.stringify(body) });
+    CAP_Q.unshift({ id: r.id, at: Date.now(), ...body, actions: r.actions_url }); saveQ();
+    toast("GitHub Actions에 수집을 요청했습니다. 1~2분 뒤 도착합니다."); $("#cap-url").value = "";
+    renderCaptureQueue(); startCapPoll();
+  } catch (err) { toast("요청 실패: " + err.message); CAP_Q.unshift({ id: "x" + Date.now(), at: Date.now(), ...body, error: err.message }); saveQ(); renderCaptureQueue(); }
+  finally { $("#cap-go").disabled = false; }
+});
+
 // ---------- 타임라인 ----------
 function renderTimeline() {
   const rows = filtered();
@@ -287,11 +332,12 @@ $("#btn-csv").addEventListener("click", () => {
 function render() {
   const rows = filtered();
   $("#stat").textContent = `${rows.length}건 / 전체 ${ALL.length}건`;
-  renderTable(); renderCompare(); renderTimeline(); $("#prompt").value = buildPrompt();
+  renderTable(); renderCompare(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
+  if (CAP_Q.some((q) => !q.error && !ALL.find((c) => c.id === q.id) && Date.now() - q.at < 600000)) startCapPoll();
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
-  ["table", "compare", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  ["table", "compare", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
 }));
 $("#f-device").addEventListener("change", render);
 $("#f-comp").addEventListener("change", render);
