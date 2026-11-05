@@ -1,0 +1,119 @@
+{
+  "site": "adhoc-chazm-co-kr",
+  "siteName": "chazm.co.kr",
+  "stage": "home",
+  "url": "https://chazm.co.kr/detail/option?carCatalogId=621&trimCatalogId=5007",
+  "capturedAt": "2026-11-05T10:54:01.848+09:00",
+  "ok": true,
+  "httpStatus": 200,
+  "finalUrl": "https://chazm.co.kr/detail/option?carCatalogId=621&trimCatalogId=5007",
+  "viewport": {
+    "w": 1280,
+    "h": 800,
+    "pageHeight": 800
+  },
+  "title": "차즘: Chazm",
+  "hero": [
+    {
+      "text": "차량 옵션 정보",
+      "fontSize": 16,
+      "y": 0.02,
+      "appeal": []
+    }
+  ],
+  "ctas": [],
+  "promo": [],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "floating",
+          "purpose": "other",
+          "text": "차량 옵션 정보",
+          "pos": {
+            "x": 0.5,
+            "y": 0.035,
+            "w": 420,
+            "h": 56
+          },
+          "viewportArea": 0.02,
+          "position": "top"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [],
+    "trust": [],
+    "price": [
+      "모집법인 임직원 명단"
+    ]
+  },
+  "counts": {
+    "links": 13,
+    "images": 5,
+    "buttons": 1
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#eeeef3",
+        "share": 0.604,
+        "saturation": 0.02
+      },
+      {
+        "color": "#ffffff",
+        "share": 0.198,
+        "saturation": 0
+      },
+      {
+        "color": "#f5f7f9",
+        "share": 0.154,
+        "saturation": 0.02
+      },
+      {
+        "color": "#f4f4f4",
+        "share": 0.044,
+        "saturation": 0
+      }
+    ],
+    "brand": [],
+    "fonts": {
+      "body": "pretendard",
+      "top": [
+        "pretendard"
+      ],
+      "heading": "pretendard",
+      "baseSize": 16,
+      "headingSize": 16,
+      "boldShare": 0.18
+    },
+    "cta": {
+      "primary": null,
+      "count": 0,
+      "fixedCount": 0,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": null,
+      "colors": []
+    },
+    "fixedViewportShare": 0.02
+  },
+  "screenshot": "2026-11-05_mw2w5uoqwt37_adhoc-chazm-co-kr.desktop.jpg",
+  "viewportKey": "desktop",
+  "device": "데스크톱",
+  "requestId": "mw2w5uoqwt37"
+}
