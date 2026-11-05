@@ -204,8 +204,9 @@ function renderCaptureQueue() {
   el.innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:4px">요청 내역 (이 브라우저)</div>` + CAP_Q.map((q) => {
     const done = ALL.find((c) => c.id === q.id) || ALL.find((c) => c.id.startsWith(q.id + "-"));
     const age = (Date.now() - q.at) / 1000;
-    const st = done ? ["ok", "도착"] : q.error ? ["err", "실패"] : age > 600 ? ["err", "10분 경과 · Actions 확인"] : ["wait", "수집 중…"];
-    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}</span><span class="t">${esc(q.device)}</span><span>${done ? `<button class="sm" data-cmp-open="${done.id}">화면 비교</button> <button class="sm" data-id="${done.id}">상세</button>` : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`}</span></div>`;
+    const capErr = done?.data?.captureError;
+    const st = done ? (capErr ? ["err", "실패"] : ["ok", "도착"]) : q.error ? ["err", "실패"] : age > 600 ? ["err", "10분 경과 · Actions 확인"] : ["wait", "수집 중…"];
+    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}</span><span class="t">${esc(q.device)}</span><span>${done ? (capErr ? `<span class="t" title="${esc(capErr)}">${esc(capErr.slice(0, 90))}</span>` : `<button class="sm" data-cmp-open="${done.id}">화면 비교</button> <button class="sm" data-id="${done.id}">상세</button>`) : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`}</span></div>`;
   }).join("");
   el.querySelectorAll("[data-cmp-open]").forEach((b) => b.addEventListener("click", () => {
     const c = ALL.find((x) => x.id === b.dataset.cmpOpen); if (!c) return;

@@ -49,6 +49,7 @@ const jitter = (a, b) => sleep(a + Math.random() * (b - a));
 const log = m => console.log(`[${new Date(Date.now() + KST).toISOString().slice(11, 19)}] ${m}`);
 
 const MOBILE_UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1';
+const BLOCK_RX = /(403|forbidden|access denied|접근.?(거부|차단)|차단되었|blocked|captcha|robot|bot detection|unusual traffic|request blocked|just a moment)/i;
 
 /** 개인정보 마스킹: 휴대폰 번호, 차량 번호판 */
 function sanitize(s) {
@@ -221,7 +222,7 @@ function toAdminCapture(res, cfg, stageDef, viewportShotB64, shotFull) {
     competitor: res.siteName,
     stage: stageDef?.adminStage || stageDef?.label || res.stage,
     device: res.device || (res.viewportKey === 'desktop' ? '데스크톱' : '모바일'),
-    note: res.requestId ? '어드민 URL 수집 (GitHub Actions)' : (cfg.admin && cfg.admin.note) || '자동 수집',
+    note: (res.requestId ? '어드민 URL 수집 (GitHub Actions)' : (cfg.admin && cfg.admin.note) || '자동 수집') + (res.warning ? ' · ' + res.warning : ''),
     capturedAt: new Date(res.capturedAt).toISOString(),
     screenshot: viewportShotB64 ? 'data:image/jpeg;base64,' + viewportShotB64 : null,
     url: res.finalUrl || res.url,
@@ -233,7 +234,7 @@ function toAdminCapture(res, cfg, stageDef, viewportShotB64, shotFull) {
     prices: (res.appeals && res.appeals.price || []).map(s => (s.match(/[\d,]{2,}\s?(만원|원)/) || [])[0]).filter(Boolean).slice(0, 8),
     forms: [], nav: [],
     firstScreenText: res.hero.map(h => h.text).join(' | '),
-    style: res.style || null,
+    style: res.style || null, warning: res.warning || null,
     source: 'funnel_collector', sourceStage: res.stage, viewportKey: res.viewportKey || null, screenshotFull: !!shotFull, screenshotHeight: shotFull ? Math.min(pageH, (cfg.capture && cfg.capture.maxScreenshotHeight) || 12000) : vh, overlaysByTrigger: res.overlays, promoDetail: res.promo, ctaDetail: res.ctas,
   };
 }
@@ -252,7 +253,28 @@ async function capturePage(context, site, page_, cfg, resolvedUrl, shotPath) {
     const resp = await page.goto(resolvedUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
     result.httpStatus = resp ? resp.status() : null;
     result.finalUrl = page.url();
+    // SPA 대응: 네트워크가 잠잠해지고 본문 텍스트 길이가 안정될 때까지 (최대 settleMaxMs) 기다림
+    try { await page.waitForLoadState('networkidle', { timeout: cap.networkIdleMs || 8000 }); } catch (_) {}
     await sleep(cap.waitAfterLoadMs || 3000);
+    {
+      const maxMs = cap.settleMaxMs || 12000, t0 = Date.now();
+      let last = -1, stable = 0;
+      while (Date.now() - t0 < maxMs) {
+        const len = await page.evaluate(() => (document.body && document.body.innerText || '').length).catch(() => 0);
+        if (len === last && len > 0) { if (++stable >= 2) break; } else stable = 0;
+        last = len; await sleep(700);
+      }
+      result.settledMs = Date.now() - t0;
+    }
+    // 차단/오류 페이지 판정: HTTP 4xx/5xx 또는 짧은 본문에 차단 문구 → 실패로 기록 (우회하지 않음, 수동 캡처 안내)
+    {
+      const info = await page.evaluate(() => ({ title: document.title || '', text: (document.body && document.body.innerText || '').slice(0, 600) })).catch(() => ({ title: '', text: '' }));
+      const short = info.text.replace(/\s+/g, ' ').length < 400;
+      if ((result.httpStatus && result.httpStatus >= 400) || (short && BLOCK_RX.test(info.title + ' ' + info.text))) {
+        throw new Error(`접근 차단 또는 오류 응답 (HTTP ${result.httpStatus || '?'}, "${(info.title || info.text).slice(0, 40)}") — 이 사이트는 자동 수집을 막고 있습니다. 확장 프로그램이나 즐겨찾기 버튼으로 직접 캡처하세요.`);
+      }
+      if (info.text.replace(/\s+/g, ' ').length < 200) result.warning = '본문 텍스트가 거의 없습니다. 로그인이 필요하거나 화면이 늦게 그려지는 페이지일 수 있습니다.';
+    }
 
     // 로드 직후 오버레이
     const t0 = await page.evaluate(EXTRACT);
@@ -351,7 +373,7 @@ async function main() {
     log(`단일 URL 수집: ${name} / ${stageKey} / ${ADHOC_URL}${ADHOC_REQUEST ? ' (요청 ' + ADHOC_REQUEST + ')' : ''}`);
   }
 
-  const browser = await chromium.launch({ headless: true, args: ['--disable-blink-features=AutomationControlled', '--lang=ko-KR'] });
+  const browser = await chromium.launch({ headless: true, args: ['--lang=ko-KR'] });
   const index = { date, capturedAt: nowKst(), stages: cfg.stages, viewports: viewports.map(v => v.key), sites: [] };
   let total = 0, failed = 0;
 
@@ -361,7 +383,6 @@ async function main() {
       userAgent: vp.mobile ? MOBILE_UA : undefined, locale: 'ko-KR', timezoneId: 'Asia/Seoul',
       extraHTTPHeaders: { 'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8' },
     });
-    await context.addInitScript(() => { Object.defineProperty(navigator, 'webdriver', { get: () => undefined }); });
     const suffix = vp.key === 'mobile' ? '' : '.' + vp.key;   // 모바일은 기존 파일명 유지(latest.json 호환)
 
     for (const site of sites) {
@@ -386,6 +407,14 @@ async function main() {
         prior[p.stage] = res;
         if (ADHOC_URL) res.requestId = ADHOC_REQUEST || undefined;
         const { _shotPath, _viewportB64, _shotFull, ...clean } = res;
+        if (!clean.ok && adminOn && ADHOC_URL) {
+          // 실패도 어드민에 알림 (요청 내역에 '실패'와 사유가 보이도록)
+          try {
+            const stageDef = (cfg.stages || []).find(s => s.key === p.stage);
+            await pushToAdmin({ id: `req-${clean.requestId}${vp.key !== 'mobile' ? '-' + vp.key : ''}`, competitor: site.name, stage: stageDef?.adminStage || p.stage, device: vp.label, note: '수집 실패: ' + clean.error, capturedAt: new Date(clean.capturedAt).toISOString(), screenshot: null, url: clean.url, title: '', description: '', viewport: `${vp.width}x${vp.height}`, pageHeight: 0, headlines: [], ctas: [], benefits: [], overlays: [], sections: [], prices: [], forms: [], nav: [], firstScreenText: '', source: 'funnel_collector', captureError: clean.error });
+            log('  ↑ 어드민에 실패 알림 전송');
+          } catch (e) { log(`  ↑ 어드민 전송 실패: ${String(e.message || e).slice(0, 120)}`); }
+        }
         if (clean.ok && adminOn) {
           try {
             const stageDef = (cfg.stages || []).find(s => s.key === p.stage);
