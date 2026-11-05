@@ -1,0 +1,82 @@
+{
+  "site": "adhoc-모딜카",
+  "siteName": "모딜카",
+  "stage": "home",
+  "url": "https://www.modealcar.com/",
+  "capturedAt": "2026-11-05T10:54:42.814+09:00",
+  "ok": true,
+  "httpStatus": 403,
+  "finalUrl": "https://www.modealcar.com/",
+  "viewport": {
+    "w": 1280,
+    "h": 800,
+    "pageHeight": 800
+  },
+  "title": "403 Forbidden",
+  "hero": [
+    {
+      "text": "403 Forbidden",
+      "fontSize": 32,
+      "y": 0.01,
+      "appeal": []
+    }
+  ],
+  "ctas": [],
+  "promo": [],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [],
+    "trust": [],
+    "price": []
+  },
+  "counts": {
+    "links": 0,
+    "images": 0,
+    "buttons": 0
+  },
+  "style": {
+    "palette": [],
+    "brand": [],
+    "fonts": {
+      "body": "Times New Roman",
+      "top": [
+        "Times New Roman"
+      ],
+      "heading": "Times New Roman",
+      "baseSize": 16,
+      "headingSize": 32,
+      "boldShare": 1
+    },
+    "cta": {
+      "primary": null,
+      "count": 0,
+      "fixedCount": 0,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": null,
+      "colors": []
+    },
+    "fixedViewportShare": 0
+  },
+  "screenshot": "2026-11-05_mw2w6tnldeh5_adhoc-모딜카.desktop.jpg",
+  "viewportKey": "desktop",
+  "device": "데스크톱",
+  "requestId": "mw2w6tnldeh5"
+}
