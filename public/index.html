@@ -69,6 +69,9 @@
   .pinlist .row:hover, .pinlist .row.on { background:var(--soft); }
   .pinlist .dot { flex:none; width:18px; height:18px; border-radius:50%; background:var(--c); color:#fff; font:600 10px/18px ui-monospace, monospace; text-align:center; }
   .pinlist .row .d { color:var(--muted); font-size:11px; }
+  .sty { display:flex; flex-wrap:wrap; gap:6px 12px; font-size:12px; margin-top:8px; padding:8px 10px; background:var(--bg); border-radius:8px; }
+  .sty .k { color:var(--muted); font-size:11px; margin-right:3px; }
+  .sw { display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:-2px; border:1px solid rgba(0,0,0,.15); margin-right:3px; }
   .cmp-note { font-size:12px; color:var(--muted); margin-top:10px; }
   .cap-row { display:grid; grid-template-columns:70px 1fr 110px 90px auto; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--line); font-size:13px; }
   .cap-row .t { color:var(--muted); font-size:12px; }
@@ -149,7 +152,7 @@
           <input type="text" id="cap-comp" placeholder="경쟁사 이름 (예: 엔카) — 비우면 도메인" list="cap-comp-list" style="flex:1;min-width:160px">
           <datalist id="cap-comp-list"></datalist>
           <select id="cap-stage"><option>첫 화면(랜딩)</option><option>카테고리/상품 목록</option><option>상품 상세</option><option>장바구니</option><option>결제</option><option>회원가입/로그인</option><option>이벤트/기획전</option><option>기타</option></select>
-          <select id="cap-device"><option>모바일</option><option>데스크톱</option></select>
+          <select id="cap-device"><option>둘 다</option><option>모바일</option><option>데스크톱</option></select>
           <button class="primary" type="submit" id="cap-go">수집 시작</button>
         </div>
       </form>

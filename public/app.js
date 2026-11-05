@@ -69,7 +69,7 @@ function cellHtml(list) {
     <div class="k">헤드라인</div><div class="v">${h1 ? esc(h1) : '<span class="none">없음</span>'}</div>
     <div class="k">CTA</div><div>${ctas.length ? ctas.map((x) => `<span class="chip ${x.strong ? "strong" : ""} ${x.fixed ? "fixed" : ""}" title="${esc(x.pos)}${x.fixed ? " · 고정" : ""}">${esc(x.text)}</span>`).join("") : '<span class="none">없음</span>'}</div>
     <div class="k">혜택·소구 문구</div><div class="v">${benefits.length ? benefits.map((b) => "· " + esc(b)).join("\n") : '<span class="none">없음</span>'}</div>
-    <div class="k">팝업·배너</div><div class="v">${overlays.length ? overlays.map((o) => `[${esc(o.kind)}] ${esc(o.text.slice(0, 70))}`).join("\n") : '<span class="none">없음</span>'}</div>
+    <div class="k">팝업·배너</div><div class="v">${overlays.length ? overlays.map((o) => `[${esc(o.kind)}] ${esc(String(o.text || "").slice(0, 70))}`).join("\n") : '<span class="none">없음</span>'}</div>
     <div class="k">추천·광고 영역</div><div class="v">${sections.length ? sections.map((s) => `${esc(s.title)} (${s.cards}개, ${esc(s.pos)})`).join("\n") : '<span class="none">없음</span>'}</div>
     ${c.note ? `<div class="k">메모</div><div class="v">${esc(c.note)}</div>` : ""}
     <img class="thumb" data-shot="${c.id}" loading="lazy" alt="">
@@ -97,6 +97,25 @@ function renderTable() {
   });
 }
 
+// ---------- 강조 방식(style) 요약 ----------
+const sw = (c) => c ? `<i class="sw" style="background:${esc(c)}"></i>${esc(c)}` : "";
+function styleHtml(d) {
+  const st = d?.style; if (!st) return "";
+  const p = st.cta?.primary;
+  return `<div class="sty">
+    ${st.brand?.length ? `<span><span class="k">주색</span>${st.brand.map((b) => sw(b.color) + ` ${Math.round(b.share * 100)}%`).join(" ")}</span>` : ""}
+    ${p ? `<span><span class="k">대표 CTA</span>${sw(p.bg)} / 글자 ${sw(p.color)} · 대비 ${p.contrast ?? "?"} · ${p.height}px · 폭 ${Math.round(p.widthRatio * 100)}%${p.fixed ? " · 고정" : ""}</span>` : ""}
+    <span><span class="k">CTA</span>${st.cta?.count ?? 0}개 · 고정 ${st.cta?.fixedCount ?? 0} · 전폭 ${st.cta?.fullWidthCount ?? 0} · 평균 ${st.cta?.avgHeight ?? "?"}px</span>
+    ${st.fonts ? `<span><span class="k">글꼴</span>${esc(st.fonts.heading || st.fonts.body)} ${st.fonts.headingSize ? st.fonts.headingSize + "px" : ""} / 본문 ${esc(st.fonts.body)} ${st.fonts.baseSize}px · 굵게 ${Math.round((st.fonts.boldShare || 0) * 100)}%</span>` : ""}
+    <span><span class="k">첫 화면 고정 요소</span>${Math.round((st.fixedViewportShare || 0) * 100)}%</span>
+  </div>`;
+}
+function styleLine(d) {
+  const st = d?.style; if (!st) return "";
+  const p = st.cta?.primary;
+  return [st.brand?.length ? `주색 ${st.brand.map((b) => `${b.color}(${Math.round(b.share * 100)}%)`).join(",")}` : "", p ? `대표CTA "${p.text}" 배경 ${p.bg} 글자 ${p.color} 대비 ${p.contrast} 높이 ${p.height}px 폭 ${Math.round(p.widthRatio * 100)}%${p.fixed ? " 고정" : ""}` : "", `CTA ${st.cta?.count ?? 0}개(고정 ${st.cta?.fixedCount ?? 0}, 전폭 ${st.cta?.fullWidthCount ?? 0}, 평균 ${st.cta?.avgHeight ?? "?"}px)`, st.fonts ? `글꼴 ${st.fonts.heading || st.fonts.body} ${st.fonts.headingSize || ""}/${st.fonts.body} ${st.fonts.baseSize}px 굵게 ${Math.round((st.fonts.boldShare || 0) * 100)}%` : "", `첫화면 고정요소 ${Math.round((st.fixedViewportShare || 0) * 100)}%`].filter(Boolean).join(" · ");
+}
+
 // ---------- 화면 비교 (두 경쟁사 나란히 + 핀) ----------
 const PIN_TYPES = { cta: ["CTA", "#d9442b"], reco: ["추천·광고", "#7a3fd1"], pop: ["팝업·플로팅", "#0f8a7a"], price: ["가격·혜택", "#d98c00"], trust: ["신뢰", "#2662c9"], urg: ["긴급성", "#c2187a"] };
 const cmpState = { stage: "", a: "", b: "" };
@@ -112,8 +131,8 @@ function pinsOf(c) {
   else (d.ctas || []).filter((x) => x.match).slice(0, 12).forEach((x) => out.push({ t: "cta", x: bandX(x.pos), y: bandY(x.pos), n: x.text + (x.fixed ? " · 고정" : "") + (x.strong ? " · 강조색" : ""), d: x.pos }));
   if (d.promoDetail) d.promoDetail.forEach((p) => out.push({ t: "reco", x: p.pos.x, y: p.pos.y, n: (p.kind === "banner" ? "배너 · " : p.kind === "ad" ? "광고 · " : "") + p.label + (p.items > 1 ? ` (${p.items}개)` : ""), exact: true }));
   else (d.sections || []).forEach((s) => out.push({ t: "reco", x: bandX(s.pos), y: bandY(s.pos), n: `${s.title} (${s.cards}개)`, d: s.pos }));
-  if (d.overlaysByTrigger) d.overlaysByTrigger.forEach((tr) => tr.overlays.forEach((o) => out.push({ t: "pop", x: o.pos ? o.pos.x : 0.85, y: o.pos ? o.pos.y : 0.03, n: `${o.kind} · ${o.purpose} · ${o.text.slice(0, 50)}`, d: tr.trigger, exact: !!o.pos })));
-  else (d.overlays || []).forEach((o) => out.push({ t: "pop", x: 0.85, y: o.kind === "하단바" ? 0.1 : 0.03, n: `${o.kind} · ${o.text.slice(0, 50)}`, d: o.size }));
+  if (d.overlaysByTrigger) d.overlaysByTrigger.forEach((tr) => tr.overlays.forEach((o) => out.push({ t: "pop", x: o.pos ? o.pos.x : 0.85, y: o.pos ? o.pos.y : 0.03, n: `${o.kind} · ${o.purpose} · ${String(o.text || "").slice(0, 50)}`, d: tr.trigger, exact: !!o.pos })));
+  else (d.overlays || []).forEach((o) => out.push({ t: "pop", x: 0.85, y: o.kind === "하단바" ? 0.1 : 0.03, n: `${o.kind} · ${String(o.text || "").slice(0, 50)}`, d: o.size }));
   const ap = d.appeals;
   if (ap) { (ap.price || []).slice(0, 4).forEach((s, i) => out.push({ t: "price", x: 0.08, y: 0.2 + i * 0.03, n: s })); (ap.trust || []).slice(0, 4).forEach((s, i) => out.push({ t: "trust", x: 0.08, y: 0.4 + i * 0.03, n: s })); (ap.urgency || []).slice(0, 4).forEach((s, i) => out.push({ t: "urg", x: 0.08, y: 0.6 + i * 0.03, n: s })); }
   else (d.benefits || []).slice(0, 10).forEach((b) => { const t = /한정|오늘만|마감|선착순|마지막|남음/.test(b.text) ? "urg" : /후기|리뷰|평점|★|별점|보장|환불|인증/.test(b.text) ? "trust" : "price"; out.push({ t, x: bandX(b.pos), y: bandY(b.pos), n: b.text, d: b.pos }); });
@@ -129,6 +148,7 @@ function cmpColumn(side, c) {
     <h2><span>${side} · ${esc(c.competitor)}</span><a data-id="${c.id}">상세 ›</a></h2>
     <div class="sub">${fmt(c.captured_at)} · ${esc(c.device || "")}${c.note ? " · " + esc(c.note) : ""} · <a href="${esc(c.url)}" target="_blank" rel="noopener" style="color:var(--accent)">${esc((c.url || "").replace(/^https?:\/\//, "").slice(0, 60))}</a></div>
     <div class="shot" data-shot-box="${side}"><div class="frame"><img data-cmp-shot="${c.id}" alt="">${pinHtml}</div><div class="none">스크린샷 불러오는 중…</div></div>
+    ${styleHtml(d)}
     <div class="pinlist">${groups || '<span class="none">추출된 항목이 없습니다</span>'}</div>
     ${exact ? "" : `<div class="cmp-note">확장·즐겨찾기 수집본은 정확한 좌표가 없어 핀을 대략적인 위치 띠(첫화면·스크롤·하단)에 놓았습니다. 정확한 위치는 자동 수집본에서 보입니다.</div>`}
   </div>`;
@@ -182,10 +202,10 @@ function renderCaptureQueue() {
   $("#cap-comp-list").innerHTML = [...new Set(ALL.map((c) => c.competitor))].sort().map((c) => `<option value="${esc(c)}">`).join("");
   if (!CAP_Q.length) { el.innerHTML = ""; return; }
   el.innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:4px">요청 내역 (이 브라우저)</div>` + CAP_Q.map((q) => {
-    const done = ALL.find((c) => c.id === q.id);
+    const done = ALL.find((c) => c.id === q.id) || ALL.find((c) => c.id.startsWith(q.id + "-"));
     const age = (Date.now() - q.at) / 1000;
     const st = done ? ["ok", "도착"] : q.error ? ["err", "실패"] : age > 600 ? ["err", "10분 경과 · Actions 확인"] : ["wait", "수집 중…"];
-    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}</span><span class="t">${esc(q.device)}</span><span>${done ? `<button class="sm" data-cmp-open="${q.id}">화면 비교</button> <button class="sm" data-id="${q.id}">상세</button>` : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`}</span></div>`;
+    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}</span><span class="t">${esc(q.device)}</span><span>${done ? `<button class="sm" data-cmp-open="${done.id}">화면 비교</button> <button class="sm" data-id="${done.id}">상세</button>` : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`}</span></div>`;
   }).join("");
   el.querySelectorAll("[data-cmp-open]").forEach((b) => b.addEventListener("click", () => {
     const c = ALL.find((x) => x.id === b.dataset.cmpOpen); if (!c) return;
@@ -197,17 +217,17 @@ let capPoll = null;
 function startCapPoll() {
   if (capPoll) return;
   capPoll = setInterval(async () => {
-    const pending = CAP_Q.filter((q) => !q.error && !ALL.find((c) => c.id === q.id) && Date.now() - q.at < 600000);
+    const pending = CAP_Q.filter((q) => !q.error && !ALL.find((c) => c.id === q.id || c.id.startsWith(q.id + "-")) && Date.now() - q.at < 600000);
     if (!pending.length) { clearInterval(capPoll); capPoll = null; return; }
     try { ALL = await api("/api/captures"); } catch { return; }
-    const arrived = pending.filter((q) => ALL.find((c) => c.id === q.id));
+    const arrived = pending.filter((q) => ALL.find((c) => c.id === q.id || c.id.startsWith(q.id + "-")));
     if (arrived.length) { toast(`수집 도착: ${arrived.map((q) => q.competitor || q.url).join(", ")}`); render(); }
     else renderCaptureQueue();
   }, 15000);
 }
 $("#cap-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value };
+  const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value === "둘 다" ? "둘다" : $("#cap-device").value };
   $("#cap-go").disabled = true;
   try {
     const r = await api("/api/capture-request", { method: "POST", body: JSON.stringify(body) });
@@ -244,6 +264,7 @@ async function openDetail(id) {
     ${c.screenshot ? `<h3>스크린샷</h3><img src="${c.screenshot}" alt="">` : ""}
     <h3>페이지</h3><div><b>${esc(c.title)}</b><br><span style="color:var(--muted)">${esc(d.description)}</span></div>
     <h3>헤드라인</h3>${li(d.headlines, (h) => `<code>${h.tag}</code> ${esc(h.text)} <span style="color:var(--muted)">(${esc(h.pos)})</span>`)}
+    ${d.style ? `<h3>강조 방식 (디자인 근거)</h3>${styleHtml(d)}` : ""}
     <h3>CTA (마케팅 키워드 매칭 우선)</h3>${li(d.ctas, (x) => `${esc(x.text)} <span style="color:var(--muted)">${esc(x.pos)} · ${x.size}${x.strong ? " · 강조색" : ""}${x.fixed ? " · 고정" : ""}</span>`)}
     <h3>혜택·소구 문구</h3>${li(d.benefits, (b) => `${esc(b.text)} <span style="color:var(--muted)">(${esc(b.pos)})</span>`)}
     <h3>팝업·배너·플로팅</h3>${li(d.overlays, (o) => `[${esc(o.kind)} ${o.size}] ${esc(o.text)}`)}
@@ -281,8 +302,9 @@ function buildPrompt() {
       if (d.headlines?.length) lines.push(`- 헤드라인: ${d.headlines.slice(0, 6).map((h) => h.text).join(" / ")}`);
       const ctas = (d.ctas || []).filter((x) => x.match).slice(0, 8);
       if (ctas.length) lines.push(`- CTA: ${ctas.map((x) => `${x.text}(${x.pos}${x.strong ? ",강조" : ""}${x.fixed ? ",고정" : ""})`).join(", ")}`);
+      if (d.style) lines.push(`- 강조 방식: ${styleLine(d)}`);
       if (d.benefits?.length) lines.push(`- 혜택/소구 문구: ${d.benefits.slice(0, 10).map((b) => b.text).join(" | ")}`);
-      if (d.overlays?.length) lines.push(`- 팝업/배너: ${d.overlays.map((o) => `[${o.kind}] ${o.text.slice(0, 80)}`).join(" | ")}`);
+      if (d.overlays?.length) lines.push(`- 팝업/배너: ${d.overlays.map((o) => `[${o.kind}] ${String(o.text || "").slice(0, 80)}`).join(" | ")}`);
       if (d.sections?.length) lines.push(`- 추천/광고 섹션: ${d.sections.map((x) => `${x.title}(${x.cards}개,${x.pos})`).join(", ")}`);
       if (d.prices?.length) lines.push(`- 노출 가격: ${d.prices.join(", ")}`);
       if (d.forms?.length) lines.push(`- 폼: ${d.forms.map((f) => `${f.fields.join("/")}→${f.submit}`).join(", ")}`);
@@ -333,7 +355,7 @@ function render() {
   const rows = filtered();
   $("#stat").textContent = `${rows.length}건 / 전체 ${ALL.length}건`;
   renderTable(); renderCompare(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
-  if (CAP_Q.some((q) => !q.error && !ALL.find((c) => c.id === q.id) && Date.now() - q.at < 600000)) startCapPoll();
+  if (CAP_Q.some((q) => !q.error && !ALL.find((c) => c.id === q.id || c.id.startsWith(q.id + "-")) && Date.now() - q.at < 600000)) startCapPoll();
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
