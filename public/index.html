@@ -45,6 +45,39 @@
   .none { color:#c4c7cc; }
   .hist { font-size:11px; color:var(--muted); margin-top:6px; }
   .hist a { color:var(--accent); cursor:pointer; margin-right:6px; }
+  /* 화면 비교 (나란히) */
+  .cmp-bar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:12px; font-size:13px; color:var(--muted); }
+  .cmp-bar select { min-width:140px; }
+  .cmp-legend { display:flex; gap:6px; flex-wrap:wrap; margin-left:auto; }
+  .cmp-legend span { display:inline-flex; align-items:center; gap:5px; font-size:11px; }
+  .cmp-legend i { width:9px; height:9px; border-radius:50%; background:var(--c); display:inline-block; }
+  .cmp-cols { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:760px) { .cmp-cols { grid-template-columns:1fr; } }
+  .cmp-col { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px; min-width:0; }
+  .cmp-col h2 { font-size:14px; margin:0 0 2px; display:flex; justify-content:space-between; gap:8px; }
+  .cmp-col h2 a { font-weight:400; font-size:12px; color:var(--accent); cursor:pointer; white-space:nowrap; }
+  .cmp-col .sub { font-size:11px; color:var(--muted); margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .shot { position:relative; height:64vh; overflow:auto; border:1px solid var(--line); border-radius:8px; background:#f3f4f6; overscroll-behavior:contain; }
+  .shot .frame { position:relative; line-height:0; }
+  .shot img { width:100%; display:block; }
+  .shot .none { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .pin { position:absolute; padding:0; width:20px; height:20px; margin:-10px 0 0 -10px; border-radius:50%; background:var(--c); color:#fff; border:2px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.35); font:600 10px/16px ui-monospace, monospace; text-align:center; cursor:pointer; }
+  .pin.on { transform:scale(1.3); outline:2px solid #17181c; }
+  .pinlist { margin-top:8px; font-size:12px; }
+  .pinlist .grp { color:var(--muted); font-size:11px; margin:8px 0 3px; letter-spacing:.02em; }
+  .pinlist .row { display:flex; gap:6px; align-items:flex-start; padding:2px 0; cursor:pointer; border-radius:4px; }
+  .pinlist .row:hover, .pinlist .row.on { background:var(--soft); }
+  .pinlist .dot { flex:none; width:18px; height:18px; border-radius:50%; background:var(--c); color:#fff; font:600 10px/18px ui-monospace, monospace; text-align:center; }
+  .pinlist .row .d { color:var(--muted); font-size:11px; }
+  .sty { display:flex; flex-wrap:wrap; gap:6px 12px; font-size:12px; margin-top:8px; padding:8px 10px; background:var(--bg); border-radius:8px; }
+  .sty .k { color:var(--muted); font-size:11px; margin-right:3px; }
+  .sw { display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:-2px; border:1px solid rgba(0,0,0,.15); margin-right:3px; }
+  .cmp-note { font-size:12px; color:var(--muted); margin-top:10px; }
+  .cap-row { display:grid; grid-template-columns:70px 1fr 110px 90px auto; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--line); font-size:13px; }
+  .cap-row .t { color:var(--muted); font-size:12px; }
+  .cap-row .u { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--muted); }
+  .cap-row .st { font-weight:600; }
+  .cap-row .st.wait { color:#b45309; } .cap-row .st.ok { color:#15803d; } .cap-row .st.err { color:var(--danger); }
   /* 상세 패널 */
   #detail { position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; z-index:20; }
   #detail.on { display:block; }
@@ -94,6 +127,8 @@
 <main>
   <div class="tabs">
     <button class="active" data-tab="table">비교표</button>
+    <button data-tab="compare">화면 비교</button>
+    <button data-tab="capture">URL로 수집</button>
     <button data-tab="timeline">수집 이력 · 변화 추적</button>
     <button data-tab="prompt">AI 분석용 프롬프트</button>
     <button data-tab="tool">수집 버튼 만들기</button>
@@ -106,6 +141,24 @@
     <span id="stat"></span>
   </div>
   <section id="tab-table"></section>
+  <section id="tab-compare" hidden></section>
+  <section id="tab-capture" hidden>
+    <div class="box">
+      <h2>URL로 수집 (archive.org의 "Save Page Now"처럼)</h2>
+      <p>경쟁사 페이지 주소를 넣으면 GitHub Actions 러너가 그 페이지를 모바일 화면으로 열어 CTA·추천 영역·팝업·소구점과 전체 스크린샷을 수집해 여기로 보냅니다. 회사 IP는 남지 않습니다. 보통 1~2분 걸립니다. 로그인이 필요한 페이지는 수집되지 않으니 확장·즐겨찾기로 직접 캡처하세요.</p>
+      <form id="cap-form" style="display:grid;grid-template-columns:1fr;gap:8px;max-width:720px">
+        <input type="url" id="cap-url" placeholder="https://m.encar.com/ ..." required>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="text" id="cap-comp" placeholder="경쟁사 이름 (예: 엔카) — 비우면 도메인" list="cap-comp-list" style="flex:1;min-width:160px">
+          <datalist id="cap-comp-list"></datalist>
+          <select id="cap-stage"><option>첫 화면(랜딩)</option><option>카테고리/상품 목록</option><option>상품 상세</option><option>장바구니</option><option>결제</option><option>회원가입/로그인</option><option>이벤트/기획전</option><option>기타</option></select>
+          <select id="cap-device"><option>둘 다</option><option>모바일</option><option>데스크톱</option></select>
+          <button class="primary" type="submit" id="cap-go">수집 시작</button>
+        </div>
+      </form>
+      <div id="cap-queue" style="margin-top:14px"></div>
+    </div>
+  </section>
   <section id="tab-timeline" hidden></section>
   <section id="tab-prompt" hidden>
     <div class="box">
