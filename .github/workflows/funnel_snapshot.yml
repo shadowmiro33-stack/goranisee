@@ -51,7 +51,7 @@ jobs:
           ARGS=""
           [ -n "${{ github.event.inputs.site }}" ] && ARGS="$ARGS --site ${{ github.event.inputs.site }}"
           [ -n "${{ github.event.inputs.stage }}" ] && ARGS="$ARGS --stage ${{ github.event.inputs.stage }}"
-          node collector/funnel_collector.js $ARGS
+          node collector/funnel_collector.cjs $ARGS
 
       - name: Upload run artifacts (스크린샷·JSON, 30일 보관)
         if: always()

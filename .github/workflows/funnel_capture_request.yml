@@ -38,7 +38,7 @@ jobs:
           P_REQ: ${{ github.event.client_payload.request_id }}
         run: |
           [ -n "$P_URL" ] || { echo "client_payload.url 이 없습니다"; exit 1; }
-          node collector/funnel_collector.js --url "$P_URL" --competitor "${P_COMP:-}" --stage "${P_STAGE:-home}" --device "${P_DEVICE:-둘다}" --request-id "${P_REQ:-}"
+          node collector/funnel_collector.cjs --url "$P_URL" --competitor "${P_COMP:-}" --stage "${P_STAGE:-home}" --device "${P_DEVICE:-둘다}" --request-id "${P_REQ:-}"
 
       - name: Upload run artifacts
         if: always()

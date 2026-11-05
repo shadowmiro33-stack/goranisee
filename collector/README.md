@@ -6,7 +6,7 @@ GitHub Actions 러너에서 실행되므로 사내 IP가 경쟁사에 남지 않
 ```
 collector/
   funnel_targets.json   수집 대상 (사이트 · 단계 · URL · 뷰포트)
-  funnel_collector.js   Playwright 수집기
+  funnel_collector.cjs   Playwright 수집기
 snapshots/
   index_latest.json     최근 실행 요약
   <site>/<stage>/<YYYY-MM-DD>.json|.jpg           모바일(390px, 2x) 추출 결과·전체 스크린샷
@@ -43,9 +43,9 @@ snapshots/
 - 로컬:
   ```bash
   npm i -D playwright && npx playwright install chromium
-  node collector/funnel_collector.js                 # 전체
-  node collector/funnel_collector.js --site encar    # 사이트 하나
-  node collector/funnel_collector.js --stage home    # 단계 하나
+  node collector/funnel_collector.cjs                 # 전체
+  node collector/funnel_collector.cjs --site encar    # 사이트 하나
+  node collector/funnel_collector.cjs --stage home    # 단계 하나
   ```
   로컬 실행은 내 PC IP로 접속합니다. 회사망에서는 Actions 실행을 권장합니다.
 

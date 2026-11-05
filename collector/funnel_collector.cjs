@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 경쟁사 퍼널 스냅샷 수집기 (funnel_collector.js)
+ * 경쟁사 퍼널 스냅샷 수집기 (funnel_collector.cjs)
  *
  * funnel_targets.json에 등록된 공개 페이지를 실제 브라우저(Playwright Chromium)로 열어
  *   - 화면 요소를 구조화 JSON으로 추출 (CTA / 추천·광고 영역 / 팝업·플로팅 / 가격·혜택 / 신뢰 / 긴급성)
@@ -13,12 +13,12 @@
  *   - 개인정보(전화번호·차량번호)는 텍스트에서 마스킹 후 저장.
  *
  * 사용
- *   node collector/funnel_collector.js                      # 전체
- *   node collector/funnel_collector.js --site encar         # 특정 사이트
- *   node collector/funnel_collector.js --stage home         # 특정 단계
- *   node collector/funnel_collector.js --config path.json   # 다른 설정 파일
- *   node collector/funnel_collector.js --out snapshots # 출력 폴더
- *   node collector/funnel_collector.js --url https://... --competitor 엔카 --stage detail [--request-id r1] [--device 모바일|데스크톱|둘다]
+ *   node collector/funnel_collector.cjs                      # 전체
+ *   node collector/funnel_collector.cjs --site encar         # 특정 사이트
+ *   node collector/funnel_collector.cjs --stage home         # 특정 단계
+ *   node collector/funnel_collector.cjs --config path.json   # 다른 설정 파일
+ *   node collector/funnel_collector.cjs --out snapshots # 출력 폴더
+ *   node collector/funnel_collector.cjs --url https://... --competitor 엔카 --stage detail [--request-id r1] [--device 모바일|데스크톱|둘다]
  *       # 단일 URL 즉시 수집 (어드민 "URL로 수집" → repository_dispatch). 설정 파일의 sites는 무시.
  */
 
