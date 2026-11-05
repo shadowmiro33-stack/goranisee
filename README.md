@@ -4,6 +4,7 @@
 
 - `extension/` — 크롬 확장 프로그램 (수집 도구). 경쟁사 페이지에서 버튼 한 번으로 헤드라인·CTA·혜택 문구·팝업·추천/광고 섹션·스크린샷을 수집해 어드민으로 전송합니다.
 - `public/`, `netlify/functions/`(Netlify) 및 `api/`(Vercel) — 어드민 (조회 화면). 비밀번호 로그인, 경쟁사 × 퍼널 단계 비교표, 수집 이력·변화 추적, CSV 내보내기, AI 분석용 프롬프트 생성.
+- `collector/`, `.github/workflows/` — 자동 수집 (Playwright, GitHub Actions). URL 즉시 수집과 주간 수집.
 - `schema.sql` — Supabase 테이블.
 
 ---
@@ -52,22 +53,20 @@
 
 ## 2-C. URL로 수집 — 어드민에서 주소만 넣기 (사내 IP 노출 없음)
 
-어드민 **URL로 수집** 탭에 경쟁사 페이지 주소·경쟁사 이름·단계를 넣으면 `car-data` 저장소의 GitHub Actions가 즉시 그 페이지를 열어 수집하고 1~2분 뒤 결과가 어드민에 도착합니다(archive.org의 Save Page Now와 같은 흐름). 도착하면 **화면 비교** 탭에서 바로 나란히 볼 수 있습니다.
+어드민 **URL로 수집** 탭에 경쟁사 페이지 주소·경쟁사 이름·단계를 넣으면 이 저장소의 GitHub Actions(`collector/`)가 즉시 그 페이지를 열어 수집하고 1~2분 뒤 결과가 어드민에 도착합니다(archive.org의 Save Page Now와 같은 흐름). 도착하면 **화면 비교** 탭에서 바로 나란히 볼 수 있습니다.
 
 설정 (Netlify 환경변수, 한 번만):
 
 | 이름 | 값 |
 |---|---|
-| `GH_DISPATCH_TOKEN` | GitHub fine-grained PAT — 저장소 `car-data`, 권한 **Contents: Read and write** |
-| `GH_DISPATCH_REPO` | (선택) 기본 `shadowmiro33-stack/car-data` |
+| `GH_DISPATCH_TOKEN` | GitHub fine-grained PAT — 저장소 `goranisee`, 권한 **Contents: Read and write** |
+| `GH_DISPATCH_REPO` | (선택) 기본 `shadowmiro33-stack/goranisee` |
 
-`car-data` 쪽에는 Secrets `FUNNEL_ADMIN_URL`(이 어드민 주소)와 `FUNNEL_ADMIN_PASSWORD`(`ADMIN_PASSWORD`와 같은 값)가 있어야 결과가 돌아옵니다.
+이 저장소 Settings → Secrets and variables → Actions 에는 `FUNNEL_ADMIN_URL`(이 어드민 주소)와 `FUNNEL_ADMIN_PASSWORD`(`ADMIN_PASSWORD`와 같은 값)가 있어야 결과가 돌아옵니다.
 
-## 2-D. 주간 자동 수집 — `car-data` 저장소의 GitHub Actions
+## 2-D. 주간 자동 수집
 
-확장·즐겨찾기 없이도 `shadowmiro33-stack/car-data`의 **Competitor Funnel Snapshot** 워크플로우가 매주 월요일 경쟁사 공개 페이지(첫 화면·리스트·매물 상세)를 모바일 화면으로 열어 같은 형식으로 이 어드민에 전송합니다. 전송된 행은 메모가 "자동 수집 (GitHub Actions · funnel_collector)"로 표시됩니다.
-
-설정은 `car-data` 저장소 Secrets에 두 개만 넣으면 됩니다: `FUNNEL_ADMIN_URL` = 이 어드민 주소, `FUNNEL_ADMIN_PASSWORD` = `ADMIN_PASSWORD`와 같은 값. 대상 URL은 `car-data/funnel/funnel_targets.json`에서 관리합니다. 자세한 내용은 그 저장소의 `funnel/README.md` 참고.
+`collector/funnel_targets.json`에 등록된 경쟁사·단계 URL을 매주 월요일 10:23 KST에 모바일·데스크톱 두 화면 폭으로 수집해 어드민에 보냅니다 (Actions → *Competitor Funnel Snapshot* 에서 수동 실행도 가능). 결과 원본은 `snapshots/`에 날짜별로 쌓입니다. 자세한 내용은 `collector/README.md`.
 
 로그인이 필요한 단계(상담 신청·결제)는 자동 수집하지 않으므로 2-A/2-B로 직접 캡처합니다.
 

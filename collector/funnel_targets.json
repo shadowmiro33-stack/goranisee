@@ -1,0 +1,106 @@
+{
+  "$comment": "퍼널 스냅샷 수집 대상. 공개 페이지만 등록합니다. 로그인·폼 제출이 필요한 단계는 자동 수집하지 않고 뷰어에 수동 업로드합니다. 페이지에 urlDesktop을 주면 데스크톱 화면은 그 주소로 엽니다(없으면 url 그대로).",
+  "viewports": [
+    {
+      "key": "mobile",
+      "label": "모바일",
+      "width": 390,
+      "height": 844,
+      "mobile": true
+    },
+    {
+      "key": "desktop",
+      "label": "데스크톱",
+      "width": 1280,
+      "height": 800,
+      "mobile": false
+    }
+  ],
+  "stages": [
+    {
+      "key": "home",
+      "label": "첫 화면",
+      "adminStage": "첫 화면(랜딩)"
+    },
+    {
+      "key": "list",
+      "label": "검색·리스트",
+      "adminStage": "카테고리/상품 목록"
+    },
+    {
+      "key": "detail",
+      "label": "매물 상세",
+      "adminStage": "상품 상세"
+    },
+    {
+      "key": "inquiry",
+      "label": "상담·견적 신청",
+      "adminStage": "결제"
+    },
+    {
+      "key": "done",
+      "label": "완료",
+      "adminStage": "기타"
+    }
+  ],
+  "admin": {
+    "$comment": "goranisee 어드민(https://goranisee.netlify.app)으로 자동 전송. URL·비밀번호는 환경변수 FUNNEL_ADMIN_URL / FUNNEL_ADMIN_PASSWORD (Actions secrets) 로 넣습니다. adminStage는 어드민의 단계 선택지와 같아야 합니다.",
+    "enabled": true,
+    "note": "자동 수집 (GitHub Actions · funnel_collector)"
+  },
+  "sites": [
+    {
+      "key": "encar",
+      "name": "엔카",
+      "pages": [
+        {
+          "stage": "home",
+          "url": "https://m.encar.com/",
+          "urlDesktop": "https://www.encar.com/"
+        },
+        {
+          "stage": "list",
+          "url": "https://m.encar.com/car/list?sort=ModifiedDate",
+          "urlDesktop": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor"
+        },
+        {
+          "stage": "detail",
+          "followFrom": "list",
+          "linkSelector": "a[href*='/car/detail'], a[href*='carid='], a[href*='/dc/dc_cardetailview']"
+        }
+      ]
+    },
+    {
+      "key": "kcar",
+      "name": "케이카",
+      "pages": [
+        {
+          "stage": "home",
+          "url": "https://m.kcar.com/",
+          "urlDesktop": "https://www.kcar.com/"
+        },
+        {
+          "stage": "list",
+          "url": "https://m.kcar.com/bc/search",
+          "urlDesktop": "https://www.kcar.com/bc/search"
+        },
+        {
+          "stage": "detail",
+          "followFrom": "list",
+          "linkSelector": "a[href*='/bc/detail'], a[href*='cid=']"
+        }
+      ]
+    }
+  ],
+  "capture": {
+    "waitAfterLoadMs": 3000,
+    "scrollStops": [
+      0.3,
+      0.6,
+      1.0
+    ],
+    "scrollPauseMs": 1200,
+    "screenshotQuality": 80,
+    "maxScreenshotHeight": 12000
+  }
+}

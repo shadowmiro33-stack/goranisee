@@ -1,6 +1,8 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
+  # 수집 결과(snapshots/)만 바뀐 커밋은 재배포하지 않음
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':!snapshots'"
 
 [functions]
   node_bundler = "esbuild"

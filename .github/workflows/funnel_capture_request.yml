@@ -1,0 +1,59 @@
+name: Funnel Capture Request (URL)
+
+# 어드민 "URL로 수집" 버튼 → repository_dispatch → 단일 URL 즉시 수집 → 어드민 전송
+# client_payload: { url, competitor, stage, device, request_id }
+on:
+  repository_dispatch:
+    types: [funnel_capture]
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright (Chromium)
+        run: |
+          npm i --no-save --no-package-lock playwright@1.47.2
+          npx playwright install --with-deps chromium
+
+      - name: Capture
+        env:
+          FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL }}
+          FUNNEL_ADMIN_PASSWORD: ${{ secrets.FUNNEL_ADMIN_PASSWORD }}
+          P_URL: ${{ github.event.client_payload.url }}
+          P_COMP: ${{ github.event.client_payload.competitor }}
+          P_STAGE: ${{ github.event.client_payload.stage }}
+          P_DEVICE: ${{ github.event.client_payload.device }}
+          P_REQ: ${{ github.event.client_payload.request_id }}
+        run: |
+          [ -n "$P_URL" ] || { echo "client_payload.url 이 없습니다"; exit 1; }
+          node collector/funnel_collector.js --url "$P_URL" --competitor "${P_COMP:-}" --stage "${P_STAGE:-home}" --device "${P_DEVICE:-둘다}" --request-id "${P_REQ:-}"
+
+      - name: Upload run artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: funnel-capture-${{ github.run_id }}
+          path: snapshots/adhoc/
+          retention-days: 14
+
+      - name: Commit snapshot
+        run: |
+          git checkout -- package.json 2>/dev/null || true
+          git config --global user.name "Funnel Snapshot Bot"
+          git config --global user.email "bot@users.noreply.github.com"
+          git add snapshots/adhoc/
+          git diff --cached --quiet || git commit -m "auto: funnel capture request ${{ github.event.client_payload.request_id }} [$(TZ=Asia/Seoul date +'%Y-%m-%d %H:%M KST')]"
+          git pull --rebase -q || true
+          git push
