@@ -105,6 +105,15 @@
   .cmp-card tr.grp td { background:var(--soft); font-weight:600; font-size:12px; color:var(--muted); letter-spacing:.02em; }
   .cmp-card td.stage { width:170px; }
   .stack { display:flex; height:10px; border-radius:5px; overflow:hidden; background:var(--line); margin:4px 0; } .stack span { display:block; height:100%; }
+  .site-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; }
+  .site-card { background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; display:flex; flex-direction:column; }
+  .site-card .th { height:260px; background:#f3f4f6; overflow:hidden; position:relative; cursor:pointer; }
+  .site-card .th img { width:100%; display:block; }
+  .site-card .th .st { position:absolute; top:6px; left:6px; background:rgba(17,24,39,.8); color:#fff; font-size:11px; padding:2px 7px; border-radius:999px; }
+  .site-card .b { padding:8px 10px; font-size:12px; display:flex; flex-direction:column; gap:3px; }
+  .site-card .b .t { font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .site-card .b .u { color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:11px; }
+  .site-card .b .m { color:var(--muted); font-size:11px; }
   .cmp-note { font-size:12px; color:var(--muted); margin-top:10px; }
   .cap-row { display:grid; grid-template-columns:70px 1fr 110px 90px auto; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--line); font-size:13px; }
   .cap-row .t { color:var(--muted); font-size:12px; }
@@ -162,6 +171,7 @@
     <button class="active" data-tab="table">비교표</button>
     <button data-tab="cmp">경쟁사 비교</button>
     <button data-tab="compare">화면 비교</button>
+    <button data-tab="site">사이트 전체</button>
     <button data-tab="flow">퍼널 흐름</button>
     <button data-tab="ads">광고 채널</button>
     <button data-tab="adspend">광고비 추정</button>
@@ -180,6 +190,7 @@
   <section id="tab-table"></section>
   <section id="tab-cmp" hidden></section>
   <section id="tab-compare" hidden></section>
+  <section id="tab-site" hidden></section>
   <section id="tab-flow" hidden></section>
   <section id="tab-ads" hidden></section>
   <section id="tab-adspend" hidden></section>
@@ -188,14 +199,14 @@
       <h2>URL로 수집 (archive.org의 "Save Page Now"처럼)</h2>
       <p>경쟁사 페이지 주소를 넣으면 GitHub Actions 러너가 그 페이지를 모바일 화면으로 열어 CTA·추천 영역·팝업·소구점과 전체 스크린샷을 수집해 여기로 보냅니다. 회사 IP는 남지 않습니다. 보통 1~2분 걸립니다. <b>신청까지 흐름 따라가기</b>를 켜면 첫 화면에서 시작해 리스트 → 상세 → 신청 버튼까지 실제로 따라가며 단계별로 캡처하고 신청까지의 탭 수·입력 폼·로그인 필요 여부를 측정합니다(입력·제출은 하지 않음, 모바일 화면, 3~4분). <b>전체 페이지 수집</b>을 켜면 같은 도메인의 링크(사이트맵 포함)를 따라 최대 N페이지를 모두 캡처하고 URL로 단계(첫 화면/목록/상세/신청/이벤트/기타)를 자동 분류합니다(모바일, 페이지당 약 20초). 로그인이 필요한 페이지는 수집되지 않으니 확장·즐겨찾기로 직접 캡처하세요.</p>
       <form id="cap-form" style="display:grid;grid-template-columns:1fr;gap:8px;max-width:720px">
-        <input type="url" id="cap-url" placeholder="https://m.encar.com/ ..." required>
+        <input type="url" id="cap-url" placeholder="경쟁사 첫 화면 주소 (예: https://m.encar.com/)" required>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <input type="text" id="cap-comp" placeholder="경쟁사 이름 (예: 엔카) — 비우면 도메인" list="cap-comp-list" style="flex:1;min-width:160px">
           <datalist id="cap-comp-list"></datalist>
           <select id="cap-stage"><option>첫 화면(랜딩)</option><option>카테고리/상품 목록</option><option>상품 상세</option><option>장바구니</option><option>결제</option><option>회원가입/로그인</option><option>이벤트/기획전</option><option>기타</option></select>
           <select id="cap-device"><option>둘 다</option><option>모바일</option><option>데스크톱</option></select>
-          <label style="display:flex;align-items:center;gap:6px;font-size:13px;white-space:nowrap"><input type="checkbox" id="cap-flow"> 신청까지 흐름 따라가기</label>
-          <label style="display:flex;align-items:center;gap:6px;font-size:13px;white-space:nowrap"><input type="checkbox" id="cap-crawl"> 전체 페이지 수집 <input type="number" id="cap-max" value="30" min="1" max="80" style="width:64px" title="최대 페이지 수"> 페이지</label>
+          <select id="cap-mode" title="수집 범위"><option value="crawl">사이트 전체 (링크 따라 최대 N페이지)</option><option value="flow">신청까지 흐름 (첫 화면→리스트→상세→신청)</option><option value="single">이 페이지만</option></select>
+          <input type="number" id="cap-max" value="30" min="1" max="80" style="width:64px" title="사이트 전체 수집 시 최대 페이지 수">
           <button class="primary" type="submit" id="cap-go">수집 시작</button>
         </div>
       </form>

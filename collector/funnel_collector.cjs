@@ -332,6 +332,20 @@ async function analyzeOnPage(page, site, stageKey, cfg, shotPath, result) {
     await page.evaluate(() => window.scrollTo(0, 0));
     await sleep(600);
 
+    // 페이지 내부 스크롤 영역(SPA의 overflow:auto 컨테이너)을 펼쳐 전체 높이가 문서 높이에 반영되도록 함
+    try {
+      const expanded = await page.evaluate(() => {
+        let n = 0; const vh = innerHeight;
+        for (const el of document.querySelectorAll('body *')) {
+          const cs = getComputedStyle(el); if (!/(auto|scroll)/.test(cs.overflowY)) continue;
+          const r = el.getBoundingClientRect(); if (r.height < vh * 0.5 || el.scrollHeight <= el.clientHeight + 50) continue;
+          el.style.setProperty('height', 'auto', 'important'); el.style.setProperty('max-height', 'none', 'important'); el.style.setProperty('overflow', 'visible', 'important'); n++;
+        }
+        for (const el of [document.documentElement, document.body]) { const cs = getComputedStyle(el); if (/(hidden|auto|scroll)/.test(cs.overflowY) && el.scrollHeight <= el.clientHeight + 50) { el.style.setProperty('height', 'auto', 'important'); el.style.setProperty('overflow', 'visible', 'important'); } }
+        return n;
+      });
+      if (expanded) { await sleep(600); result.expandedScroll = expanded; await page.evaluate(() => window.scrollTo(0, 0)); }
+    } catch (_) {}
     // 전체 추출 (lazy 로드 후)
     const full = await page.evaluate(EXTRACT);
     // 트리거별 신규 오버레이만 남기기

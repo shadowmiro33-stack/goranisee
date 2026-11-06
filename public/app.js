@@ -209,7 +209,7 @@ function renderCaptureQueue() {
     const age = (Date.now() - q.at) / 1000;
     const capErr = done?.data?.captureError;
     const st = done ? (capErr ? ["err", "실패"] : ["ok", "도착"]) : q.error ? ["err", "실패"] : age > 600 ? ["err", "10분 경과 · Actions 확인"] : ["wait", "수집 중…"];
-    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}${doneAll.length > 1 ? ` (${doneAll.length})` : ""}</span><span class="t">${esc(q.device)}${q.flow ? " · 흐름" : ""}${q.crawl ? ` · 전체 ${q.max_pages}p` : ""}</span><span>${done ? (capErr ? `<span class="t" title="${esc(capErr)}">${esc(capErr.slice(0, 90))}</span>` : `${q.flow ? `<button class="sm" data-tab-go="flow">퍼널 흐름</button>` : q.crawl ? `<button class="sm" data-tab-go="timeline">이력 보기</button>` : `<button class="sm" data-cmp-open="${done.id}">화면 비교</button>`} <button class="sm" data-id="${done.id}">상세</button>`) : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`} <button class="sm danger" data-q-del="${esc(q.id)}" title="요청 내역과 도착한 캡처 삭제">삭제</button></span></div>`;
+    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}${doneAll.length > 1 ? ` (${doneAll.length})` : ""}</span><span class="t">${esc(q.device)}${q.flow ? " · 흐름" : ""}${q.crawl ? ` · 전체 ${q.max_pages}p` : ""}</span><span>${done ? (capErr ? `<span class="t" title="${esc(capErr)}">${esc(capErr.slice(0, 90))}</span>` : `${q.flow ? `<button class="sm" data-tab-go="flow">퍼널 흐름</button>` : q.crawl ? `<button class="sm" data-tab-go="site">사이트 전체 보기</button>` : `<button class="sm" data-cmp-open="${done.id}">화면 비교</button>`} <button class="sm" data-id="${done.id}">상세</button>`) : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`} <button class="sm danger" data-q-del="${esc(q.id)}" title="요청 내역과 도착한 캡처 삭제">삭제</button></span></div>`;
   }).join("");
   el.querySelectorAll("[data-tab-go]").forEach((b) => b.addEventListener("click", () => document.querySelector(`.tabs button[data-tab="${b.dataset.tabGo}"]`).click()));
   el.querySelectorAll("[data-q-del]").forEach((b) => b.addEventListener("click", async () => {
@@ -238,7 +238,7 @@ function startCapPoll() {
 }
 $("#cap-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value === "둘 다" ? "둘다" : $("#cap-device").value, flow: $("#cap-flow").checked, crawl: $("#cap-crawl").checked, max_pages: +$("#cap-max").value || 30 };
+  const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value === "둘 다" ? "둘다" : $("#cap-device").value, flow: $("#cap-mode").value === "flow", crawl: $("#cap-mode").value === "crawl", max_pages: +$("#cap-max").value || 30 };
   $("#cap-go").disabled = true;
   try {
     const r = await api("/api/capture-request", { method: "POST", body: JSON.stringify(body) });
@@ -369,6 +369,31 @@ function diffHtml(cur, prev) {
   if (d === null) return `<div class="diff same">첫 수집 (비교 대상 없음)</div>`;
   if (!d.length) return `<div class="diff same">직전 수집(${fmt(prev.captured_at)})과 변화 없음</div>`;
   return `<div class="diff"><span class="k">직전 ${fmt(prev.captured_at)} 대비</span>${d.map((x) => `<div><span class="k">${x.label}</span>${x.add.map((t) => `<span class="add">+ ${esc(t)}</span>`).join(" ")} ${x.del.map((t) => `<span class="del">${esc(t)}</span>`).join(" ")}</div>`).join("")}</div>`;
+}
+
+
+// ---------- 사이트 전체 (크롤 결과: 경쟁사별 모든 페이지를 썸네일 그리드로) ----------
+const siteState = { comp: "", run: "" };
+function renderSite() {
+  const el = $("#tab-site"); if (!el) return;
+  const rows = ALL.filter((c) => c.data?.crawl && !c.data?.captureError);
+  if (!rows.length) { el.innerHTML = `<div class="empty">사이트 전체 수집 결과가 없습니다. <b>URL로 수집</b>에서 "사이트 전체"로 경쟁사 첫 화면 주소를 넣으면 링크를 따라 모든 페이지를 수집해 여기 보여줍니다.</div>`; return; }
+  const comps = [...new Set(rows.map((c) => c.competitor))].sort();
+  if (!comps.includes(siteState.comp)) siteState.comp = comps[0];
+  const mine = rows.filter((c) => c.competitor === siteState.comp);
+  // 실행(run) 단위 = id 접두(req-xxxx) 또는 날짜
+  const runOf = (c) => (c.id.match(/^(req-[a-z0-9]+)/) || [null, c.captured_at.slice(0, 10)])[1];
+  const runs = [...new Set(mine.map(runOf))].sort((a, b) => new Date(mine.find((c) => runOf(c) === b).captured_at) - new Date(mine.find((c) => runOf(c) === a).captured_at));
+  if (!runs.includes(siteState.run)) siteState.run = runs[0];
+  const pages = mine.filter((c) => runOf(c) === siteState.run).sort((a, b) => (a.data.crawl.index || 0) - (b.data.crawl.index || 0));
+  const byStage = {}; pages.forEach((c) => (byStage[c.stage] = byStage[c.stage] || []).push(c));
+  const order = ["첫 화면(랜딩)", "카테고리/상품 목록", "상품 상세", "결제", "이벤트/기획전", "회원가입/로그인", "장바구니", "기타"];
+  const card = (c) => { const d = c.data || {}; return `<div class="site-card"><div class="th" data-id="${c.id}" title="상세 보기"><span class="st">#${d.crawl.index}</span><img data-cmp-shot="${c.id}" alt="" loading="lazy"></div><div class="b"><span class="t">${esc(d.headlines?.[0]?.text || c.title || "")}</span><span class="u" title="${esc(c.url)}">${esc((c.url || "").replace(/^https?:\/\/[^/]+/, "") || "/")}</span><span class="m">CTA ${d.ctas?.length || 0} · 추천 ${d.sections?.length || 0} · 팝업 ${d.overlays?.length || 0} · 소구 ${d.benefits?.length || 0}</span></div></div>`; };
+  el.innerHTML = `<div class="cmp-bar"><span>경쟁사</span><select id="site-comp">${comps.map((c) => `<option ${c === siteState.comp ? "selected" : ""}>${esc(c)}</option>`).join("")}</select><span>수집 회차</span><select id="site-run">${runs.map((r) => { const f = mine.find((c) => runOf(c) === r); const n = mine.filter((c) => runOf(c) === r).length; return `<option value="${esc(r)}" ${r === siteState.run ? "selected" : ""}>${fmt(f.captured_at)} · ${n}페이지</option>`; }).join("")}</select><span style="margin-left:auto;font-size:12px;color:var(--muted)">${pages.length}페이지 · 썸네일을 누르면 상세(전체 화면·핀)</span></div>
+    ${order.filter((st) => byStage[st]).map((st) => `<h3 style="font-size:14px;margin:14px 0 8px">${esc(st)} <span style="font-weight:400;color:var(--muted);font-size:12px">${byStage[st].length}</span></h3><div class="site-grid">${byStage[st].map(card).join("")}</div>`).join("")}`;
+  $("#site-comp").onchange = (e) => { siteState.comp = e.target.value; siteState.run = ""; renderSite(); };
+  $("#site-run").onchange = (e) => { siteState.run = e.target.value; renderSite(); };
+  el.querySelectorAll("img[data-cmp-shot]").forEach(async (img) => { const src = await shotOf(img.dataset.cmpShot); if (src) img.src = src; });
 }
 
 // ---------- 타임라인 ----------
@@ -503,12 +528,12 @@ $("#btn-csv").addEventListener("click", () => {
 function render() {
   const rows = filtered();
   $("#stat").textContent = `${rows.length}건 / 전체 ${ALL.length}건`;
-  renderTable(); renderCompare(); renderFlow(); renderAds(); if (typeof renderAdspend === "function") renderAdspend(); if (typeof renderCompareCard === "function") renderCompareCard(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
+  renderTable(); renderCompare(); renderSite(); renderFlow(); renderAds(); if (typeof renderAdspend === "function") renderAdspend(); if (typeof renderCompareCard === "function") renderCompareCard(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
   if (CAP_Q.some((q) => !q.error && !ALL.find((c) => c.id === q.id || c.id.startsWith(q.id + "-")) && Date.now() - q.at < 600000)) startCapPoll();
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
-  ["table", "cmp", "compare", "flow", "ads", "adspend", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  ["table", "cmp", "compare", "site", "flow", "ads", "adspend", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
 }));
 $("#f-device").addEventListener("change", render);
 $("#f-comp").addEventListener("change", render);
