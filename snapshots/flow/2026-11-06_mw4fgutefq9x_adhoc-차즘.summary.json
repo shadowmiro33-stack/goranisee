@@ -1,0 +1,53 @@
+{
+  "stagesReached": [
+    "home",
+    "list",
+    "detail"
+  ],
+  "reachedInquiry": false,
+  "tapsToInquiry": null,
+  "loginRequired": false,
+  "stoppedAt": "detail",
+  "stopReason": "다음 단계(inquiry) 진입점 미발견",
+  "path": [
+    {
+      "stage": "home",
+      "url": "https://chazm.co.kr/",
+      "via": null,
+      "overlays": 1,
+      "ctas": 5,
+      "urgency": 1,
+      "trust": 1,
+      "price": 12
+    },
+    {
+      "stage": "list",
+      "url": "https://chazm.co.kr/product",
+      "via": {
+        "text": "차량찾기",
+        "kind": "href",
+        "fixed": true
+      },
+      "overlays": 3,
+      "ctas": 2,
+      "urgency": 0,
+      "trust": 0,
+      "price": 2
+    },
+    {
+      "stage": "detail",
+      "url": "https://chazm.co.kr/product/succession",
+      "via": {
+        "text": "중고승계 Beta",
+        "kind": "href",
+        "fixed": false
+      },
+      "overlays": 3,
+      "ctas": 2,
+      "urgency": 0,
+      "trust": 0,
+      "price": 1
+    }
+  ],
+  "inquiryForm": null
+}

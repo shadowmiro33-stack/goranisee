@@ -1,0 +1,399 @@
+{
+  "site": "adhoc-차즘",
+  "siteName": "차즘",
+  "stage": "detail",
+  "url": "https://chazm.co.kr/product/succession",
+  "capturedAt": "2026-11-06T12:42:36.445+09:00",
+  "ok": true,
+  "httpStatus": null,
+  "flow": {
+    "step": 3,
+    "tapsFromHome": 2,
+    "via": {
+      "from": "list",
+      "text": "중고승계 Beta",
+      "kind": "href",
+      "href": "https://chazm.co.kr/product/succession",
+      "fixed": false,
+      "pos": {
+        "x": 0.36,
+        "y": 0.047,
+        "w": 127,
+        "h": 32
+      },
+      "candidates": 2
+    },
+    "loginWall": false,
+    "id": "mw4fgutefq9x",
+    "nextNotFound": "inquiry"
+  },
+  "finalUrl": "https://chazm.co.kr/product/succession",
+  "settledMs": 1402,
+  "warning": "본문 텍스트가 거의 없습니다. 로그인이 필요하거나 화면이 늦게 그려지는 페이지일 수 있습니다.",
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "pageHeight": 844
+  },
+  "title": "중고승계 - 차즘: Chazm",
+  "hero": [
+    {
+      "text": "네트워크가 원활하지 않습니다. 인터넷 연결 상태 확인 후 다시 시도해주세요",
+      "fontSize": 18,
+      "y": 0.412,
+      "appeal": [
+        "price"
+      ]
+    },
+    {
+      "text": "신차 중고승계 Beta 내 승계 홈 차량찾기 내차고 차주Q&A 마이",
+      "fontSize": 16,
+      "y": 0,
+      "appeal": []
+    },
+    {
+      "text": "신차 중고승계 Beta 내 승계 홈 차량찾기 내차고 차주Q&A 마이",
+      "fontSize": 16,
+      "y": 0,
+      "appeal": []
+    }
+  ],
+  "ctas": [
+    {
+      "text": "나가기",
+      "pos": {
+        "x": 0.281,
+        "y": 0.591,
+        "w": 109,
+        "h": 48
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(244, 244, 244)",
+      "color": "rgb(51, 51, 51)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "다시 시도하기",
+      "pos": {
+        "x": 0.65,
+        "y": 0.591,
+        "w": 163,
+        "h": 48
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(0, 0, 0)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": 16,
+      "appeal": []
+    }
+  ],
+  "promo": [],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "bottom-bar",
+          "purpose": "other",
+          "text": "홈 차량찾기 내차고 차주Q&A 마이",
+          "pos": {
+            "x": 0.5,
+            "y": 0.959,
+            "w": 390,
+            "h": 69
+          },
+          "viewportArea": 0.08,
+          "position": "bottom"
+        },
+        {
+          "kind": "header",
+          "purpose": "other",
+          "text": "",
+          "pos": {
+            "x": 0.5,
+            "y": 0.5,
+            "w": 390,
+            "h": 844
+          },
+          "viewportArea": 1,
+          "position": "top"
+        },
+        {
+          "kind": "popup",
+          "purpose": "other",
+          "text": "네트워크가 원활하지 않습니다. 인터넷 연결 상태 확인 후 다시 시도해주세요 이용에 불편을 드려 죄송합니다. 나가기 다시 시도하기",
+          "pos": {
+            "x": 0.5,
+            "y": 0.5,
+            "w": 390,
+            "h": 844
+          },
+          "viewportArea": 1,
+          "position": "top"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [],
+    "trust": [],
+    "price": [
+      "네트워크가 원활하지 않습니다."
+    ]
+  },
+  "counts": {
+    "links": 8,
+    "images": 0,
+    "buttons": 2
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.524,
+        "saturation": 0
+      },
+      {
+        "color": "#eeeef3",
+        "share": 0.427,
+        "saturation": 0.02
+      },
+      {
+        "color": "#fff1eb",
+        "share": 0.03,
+        "saturation": 0.08
+      },
+      {
+        "color": "#000000",
+        "share": 0.01,
+        "saturation": 0
+      },
+      {
+        "color": "#f4f4f4",
+        "share": 0.007,
+        "saturation": 0
+      },
+      {
+        "color": "#ffe0d3",
+        "share": 0.001,
+        "saturation": 0.17
+      }
+    ],
+    "brand": [
+      {
+        "color": "#ff5b16",
+        "share": 1,
+        "saturation": 0.91,
+        "by": "count"
+      }
+    ],
+    "fonts": {
+      "body": "pretendard",
+      "top": [
+        "pretendard"
+      ],
+      "heading": "pretendard",
+      "baseSize": 16,
+      "headingSize": 18,
+      "boldShare": 0.53
+    },
+    "cta": {
+      "primary": {
+        "text": "다시 시도하기",
+        "bg": "#000000",
+        "color": "#ffffff",
+        "contrast": 21,
+        "height": 48,
+        "widthRatio": 0.42,
+        "fixed": true,
+        "fontSize": 16,
+        "saturated": false
+      },
+      "count": 2,
+      "fixedCount": 2,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": 48,
+      "colors": [
+        "#f4f4f4",
+        "#000000"
+      ]
+    },
+    "fixedViewportShare": 1
+  },
+  "screenshot": "2026-11-06_mw4fgutefq9x_adhoc-차즘.detail.jpg",
+  "forms": {
+    "forms": [],
+    "stepIndicator": null,
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [
+      {
+        "key": "google_ads",
+        "label": "Google 광고 (전환태그)",
+        "channel": "구글 검색/디스플레이/유튜브"
+      },
+      {
+        "key": "ga4",
+        "label": "Google Analytics",
+        "channel": "(분석)"
+      },
+      {
+        "key": "gtm",
+        "label": "Google Tag Manager",
+        "channel": "(태그 관리)"
+      },
+      {
+        "key": "meta_pixel",
+        "label": "Meta 픽셀",
+        "channel": "페이스북/인스타그램 광고"
+      },
+      {
+        "key": "naver_ads",
+        "label": "네이버 광고 전환 (wcs)",
+        "channel": "네이버 검색광고/GFA"
+      },
+      {
+        "key": "naver_gfa",
+        "label": "네이버 GFA 픽셀",
+        "channel": "네이버 성과형 디스플레이"
+      },
+      {
+        "key": "kakao_pixel",
+        "label": "카카오 픽셀",
+        "channel": "카카오모먼트/카카오 광고"
+      },
+      {
+        "key": "mixpanel",
+        "label": "Mixpanel",
+        "channel": "(제품 분석)"
+      }
+    ],
+    "ids": {
+      "googleAds": [
+        "AW-16644132305"
+      ],
+      "gtm": [
+        "GTM-K829Z5JR"
+      ],
+      "kakaoPixel": [
+        "3569240421205495413"
+      ]
+    },
+    "paidChannels": [
+      "구글 검색/디스플레이/유튜브",
+      "페이스북/인스타그램 광고",
+      "네이버 검색광고/GFA",
+      "네이버 성과형 디스플레이",
+      "카카오모먼트/카카오 광고"
+    ],
+    "thirdPartyHosts": [
+      "chazm.co.kr",
+      "static.chazm.co.kr",
+      "www.googletagmanager.com",
+      "external.searchos.io",
+      "t1.kakaocdn.net",
+      "appleid.cdn-apple.com",
+      "cdn.chazm.co.kr",
+      "connect.facebook.net",
+      "t1.daumcdn.net",
+      "www.google.com",
+      "ad.doubleclick.net",
+      "wcs.naver.net",
+      "karrot-pixel.business.daangn.com",
+      "meta.searchos.io",
+      "",
+      "googleads.g.doubleclick.net",
+      "www.facebook.com",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "collect.daangn.com",
+      "karrot-dsp-conversion-event.daangn.com",
+      "analytics.google.com",
+      "stats.g.doubleclick.net",
+      "browser-intake-datadoghq.com",
+      "api.notifly.tech",
+      "openapi.chazm.co.kr",
+      "bc.ds.kakao.com",
+      "nam.veta.naver.com",
+      "e.notifly.tech",
+      "api-js.mixpanel.com"
+    ]
+  },
+  "viewportKey": "mobile",
+  "device": "모바일",
+  "requestId": "mw4fgutefq9x",
+  "flowSummary": {
+    "stagesReached": [
+      "home",
+      "list",
+      "detail"
+    ],
+    "reachedInquiry": false,
+    "tapsToInquiry": null,
+    "loginRequired": false,
+    "stoppedAt": "detail",
+    "stopReason": "다음 단계(inquiry) 진입점 미발견",
+    "path": [
+      {
+        "stage": "home",
+        "url": "https://chazm.co.kr/",
+        "via": null,
+        "overlays": 1,
+        "ctas": 5,
+        "urgency": 1,
+        "trust": 1,
+        "price": 12
+      },
+      {
+        "stage": "list",
+        "url": "https://chazm.co.kr/product",
+        "via": {
+          "text": "차량찾기",
+          "kind": "href",
+          "fixed": true
+        },
+        "overlays": 3,
+        "ctas": 2,
+        "urgency": 0,
+        "trust": 0,
+        "price": 2
+      },
+      {
+        "stage": "detail",
+        "url": "https://chazm.co.kr/product/succession",
+        "via": {
+          "text": "중고승계 Beta",
+          "kind": "href",
+          "fixed": false
+        },
+        "overlays": 3,
+        "ctas": 2,
+        "urgency": 0,
+        "trust": 0,
+        "price": 1
+      }
+    ],
+    "inquiryForm": null
+  },
+  "admin": {
+    "ok": true,
+    "id": "req-mw4fgutefq9x-detail"
+  }
+}
