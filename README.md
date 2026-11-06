@@ -64,6 +64,13 @@
 
 이 저장소 Settings → Secrets and variables → Actions 에는 `FUNNEL_ADMIN_URL`(이 어드민 주소)와 `FUNNEL_ADMIN_PASSWORD`(`ADMIN_PASSWORD`와 같은 값)가 있어야 결과가 돌아옵니다.
 
+## 2-I. AI UX 리뷰 (점수 + 의견)
+
+캡처 상세의 **AI 리뷰 요청** 또는 경쟁사 비교 탭의 **AI 리뷰 요청**(그 경쟁사의 단계별 최신 캡처 전부)을 누르면 GitHub Actions(`funnel_ai_score.yml`)가 Claude에 스크린샷과 추출 데이터를 보내 UX 리뷰를 받아 캡처에 저장합니다(1~3분).
+내용: 총평, 8개 항목 점수(가치제안·CTA·위계·신뢰·마찰·모바일·일관성·다음 단계 유도)와 근거, 잘한 점, 우선순위 개선 제안(문제·영향·수정안), 우리가 가져갈 점·피할 점. 경쟁사 비교 탭에 단계별 총점·항목별 평균·핵심 개선 제안이 열로 비교되고, AI 프롬프트에도 들어갑니다.
+
+설정: 저장소 Secrets에 `ANTHROPIC_API_KEY` (console.anthropic.com에서 발급). 모델은 Variables `AI_SCORE_MODEL`로 바꿀 수 있음(기본 claude-sonnet-5-5). 리뷰 1건당 스크린샷 포함 요청이라 소액의 API 비용이 듭니다.
+
 ## 2-H. 직접 수집도 전체 화면으로
 
 - **확장 프로그램 (v1.2)**: 스크롤하며 여러 장을 찍어 이어붙인 전체 페이지 스크린샷을 보냅니다(최대 20장). 두 번째 장부터 고정 헤더·하단바는 숨겨 반복을 막습니다. 확장을 다시 불러오세요(chrome://extensions → 새로고침).

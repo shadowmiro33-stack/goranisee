@@ -15,6 +15,13 @@ export default async (req) => {
   if (!token) return json(500, { error: "Netlify 환경변수 GH_DISPATCH_TOKEN 이 없습니다. 이 저장소(goranisee)에 Contents 쓰기 권한이 있는 GitHub 토큰을 넣고 재배포하세요." });
 
   const b = await req.json().catch(() => ({}));
+  // AI UX 채점 요청: { score: "<capture id>" } 또는 { score_competitor: "<이름>" }
+  if (b.score || b.score_competitor) {
+    const payload = b.score ? { id: String(b.score).slice(0, 80) } : { competitor: String(b.score_competitor).slice(0, 80) };
+    const r = await fetch(`https://api.github.com/repos/${repo}/dispatches`, { method: "POST", headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json", "User-Agent": "funnel-admin" }, body: JSON.stringify({ event_type: "funnel_ai_score", client_payload: payload }) });
+    if (r.status !== 204) return json(502, { error: `GitHub 실행 요청 실패 (HTTP ${r.status})` });
+    return json(200, { ok: true, ...payload, actions_url: `https://github.com/${repo}/actions/workflows/funnel_ai_score.yml` });
+  }
   // 수동 수집본(DOM 스냅샷)의 전체 화면 렌더 요청
   if (b.render) {
     const id = String(b.render).slice(0, 80);

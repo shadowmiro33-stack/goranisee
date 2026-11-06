@@ -67,7 +67,7 @@ function cellHtml(list) {
   const overlays = (d.overlays || []).slice(0, 3);
   const sections = (d.sections || []).slice(0, 5);
   return `<div class="cell">
-    <div class="meta"><span>${fmt(c.captured_at)} · ${esc(c.device || "")}</span><a data-id="${c.id}">상세 ›</a></div>
+    <div class="meta"><span>${fmt(c.captured_at)} · ${esc(c.device || "")}${d.aiScore ? ` · <b style="color:${scoreColor(d.aiScore.total)}">UX ${d.aiScore.total}</b>` : ""}</span><a data-id="${c.id}">상세 ›</a></div>
     <div class="k">헤드라인</div><div class="v">${h1 ? esc(h1) : '<span class="none">없음</span>'}</div>
     <div class="k">CTA</div><div>${ctas.length ? ctas.map((x) => `<span class="chip ${x.strong ? "strong" : ""} ${x.fixed ? "fixed" : ""}" title="${esc(x.pos)}${x.fixed ? " · 고정" : ""}">${esc(x.text)}</span>`).join("") : '<span class="none">없음</span>'}</div>
     <div class="k">혜택·소구 문구</div><div class="v">${benefits.length ? benefits.map((b) => "· " + esc(b)).join("\n") : '<span class="none">없음</span>'}</div>
@@ -396,6 +396,30 @@ function renderSite() {
   el.querySelectorAll("img[data-cmp-shot]").forEach(async (img) => { const src = await shotOf(img.dataset.cmpShot); if (src) img.src = src; });
 }
 
+
+// ---------- AI UX 리뷰 (점수 + 의견) ----------
+const SCORE_LABEL = { value_prop: "가치제안", cta: "CTA", hierarchy: "위계·가독성", trust: "신뢰", friction: "마찰 적음", mobile: "모바일", consistency: "일관성", next_step: "다음 단계 유도" };
+const scoreColor = (v) => v >= 8 ? "#15803d" : v >= 6 ? "#2563eb" : v >= 4 ? "#b45309" : "#b91c1c";
+function reviewHtml(r) {
+  if (!r) return "";
+  const bars = Object.entries(r.scores || {}).map(([k, v]) => `<div class="sc-row"><span class="sc-k">${SCORE_LABEL[k] || k}</span><span class="sc-bar"><i style="width:${(v.score || 0) * 10}%;background:${scoreColor(v.score)}"></i></span><b style="color:${scoreColor(v.score)}">${v.score}</b><span class="sc-why">${esc(v.why || "")}</span></div>`).join("");
+  const pr = (p) => p === "높음" ? "#b91c1c" : p === "중간" ? "#b45309" : "#6b7280";
+  return `<div class="review">
+    <div class="rv-head"><span class="rv-total" style="color:${scoreColor(r.total)}">${r.total}</span><span class="rv-sub">/ 10 · ${esc((r.scoredAt || "").slice(0, 10))} · ${esc(r.model || "")}${r.withScreenshot ? " · 스크린샷 포함" : " · 텍스트만"}</span></div>
+    <p class="rv-sum">${esc(r.summary || "")}</p>
+    <div class="sc">${bars}</div>
+    ${r.strengths?.length ? `<h4>잘한 점</h4><ul>${r.strengths.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+    ${r.issues?.length ? `<h4>개선 제안 (우선순위순)</h4><ul>${r.issues.map((i) => `<li><b style="color:${pr(i.priority)}">[${esc(i.priority)}]</b> ${esc(i.issue)} <span style="color:var(--muted)">— ${esc(i.why)}</span><br>→ ${esc(i.fix)}</li>`).join("")}</ul>` : ""}
+    ${r.takeaways?.length ? `<h4>우리가 가져갈 점</h4><ul>${r.takeaways.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+    ${r.avoid?.length ? `<h4>피할 점</h4><ul>${r.avoid.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+  </div>`;
+}
+async function requestScore(body, btn) {
+  if (btn) btn.disabled = true;
+  try { await api("/api/capture-request", { method: "POST", body: JSON.stringify(body) }); toast("AI 리뷰 요청됨 — 1~3분 뒤 새로고침"); }
+  catch (e) { toast("요청 실패: " + e.message); if (btn) btn.disabled = false; }
+}
+
 // ---------- 타임라인 ----------
 function renderTimeline() {
   const dev = $("#f-device").value, comps0 = [...$("#f-comp").selectedOptions].map((o) => o.value);
@@ -428,6 +452,7 @@ async function openDetail(id) {
     <h2>${esc(c.competitor)} · ${esc(c.stage)}</h2>
     <div class="sub">${fmt(c.captured_at)} · ${esc(c.device || "")} · ${esc(d.viewport || "")} · <a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.url)}</a></div>
     ${c.note ? `<h3>메모</h3><div>${esc(c.note)}</div>` : ""}
+    <h3>AI UX 리뷰 <button class="sm" id="dt-score" style="margin-left:8px">${d.aiScore ? "다시 리뷰" : "AI 리뷰 요청"}</button></h3>${d.aiScore ? reviewHtml(d.aiScore) : '<div style="color:var(--muted);font-size:12px">아직 리뷰가 없습니다. 버튼을 누르면 Claude가 스크린샷과 추출 데이터를 보고 점수와 의견을 씁니다 (1~3분).</div>'}
     ${c.screenshot ? `<h3>스크린샷</h3><img src="${c.screenshot}" alt="">` : ""}
     <h3>페이지</h3><div><b>${esc(c.title)}</b><br><span style="color:var(--muted)">${esc(d.description)}</span></div>
     <h3>헤드라인</h3>${li(d.headlines, (h) => `<code>${h.tag}</code> ${esc(h.text)} <span style="color:var(--muted)">(${esc(h.pos)})</span>`)}
@@ -444,6 +469,7 @@ async function openDetail(id) {
     <h3>내비게이션</h3><div>${d.nav?.length ? esc(d.nav.join(" · ")) : '<span class="none">없음</span>'}</div>
     <h3>첫 화면 텍스트</h3><pre>${esc(d.firstScreenText)}</pre>`;
   $("#detail").classList.add("on");
+  $("#dt-score")?.addEventListener("click", (e) => requestScore({ score: c.id }, e.target));
 }
 $("#btn-close").addEventListener("click", () => $("#detail").classList.remove("on"));
 $("#detail").addEventListener("click", (e) => { if (e.target === $("#detail")) $("#detail").classList.remove("on"); });
@@ -476,6 +502,7 @@ function buildPrompt() {
       if (d.flow?.via) lines.push(`- 이 단계 진입 장치: "${d.flow.via.text}" (${d.flow.via.kind === "click" ? "버튼" : "링크"}${d.flow.via.fixed ? ", 고정" : ""}), 첫 화면에서 ${d.flow.tapsFromHome}탭`);
       if (d.flowSummary) lines.push(`- 신청까지 흐름 요약: ${(d.flowSummary.stagesReached || []).join("→")} · 탭 ${d.flowSummary.tapsToInquiry ?? "미도달"} · 폼 ${d.flowSummary.inquiryForm ? `${d.flowSummary.inquiryForm.fields}필드(필수 ${d.flowSummary.inquiryForm.required})` : "없음"} · 로그인 ${d.flowSummary.loginRequired ? "필요" : "불필요"}`);
       if (d.adTech?.paidChannels?.length) lines.push(`- 광고 채널 신호: ${d.adTech.paidChannels.join(", ")}`);
+      if (d.aiScore) lines.push(`- AI UX 리뷰: 총점 ${d.aiScore.total} · ${d.aiScore.summary || ""}`);
       if (typeof noteOf === "function") { const nt = noteOf(c.competitor); if (nt.keep || nt.avoid) lines.push(`- 분석자 메모: 참고 "${nt.keep || ""}" / 회피 "${nt.avoid || ""}"`); }
       if (d.benefits?.length) lines.push(`- 혜택/소구 문구: ${d.benefits.slice(0, 10).map((b) => b.text).join(" | ")}`);
       if (d.overlays?.length) lines.push(`- 팝업/배너: ${d.overlays.map((o) => `[${o.kind}] ${String(o.text || "").slice(0, 80)}`).join(" | ")}`);

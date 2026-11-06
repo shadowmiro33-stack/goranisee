@@ -1,0 +1,26 @@
+name: AI UX Score
+
+# 어드민 "AI 점수" 버튼 → 캡처 1건 또는 경쟁사 전체(단계별 최신)를 Claude로 채점. client_payload: { id } 또는 { competitor }
+on:
+  repository_dispatch:
+    types: [funnel_ai_score]
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Score
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          AI_SCORE_MODEL: ${{ vars.AI_SCORE_MODEL }}
+          FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL || 'https://goranisee.netlify.app' }}
+          FUNNEL_ADMIN_PASSWORD: ${{ secrets.FUNNEL_ADMIN_PASSWORD }}
+          P_ID: ${{ github.event.client_payload.id }}
+          P_COMP: ${{ github.event.client_payload.competitor }}
+        run: |
+          if [ -n "$P_ID" ]; then node collector/ai_score.cjs --id "$P_ID"; else node collector/ai_score.cjs --competitor "$P_COMP"; fi
