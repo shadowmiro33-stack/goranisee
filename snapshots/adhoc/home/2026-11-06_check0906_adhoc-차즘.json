@@ -1,0 +1,442 @@
+{
+  "site": "adhoc-차즘",
+  "siteName": "차즘",
+  "stage": "home",
+  "url": "https://chazm.co.kr/",
+  "capturedAt": "2026-11-06T08:59:59.648+09:00",
+  "ok": true,
+  "httpStatus": 200,
+  "finalUrl": "https://chazm.co.kr/",
+  "settledMs": 1407,
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "pageHeight": 3471
+  },
+  "title": "신차 리스·장기렌트 견적 비교 - 차즘(Chazm)",
+  "hero": [
+    {
+      "text": "차가 필요한 순간,",
+      "fontSize": 24,
+      "y": -0.001,
+      "appeal": []
+    },
+    {
+      "text": "106주 2주",
+      "fontSize": 22,
+      "y": 0.16,
+      "appeal": []
+    },
+    {
+      "text": "42주 2주",
+      "fontSize": 22,
+      "y": 0.16,
+      "appeal": []
+    }
+  ],
+  "ctas": [
+    {
+      "text": "더보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.224,
+        "w": 302,
+        "h": 52
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(245, 247, 249)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://chazm.co.kr/product/ready"
+    },
+    {
+      "text": "차즘 vs 타사 견적, 직접 비교했어요.",
+      "pos": {
+        "x": 0.5,
+        "y": 0.278,
+        "w": 302,
+        "h": 96
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [],
+      "href": "https://chazm.co.kr/post/59"
+    },
+    {
+      "text": "차즘의 견적이 합리적인 이유",
+      "pos": {
+        "x": 0.5,
+        "y": 0.311,
+        "w": 302,
+        "h": 96
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [],
+      "href": "https://chazm.co.kr/post/60"
+    },
+    {
+      "text": "차즘이 망하면 내 차 안전할까?",
+      "pos": {
+        "x": 0.5,
+        "y": 0.343,
+        "w": 302,
+        "h": 96
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [],
+      "href": "https://chazm.co.kr/post/61"
+    },
+    {
+      "text": "더보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.37,
+        "w": 302,
+        "h": 52
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(245, 247, 249)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://chazm.co.kr/post?category=%EB%A6%AC%EC%8A%A4%EB%A0%8C%ED%8A%B8+%EC%99%84%EC%A0%84%EC%A0%95%EB%B3%B5+%F0%9F%9A%97"
+    },
+    {
+      "text": "셀토스 월 372,900원",
+      "pos": {
+        "x": 0.5,
+        "y": 0.419,
+        "w": 302,
+        "h": 80
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "price"
+      ],
+      "href": "https://chazm.co.kr/detail?carCatalogId=780&trimCatalogId=6539&estimateId=35421412"
+    },
+    {
+      "text": "스포티지 월 426,030원",
+      "pos": {
+        "x": 0.5,
+        "y": 0.443,
+        "w": 302,
+        "h": 80
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "price"
+      ],
+      "href": "https://chazm.co.kr/detail?carCatalogId=723&trimCatalogId=6156&estimateId=34695157"
+    },
+    {
+      "text": "EV3 월 448,030원",
+      "pos": {
+        "x": 0.5,
+        "y": 0.467,
+        "w": 302,
+        "h": 80
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "price"
+      ],
+      "href": "https://chazm.co.kr/detail?carCatalogId=385&trimCatalogId=2724&estimateId=35430024"
+    },
+    {
+      "text": "투싼 Hybrid 월 452,670원",
+      "pos": {
+        "x": 0.5,
+        "y": 0.492,
+        "w": 302,
+        "h": 80
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "price"
+      ],
+      "href": "https://chazm.co.kr/detail?carCatalogId=783&trimCatalogId=6561&estimateId=35463555"
+    },
+    {
+      "text": "EV5 월 475,860원",
+      "pos": {
+        "x": 0.5,
+        "y": 0.516,
+        "w": 302,
+        "h": 80
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "price"
+      ],
+      "href": "https://chazm.co.kr/detail?carCatalogId=791&trimCatalogId=6616&estimateId=35480778"
+    },
+    {
+      "text": "쏘렌토 Hybrid 월 502,700원",
+      "pos": {
+        "x": 0.5,
+        "y": 0.54,
+        "w": 302,
+        "h": 80
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "price"
+      ],
+      "href": "https://chazm.co.kr/detail?carCatalogId=725&trimCatalogId=6131&estimateId=35420422"
+    },
+    {
+      "text": "싼타페 Hybrid 월 535,400원",
+      "pos": {
+        "x": 0.5,
+        "y": 0.564,
+        "w": 302,
+        "h": 80
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "price"
+      ],
+      "href": "https://chazm.co.kr/detail?carCatalogId=470&trimCatalogId=4026&estimateId=35468859"
+    },
+    {
+      "text": "카니발 Hybrid 월 540,760원",
+      "pos": {
+        "x": 0.5,
+        "y": 0.588,
+        "w": 302,
+        "h": 80
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "price"
+      ],
+      "href": "https://chazm.co.kr/detail?carCatalogId=720&trimCatalogId=6066&estimateId=35243380"
+    },
+    {
+      "text": "Model Y 월 737,770원",
+      "pos": {
+        "x": 0.5,
+        "y": 0.613,
+        "w": 302,
+        "h": 80
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "price"
+      ],
+      "href": "https://chazm.co.kr/detail?carCatalogId=738&trimCatalogId=6277&estimateId=35395925"
+    },
+    {
+      "text": "전체 차량 보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.637,
+        "w": 302,
+        "h": 52
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(245, 247, 249)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://chazm.co.kr/product"
+    }
+  ],
+  "promo": [
+    {
+      "label": "편지 보내면 드림카가 2년동안 내 차가 돼요 GV90 · 아반떼 N · MINI 까지",
+      "pos": {
+        "x": -1.295,
+        "y": 0.094,
+        "w": 350,
+        "h": 124
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "bottom-bar",
+          "purpose": "other",
+          "text": "홈 차량찾기 내차고 차주Q&A 마이",
+          "pos": {
+            "x": 0.5,
+            "y": 0.233,
+            "w": 390,
+            "h": 69
+          },
+          "viewportArea": 0.08,
+          "position": "bottom"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [
+      "2주 안에 도착하는 한정 물량이에요"
+    ],
+    "trust": [
+      "출고후기"
+    ],
+    "price": [
+      "2년무료!",
+      "더 든든해진 혜택",
+      "150만원 상당 틴팅•하이패스 지원",
+      "최대 600만원 받고",
+      "총 1,500만원의 지원금",
+      "50만원 지원금과 함께",
+      "월 50만원대에",
+      "선납금 200만원 지원",
+      "월 499,200원~",
+      "월 243,800원~",
+      "월 606,980원~",
+      "월 405,500원~"
+    ]
+  },
+  "counts": {
+    "links": 60,
+    "images": 42,
+    "buttons": 8
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.335,
+        "saturation": 0
+      },
+      {
+        "color": "#f5f7f9",
+        "share": 0.248,
+        "saturation": 0.02
+      },
+      {
+        "color": "#eeeef3",
+        "share": 0.126,
+        "saturation": 0.02
+      },
+      {
+        "color": "#6d7280",
+        "share": 0.084,
+        "saturation": 0.15
+      },
+      {
+        "color": "#c5ccd7",
+        "share": 0.084,
+        "saturation": 0.08
+      },
+      {
+        "color": "#ababab",
+        "share": 0.067,
+        "saturation": 0
+      }
+    ],
+    "brand": [],
+    "fonts": {
+      "body": "pretendard",
+      "top": [
+        "pretendard"
+      ],
+      "heading": "pretendard",
+      "baseSize": 16,
+      "headingSize": 20,
+      "boldShare": 0.58
+    },
+    "cta": {
+      "primary": {
+        "text": "차즘 vs 타사 견적, 직접 비교했어요.",
+        "bg": "#ffffff",
+        "color": "#000000",
+        "contrast": 21,
+        "height": 96,
+        "widthRatio": 0.77,
+        "fixed": false,
+        "fontSize": 16,
+        "saturated": false
+      },
+      "count": 15,
+      "fixedCount": 0,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": 78,
+      "colors": [
+        "#f5f7f9",
+        "#ffffff"
+      ]
+    },
+    "fixedViewportShare": 0.08
+  },
+  "screenshot": "2026-11-06_check0906_adhoc-차즘.jpg",
+  "viewportKey": "mobile",
+  "device": "모바일",
+  "requestId": "check0906"
+}
