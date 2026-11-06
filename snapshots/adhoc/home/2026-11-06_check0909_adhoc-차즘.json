@@ -1,0 +1,307 @@
+{
+  "site": "adhoc-차즘",
+  "siteName": "차즘",
+  "stage": "home",
+  "url": "https://chazm.co.kr/",
+  "capturedAt": "2026-11-06T09:09:29.213+09:00",
+  "ok": true,
+  "httpStatus": 200,
+  "finalUrl": "https://chazm.co.kr/",
+  "settledMs": 1411,
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "pageHeight": 3471
+  },
+  "title": "신차 리스·장기렌트 견적 비교 - 차즘(Chazm)",
+  "hero": [
+    {
+      "text": "차가 필요한 순간,",
+      "fontSize": 24,
+      "y": -0.001,
+      "appeal": []
+    },
+    {
+      "text": "빠르게 만나요 2주 만에 집 앞으로",
+      "fontSize": 20,
+      "y": 0.124,
+      "appeal": []
+    },
+    {
+      "text": "읽어보면 도움되는 아티클",
+      "fontSize": 20,
+      "y": 0.251,
+      "appeal": []
+    }
+  ],
+  "ctas": [
+    {
+      "text": "더보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.224,
+        "w": 302,
+        "h": 52
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(245, 247, 249)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://chazm.co.kr/product/ready"
+    },
+    {
+      "text": "차즘 vs 타사 견적, 직접 비교했어요.",
+      "pos": {
+        "x": 0.5,
+        "y": 0.278,
+        "w": 302,
+        "h": 96
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [],
+      "href": "https://chazm.co.kr/post/59"
+    },
+    {
+      "text": "차즘의 견적이 합리적인 이유",
+      "pos": {
+        "x": 0.5,
+        "y": 0.311,
+        "w": 302,
+        "h": 96
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [],
+      "href": "https://chazm.co.kr/post/60"
+    },
+    {
+      "text": "더보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.37,
+        "w": 302,
+        "h": 52
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(245, 247, 249)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://chazm.co.kr/post?category=%EB%A6%AC%EC%8A%A4%EB%A0%8C%ED%8A%B8+%EC%99%84%EC%A0%84%EC%A0%95%EB%B3%B5+%F0%9F%9A%97"
+    },
+    {
+      "text": "전체 차량 보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.637,
+        "w": 302,
+        "h": 52
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(245, 247, 249)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://chazm.co.kr/product"
+    }
+  ],
+  "promo": [
+    {
+      "label": "빠르게 만나요 2주 만에 집 앞으로",
+      "pos": {
+        "x": 0.5,
+        "y": 0.133,
+        "w": 302,
+        "h": 56
+      },
+      "items": 1,
+      "images": 14,
+      "kind": "reco"
+    },
+    {
+      "label": "읽어보면 도움되는 아티클",
+      "pos": {
+        "x": 0.5,
+        "y": 0.255,
+        "w": 302,
+        "h": 28
+      },
+      "items": 7,
+      "images": 3,
+      "kind": "reco"
+    },
+    {
+      "label": "자주묻는 질문",
+      "pos": {
+        "x": 0.5,
+        "y": 0.668,
+        "w": 310,
+        "h": 28
+      },
+      "items": 6,
+      "images": 0,
+      "kind": "reco"
+    },
+    {
+      "label": "편지 보내면 드림카가 2년동안 내 차가 돼요 GV90 · 아반떼 N · MINI 까지",
+      "pos": {
+        "x": -1.295,
+        "y": 0.094,
+        "w": 350,
+        "h": 124
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "bottom-bar",
+          "purpose": "other",
+          "text": "홈 차량찾기 내차고 차주Q&A 마이",
+          "pos": {
+            "x": 0.5,
+            "y": 0.233,
+            "w": 390,
+            "h": 69
+          },
+          "viewportArea": 0.08,
+          "position": "bottom"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [
+      "2주 안에 도착하는 한정 물량이에요"
+    ],
+    "trust": [
+      "출고후기"
+    ],
+    "price": [
+      "2년무료!",
+      "더 든든해진 혜택",
+      "150만원 상당 틴팅•하이패스 지원",
+      "최대 600만원 받고",
+      "총 1,500만원의 지원금",
+      "50만원 지원금과 함께",
+      "월 50만원대에",
+      "선납금 200만원 지원",
+      "월 499,200원~",
+      "월 243,800원~",
+      "월 606,980원~",
+      "월 405,500원~"
+    ]
+  },
+  "counts": {
+    "links": 60,
+    "images": 42,
+    "buttons": 8
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.335,
+        "saturation": 0
+      },
+      {
+        "color": "#f5f7f9",
+        "share": 0.248,
+        "saturation": 0.02
+      },
+      {
+        "color": "#eeeef3",
+        "share": 0.126,
+        "saturation": 0.02
+      },
+      {
+        "color": "#6d7280",
+        "share": 0.084,
+        "saturation": 0.15
+      },
+      {
+        "color": "#c5ccd7",
+        "share": 0.084,
+        "saturation": 0.08
+      },
+      {
+        "color": "#ababab",
+        "share": 0.067,
+        "saturation": 0
+      }
+    ],
+    "brand": [
+      {
+        "color": "#ff5b16",
+        "share": 1,
+        "saturation": 0.91,
+        "by": "count"
+      }
+    ],
+    "fonts": {
+      "body": "pretendard",
+      "top": [
+        "pretendard"
+      ],
+      "heading": "pretendard",
+      "baseSize": 16,
+      "headingSize": 20,
+      "boldShare": 0.58
+    },
+    "cta": {
+      "primary": {
+        "text": "차즘 vs 타사 견적, 직접 비교했어요.",
+        "bg": "#ffffff",
+        "color": "#000000",
+        "contrast": 21,
+        "height": 96,
+        "widthRatio": 0.77,
+        "fixed": false,
+        "fontSize": 16,
+        "saturated": false
+      },
+      "count": 5,
+      "fixedCount": 0,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": 70,
+      "colors": [
+        "#f5f7f9",
+        "#ffffff"
+      ]
+    },
+    "fixedViewportShare": 0.08
+  },
+  "screenshot": "2026-11-06_check0909_adhoc-차즘.jpg",
+  "viewportKey": "mobile",
+  "device": "모바일",
+  "requestId": "check0909"
+}
