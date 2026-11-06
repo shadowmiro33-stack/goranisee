@@ -1,0 +1,53 @@
+{
+  "stagesReached": [
+    "home",
+    "list",
+    "detail"
+  ],
+  "reachedInquiry": false,
+  "tapsToInquiry": null,
+  "loginRequired": false,
+  "stoppedAt": "detail",
+  "stopReason": "다음 단계(inquiry) 진입점 미발견",
+  "path": [
+    {
+      "stage": "home",
+      "url": "https://chazm.co.kr/detail?carCatalogId=621&trimCatalogId=5007&productTypeCode=LEASE&usePeriodCode=MONTH_60&mileageCode=KM_10000&advancePaymentRatio=0&utm_source=google&utm_medium=sa&utm_campaign=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_&utm_content=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_%EA%B0%80%EC%9E%85%EC%A0%84%ED%99%98&utm_term=%EB%AA%A8%EB%8D%B8y%EB%A6%AC%EC%8A%A4&utm_source_platform=%EB%AA%A8%EB%8D%B8Y&gad_source=1&gad_campaignid=22434169128&gbraid=0AAAAA-ARTdGFySthtm54_rUrO6EeMqbcV&gclid=Cj0KCQiA77DXBhCHARIsAHf2MNptJSgIbywcRFXLWikZLRVe58IKYlfw3vD7Lk30fam2uNaGmMm--HYaAuMyEALw_wcB",
+      "via": null,
+      "overlays": 1,
+      "ctas": 9,
+      "urgency": 0,
+      "trust": 12,
+      "price": 12
+    },
+    {
+      "stage": "list",
+      "url": "https://chazm.co.kr/detail?carCatalogId=621&trimCatalogId=5007&productTypeCode=LEASE&usePeriodCode=MONTH_60&mileageCode=KM_10000&advancePaymentRatio=0&utm_source=google&utm_medium=sa&utm_campaign=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_&utm_content=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_%EA%B0%80%EC%9E%85%EC%A0%84%ED%99%98&utm_term=%EB%AA%A8%EB%8D%B8y%EB%A6%AC%EC%8A%A4&utm_source_platform=%EB%AA%A8%EB%8D%B8Y&gad_source=1&gad_campaignid=22434169128&gbraid=0AAAAA-ARTdGFySthtm54_rUrO6EeMqbcV&gclid=Cj0KCQiA77DXBhCHARIsAHf2MNptJSgIbywcRFXLWikZLRVe58IKYlfw3vD7Lk30fam2uNaGmMm--HYaAuMyEALw_wcB",
+      "via": {
+        "text": "견적 분석 받아보기",
+        "kind": "click",
+        "fixed": true
+      },
+      "overlays": 3,
+      "ctas": 10,
+      "urgency": 0,
+      "trust": 12,
+      "price": 12
+    },
+    {
+      "stage": "detail",
+      "url": "https://chazm.co.kr/reviews?id=1055",
+      "via": {
+        "text": "최*선님 Model Y · 리스 가뭄에 단비같은 차즘 입니다. 솔직지 그 어떤 리스렌탈업체도 영업사원 수수료가 굉장합니다. 덤탱이죠. 그래서 개인이 차량을 구매계약하고 스스로 케피탈과 계약하는게 가장 저렴합니다. 하지만 그런시대는 이제 끝!! 차즘은 차별없이 모든 케피탈사의 그때그때 견적비교하여 최상의 조건을 찾아줍니다. 이것은 ‘버디’의 도움덕분이죠. 차즘의 정식크루인 버디와 함께 좋은차 좋은가격을 찾아 모험을 떠나는 기분이에요. 모르는것도 안풀리는것도 같이 해결해주는 버디 덕분에 처음 접하는 개인사업자 리스를 정말 좋은 조건과 짧은시간에 출고 받았어요. 앞으로 차즘과 함께 3년마다 갈아타렵니다. 정말 이번에 아주 만족했어요!! 추천드려요!! 박준수 버디 가뭄의 단비라는 표현에 저도 뭉클하네요🥺 차별 없는 견적 비교, 앞으로도 흔들리지 않는 원칙으로 지켜나갈게요. 3년 뒤 꼭 다시 뵙길 바랍니다!",
+        "kind": "href",
+        "fixed": false
+      },
+      "overlays": 2,
+      "ctas": 2,
+      "urgency": 0,
+      "trust": 0,
+      "price": 1
+    }
+  ],
+  "inquiryForm": null
+}

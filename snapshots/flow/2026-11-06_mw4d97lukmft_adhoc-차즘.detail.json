@@ -1,0 +1,365 @@
+{
+  "site": "adhoc-차즘",
+  "siteName": "차즘",
+  "stage": "detail",
+  "url": "https://chazm.co.kr/reviews?id=1055",
+  "capturedAt": "2026-11-06T11:40:42.910+09:00",
+  "ok": true,
+  "httpStatus": null,
+  "flow": {
+    "step": 3,
+    "tapsFromHome": 2,
+    "via": {
+      "from": "list",
+      "text": "최*선님 Model Y · 리스 가뭄에 단비같은 차즘 입니다. 솔직지 그 어떤 리스렌탈업체도 영업사원 수수료가 굉장합니다. 덤탱이죠. 그래서 개인이 차량을 구매계약하고 스스로 케피탈과 계약하는게 가장 저렴합니다. 하지만 그런시대는 이제 끝!! 차즘은 차별없이 모든 케피탈사의 그때그때 견적비교하여 최상의 조건을 찾아줍니다. 이것은 ‘버디’의 도움덕분이죠. 차즘의 정식크루인 버디와 함께 좋은차 좋은가격을 찾아 모험을 떠나는 기분이에요. 모르는것도 안풀리는것도 같이 해결해주는 버디 덕분에 처음 접하는 개인사업자 리스를 정말 좋은 조건과 짧은시간에 출고 받았어요. 앞으로 차즘과 함께 3년마다 갈아타렵니다. 정말 이번에 아주 만족했어요!! 추천드려요!! 박준수 버디 가뭄의 단비라는 표현에 저도 뭉클하네요🥺 차별 없는 견적 비교, 앞으로도 흔들리지 않는 원칙으로 지켜나갈게요. 3년 뒤 꼭 다시 뵙길 바랍니다!",
+      "kind": "href",
+      "href": "https://chazm.co.kr/reviews?id=1055",
+      "fixed": false,
+      "pos": {
+        "x": 1.151,
+        "y": 0.127,
+        "w": 278,
+        "h": 330
+      },
+      "candidates": 6
+    },
+    "loginWall": false,
+    "id": "mw4d97lukmft",
+    "nextNotFound": "inquiry"
+  },
+  "finalUrl": "https://chazm.co.kr/reviews?id=1055",
+  "settledMs": 1405,
+  "warning": "본문 텍스트가 거의 없습니다. 로그인이 필요하거나 화면이 늦게 그려지는 페이지일 수 있습니다.",
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "pageHeight": 844
+  },
+  "title": "이용후기 - 차즘: Chazm",
+  "hero": [
+    {
+      "text": "네트워크가 원활하지 않습니다. 인터넷 연결 상태 확인 후 다시 시도해주세요",
+      "fontSize": 18,
+      "y": 0.412,
+      "appeal": [
+        "price"
+      ]
+    },
+    {
+      "text": "나가기 다시 시도하기",
+      "fontSize": 16,
+      "y": 0.548,
+      "appeal": []
+    }
+  ],
+  "ctas": [
+    {
+      "text": "나가기",
+      "pos": {
+        "x": 0.281,
+        "y": 0.591,
+        "w": 109,
+        "h": 48
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(244, 244, 244)",
+      "color": "rgb(51, 51, 51)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "다시 시도하기",
+      "pos": {
+        "x": 0.65,
+        "y": 0.591,
+        "w": 163,
+        "h": 48
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(0, 0, 0)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": 16,
+      "appeal": []
+    }
+  ],
+  "promo": [],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "header",
+          "purpose": "other",
+          "text": "",
+          "pos": {
+            "x": 0.5,
+            "y": 0.033,
+            "w": 390,
+            "h": 56
+          },
+          "viewportArea": 0.07,
+          "position": "top"
+        },
+        {
+          "kind": "popup",
+          "purpose": "other",
+          "text": "네트워크가 원활하지 않습니다. 인터넷 연결 상태 확인 후 다시 시도해주세요 이용에 불편을 드려 죄송합니다. 나가기 다시 시도하기",
+          "pos": {
+            "x": 0.5,
+            "y": 0.5,
+            "w": 390,
+            "h": 844
+          },
+          "viewportArea": 1,
+          "position": "top"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [],
+    "trust": [],
+    "price": [
+      "네트워크가 원활하지 않습니다."
+    ]
+  },
+  "counts": {
+    "links": 0,
+    "images": 0,
+    "buttons": 3
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.554,
+        "saturation": 0
+      },
+      {
+        "color": "#eeeef3",
+        "share": 0.429,
+        "saturation": 0.02
+      },
+      {
+        "color": "#000000",
+        "share": 0.01,
+        "saturation": 0
+      },
+      {
+        "color": "#f4f4f4",
+        "share": 0.007,
+        "saturation": 0
+      }
+    ],
+    "brand": [],
+    "fonts": {
+      "body": "pretendard",
+      "top": [
+        "pretendard"
+      ],
+      "heading": "pretendard",
+      "baseSize": 16,
+      "headingSize": 18,
+      "boldShare": 0.6
+    },
+    "cta": {
+      "primary": {
+        "text": "다시 시도하기",
+        "bg": "#000000",
+        "color": "#ffffff",
+        "contrast": 21,
+        "height": 48,
+        "widthRatio": 0.42,
+        "fixed": true,
+        "fontSize": 16,
+        "saturated": false
+      },
+      "count": 2,
+      "fixedCount": 2,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": 48,
+      "colors": [
+        "#f4f4f4",
+        "#000000"
+      ]
+    },
+    "fixedViewportShare": 1
+  },
+  "screenshot": "2026-11-06_mw4d97lukmft_adhoc-차즘.detail.jpg",
+  "forms": {
+    "forms": [],
+    "stepIndicator": null,
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [
+      {
+        "key": "google_ads",
+        "label": "Google 광고 (전환태그)",
+        "channel": "구글 검색/디스플레이/유튜브"
+      },
+      {
+        "key": "ga4",
+        "label": "Google Analytics",
+        "channel": "(분석)"
+      },
+      {
+        "key": "gtm",
+        "label": "Google Tag Manager",
+        "channel": "(태그 관리)"
+      },
+      {
+        "key": "meta_pixel",
+        "label": "Meta 픽셀",
+        "channel": "페이스북/인스타그램 광고"
+      },
+      {
+        "key": "naver_ads",
+        "label": "네이버 광고 전환 (wcs)",
+        "channel": "네이버 검색광고/GFA"
+      },
+      {
+        "key": "naver_gfa",
+        "label": "네이버 GFA 픽셀",
+        "channel": "네이버 성과형 디스플레이"
+      },
+      {
+        "key": "kakao_pixel",
+        "label": "카카오 픽셀",
+        "channel": "카카오모먼트/카카오 광고"
+      },
+      {
+        "key": "mixpanel",
+        "label": "Mixpanel",
+        "channel": "(제품 분석)"
+      }
+    ],
+    "ids": {
+      "googleAds": [
+        "AW-16644132305"
+      ],
+      "gtm": [
+        "GTM-K829Z5JR"
+      ],
+      "kakaoPixel": [
+        "3569240421205495413"
+      ]
+    },
+    "paidChannels": [
+      "구글 검색/디스플레이/유튜브",
+      "페이스북/인스타그램 광고",
+      "네이버 검색광고/GFA",
+      "네이버 성과형 디스플레이",
+      "카카오모먼트/카카오 광고"
+    ],
+    "thirdPartyHosts": [
+      "chazm.co.kr",
+      "static.chazm.co.kr",
+      "www.googletagmanager.com",
+      "external.searchos.io",
+      "t1.kakaocdn.net",
+      "appleid.cdn-apple.com",
+      "cdn.chazm.co.kr",
+      "connect.facebook.net",
+      "t1.daumcdn.net",
+      "www.google.com",
+      "www.googleadservices.com",
+      "ad.doubleclick.net",
+      "wcs.naver.net",
+      "karrot-pixel.business.daangn.com",
+      "meta.searchos.io",
+      "googleads.g.doubleclick.net",
+      "openapi.chazm.co.kr",
+      "",
+      "browser-intake-datadoghq.com",
+      "analytics.google.com",
+      "stats.g.doubleclick.net",
+      "collect.daangn.com",
+      "karrot-dsp-conversion-event.daangn.com",
+      "www.facebook.com",
+      "ca-512c45867d9c4bc1a475c476b2170fe5.ecs.ap-northeast-1.on.aws",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "api.notifly.tech",
+      "nam.veta.naver.com",
+      "bc.ds.kakao.com",
+      "e.notifly.tech",
+      "api-js.mixpanel.com"
+    ]
+  },
+  "viewportKey": "mobile",
+  "device": "모바일",
+  "requestId": "mw4d97lukmft",
+  "flowSummary": {
+    "stagesReached": [
+      "home",
+      "list",
+      "detail"
+    ],
+    "reachedInquiry": false,
+    "tapsToInquiry": null,
+    "loginRequired": false,
+    "stoppedAt": "detail",
+    "stopReason": "다음 단계(inquiry) 진입점 미발견",
+    "path": [
+      {
+        "stage": "home",
+        "url": "https://chazm.co.kr/detail?carCatalogId=621&trimCatalogId=5007&productTypeCode=LEASE&usePeriodCode=MONTH_60&mileageCode=KM_10000&advancePaymentRatio=0&utm_source=google&utm_medium=sa&utm_campaign=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_&utm_content=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_%EA%B0%80%EC%9E%85%EC%A0%84%ED%99%98&utm_term=%EB%AA%A8%EB%8D%B8y%EB%A6%AC%EC%8A%A4&utm_source_platform=%EB%AA%A8%EB%8D%B8Y&gad_source=1&gad_campaignid=22434169128&gbraid=0AAAAA-ARTdGFySthtm54_rUrO6EeMqbcV&gclid=Cj0KCQiA77DXBhCHARIsAHf2MNptJSgIbywcRFXLWikZLRVe58IKYlfw3vD7Lk30fam2uNaGmMm--HYaAuMyEALw_wcB",
+        "via": null,
+        "overlays": 1,
+        "ctas": 9,
+        "urgency": 0,
+        "trust": 12,
+        "price": 12
+      },
+      {
+        "stage": "list",
+        "url": "https://chazm.co.kr/detail?carCatalogId=621&trimCatalogId=5007&productTypeCode=LEASE&usePeriodCode=MONTH_60&mileageCode=KM_10000&advancePaymentRatio=0&utm_source=google&utm_medium=sa&utm_campaign=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_&utm_content=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_%EA%B0%80%EC%9E%85%EC%A0%84%ED%99%98&utm_term=%EB%AA%A8%EB%8D%B8y%EB%A6%AC%EC%8A%A4&utm_source_platform=%EB%AA%A8%EB%8D%B8Y&gad_source=1&gad_campaignid=22434169128&gbraid=0AAAAA-ARTdGFySthtm54_rUrO6EeMqbcV&gclid=Cj0KCQiA77DXBhCHARIsAHf2MNptJSgIbywcRFXLWikZLRVe58IKYlfw3vD7Lk30fam2uNaGmMm--HYaAuMyEALw_wcB",
+        "via": {
+          "text": "견적 분석 받아보기",
+          "kind": "click",
+          "fixed": true
+        },
+        "overlays": 3,
+        "ctas": 10,
+        "urgency": 0,
+        "trust": 12,
+        "price": 12
+      },
+      {
+        "stage": "detail",
+        "url": "https://chazm.co.kr/reviews?id=1055",
+        "via": {
+          "text": "최*선님 Model Y · 리스 가뭄에 단비같은 차즘 입니다. 솔직지 그 어떤 리스렌탈업체도 영업사원 수수료가 굉장합니다. 덤탱이죠. 그래서 개인이 차량을 구매계약하고 스스로 케피탈과 계약하는게 가장 저렴합니다. 하지만 그런시대는 이제 끝!! 차즘은 차별없이 모든 케피탈사의 그때그때 견적비교하여 최상의 조건을 찾아줍니다. 이것은 ‘버디’의 도움덕분이죠. 차즘의 정식크루인 버디와 함께 좋은차 좋은가격을 찾아 모험을 떠나는 기분이에요. 모르는것도 안풀리는것도 같이 해결해주는 버디 덕분에 처음 접하는 개인사업자 리스를 정말 좋은 조건과 짧은시간에 출고 받았어요. 앞으로 차즘과 함께 3년마다 갈아타렵니다. 정말 이번에 아주 만족했어요!! 추천드려요!! 박준수 버디 가뭄의 단비라는 표현에 저도 뭉클하네요🥺 차별 없는 견적 비교, 앞으로도 흔들리지 않는 원칙으로 지켜나갈게요. 3년 뒤 꼭 다시 뵙길 바랍니다!",
+          "kind": "href",
+          "fixed": false
+        },
+        "overlays": 2,
+        "ctas": 2,
+        "urgency": 0,
+        "trust": 0,
+        "price": 1
+      }
+    ],
+    "inquiryForm": null
+  },
+  "admin": {
+    "ok": true,
+    "id": "req-mw4d97lukmft-detail"
+  }
+}

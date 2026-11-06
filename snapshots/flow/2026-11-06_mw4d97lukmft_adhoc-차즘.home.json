@@ -1,0 +1,452 @@
+{
+  "site": "adhoc-차즘",
+  "siteName": "차즘",
+  "stage": "home",
+  "url": "https://chazm.co.kr/detail?carCatalogId=621&trimCatalogId=5007&productTypeCode=LEASE&usePeriodCode=MONTH_60&mileageCode=KM_10000&advancePaymentRatio=0&utm_source=google&utm_medium=sa&utm_campaign=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_&utm_content=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_%EA%B0%80%EC%9E%85%EC%A0%84%ED%99%98&utm_term=%EB%AA%A8%EB%8D%B8y%EB%A6%AC%EC%8A%A4&utm_source_platform=%EB%AA%A8%EB%8D%B8Y&gad_source=1&gad_campaignid=22434169128&gbraid=0AAAAA-ARTdGFySthtm54_rUrO6EeMqbcV&gclid=Cj0KCQiA77DXBhCHARIsAHf2MNptJSgIbywcRFXLWikZLRVe58IKYlfw3vD7Lk30fam2uNaGmMm--HYaAuMyEALw_wcB",
+  "capturedAt": "2026-11-06T11:40:03.509+09:00",
+  "ok": true,
+  "httpStatus": 200,
+  "flow": {
+    "step": 1,
+    "tapsFromHome": 0,
+    "via": null,
+    "loginWall": false,
+    "id": "mw4d97lukmft"
+  },
+  "finalUrl": "https://chazm.co.kr/detail?carCatalogId=621&trimCatalogId=5007&productTypeCode=LEASE&usePeriodCode=MONTH_60&mileageCode=KM_10000&advancePaymentRatio=0&utm_source=google&utm_medium=sa&utm_campaign=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_&utm_content=SA_%EC%A3%BC%EB%8B%88%ED%8D%BC%ED%82%A4%EC%9B%8C%EB%93%9C_%EA%B0%80%EC%9E%85%EC%A0%84%ED%99%98&utm_term=%EB%AA%A8%EB%8D%B8y%EB%A6%AC%EC%8A%A4&utm_source_platform=%EB%AA%A8%EB%8D%B8Y&gad_source=1&gad_campaignid=22434169128&gbraid=0AAAAA-ARTdGFySthtm54_rUrO6EeMqbcV&gclid=Cj0KCQiA77DXBhCHARIsAHf2MNptJSgIbywcRFXLWikZLRVe58IKYlfw3vD7Lk30fam2uNaGmMm--HYaAuMyEALw_wcB",
+  "settledMs": 1410,
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "pageHeight": 19988
+  },
+  "title": "상세페이지 - 차즘: Chazm",
+  "hero": [
+    {
+      "text": "Model Y",
+      "fontSize": 26,
+      "y": 0.003,
+      "appeal": []
+    },
+    {
+      "text": "Model Y 차량 정보 트림 Premium RWD",
+      "fontSize": 16,
+      "y": 0.003,
+      "appeal": []
+    },
+    {
+      "text": "트림 Premium RWD",
+      "fontSize": 16,
+      "y": 0.009,
+      "appeal": []
+    }
+  ],
+  "ctas": [
+    {
+      "text": "트림 Premium RWD",
+      "pos": {
+        "x": 0.5,
+        "y": 0.01,
+        "w": 360,
+        "h": 66
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "옵션 추가된 리포트받기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.048,
+        "w": 326,
+        "h": 44
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "2,125개 후기 전체보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.138,
+        "w": 350,
+        "h": 48
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(244, 244, 244)",
+      "color": "rgb(51, 51, 51)",
+      "fontSize": 15,
+      "appeal": [
+        "trust"
+      ]
+    },
+    {
+      "text": "Q 이용하면 신용 등급에 영향이 있나요?",
+      "pos": {
+        "x": 0.5,
+        "y": 0.172,
+        "w": 390,
+        "h": 68
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "Q 선납금 말고 보증금도 낼 수 있나요?",
+      "pos": {
+        "x": 0.5,
+        "y": 0.179,
+        "w": 390,
+        "h": 68
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "trust"
+      ]
+    },
+    {
+      "text": "Q 대물보험 한도는 얼마나 되나요?",
+      "pos": {
+        "x": 0.5,
+        "y": 0.186,
+        "w": 390,
+        "h": 68
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "Q 계약이 끝나면 차를 인수할 수도 있나요?",
+      "pos": {
+        "x": 0.5,
+        "y": 0.189,
+        "w": 390,
+        "h": 68
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "FAQ 모두 보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.193,
+        "w": 350,
+        "h": 48
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(244, 244, 244)",
+      "color": "rgb(51, 51, 51)",
+      "fontSize": 15,
+      "appeal": []
+    },
+    {
+      "text": "견적 분석 받아보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.04,
+        "w": 358,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(0, 0, 0)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": 17,
+      "appeal": []
+    }
+  ],
+  "promo": [
+    {
+      "label": "마디코 x 차즘 틴팅 혜택",
+      "pos": {
+        "x": 0.5,
+        "y": 0.056,
+        "w": 350,
+        "h": 157
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "bottom-bar",
+          "purpose": "cta",
+          "text": "견적 분석 받아보기",
+          "pos": {
+            "x": 0.5,
+            "y": 0.04,
+            "w": 390,
+            "h": 90
+          },
+          "viewportArea": 0.11,
+          "position": "bottom"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [],
+    "trust": [
+      "2,125개의 후기도 살펴보세요",
+      "2,125개 후기 전체보기",
+      "선납금 말고 보증금도 낼 수 있나요?",
+      "상환능력에 비해 대출금이 과도할 경우, 귀하의 개인신용평점이 하락할 수 있습니다.",
+      "개인신용평점 하락 시, 금융거래와 관련된 불이익이 발생할 수 있습니다.",
+      "개인신용평점 하락 시 금융거래와 관련된 불이익이 발생할 수 있습니다.",
+      "렌터카 취급이 부적정한 경우(연체금 보유, 개인신용평점 낮음) 취급이 제한될 수 있습니다.",
+      "개인신용평점 하락 시 렌트계약과 관련하여 불이익이 발생할 수 있습니다.",
+      "상환능력에 비해 대출금이 과도할 경우, 귀하의 개인신용 평점이 하락할 수 있습니다.",
+      "[운용리스] 이용기간, 보증금/선납금, 잔가율에 따라 다르게 적용됨",
+      "개인신용평점하락 시 금융거래와 관련된 불이익이 발생할 수 있습니다.",
+      "대출취급이 부적정한 경우(개인신용평점 낮음 등) 대출이 제한될 수 있습니다."
+    ],
+    "price": [
+      "17개사 견적 중 최저가",
+      "월 746,020원",
+      "월 595,600원",
+      "마디코 x 차즘 틴팅 혜택",
+      "자기부담금 지원",
+      "월 납입금 할인",
+      "1년 무료",
+      "솔직지 그 어떤 리스렌탈업체도 영업사원 수수료가 굉장합니다.",
+      "내가 원하는 옵션이 있을것",
+      "여러곳 비교하니 다른곳보다 약 월 5만원 저렴했고",
+      "원하는 옵션 있었고",
+      "원할 경우"
+    ]
+  },
+  "counts": {
+    "links": 30,
+    "images": 23,
+    "buttons": 38
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.495,
+        "saturation": 0
+      },
+      {
+        "color": "#f5f7f9",
+        "share": 0.234,
+        "saturation": 0.02
+      },
+      {
+        "color": "#eeeef3",
+        "share": 0.131,
+        "saturation": 0.02
+      },
+      {
+        "color": "#f9fafb",
+        "share": 0.105,
+        "saturation": 0.01
+      },
+      {
+        "color": "#f4f4f4",
+        "share": 0.014,
+        "saturation": 0
+      },
+      {
+        "color": "#fff1eb",
+        "share": 0.011,
+        "saturation": 0.08
+      }
+    ],
+    "brand": [
+      {
+        "color": "#ff5b16",
+        "share": 1,
+        "saturation": 0.91,
+        "by": "count"
+      }
+    ],
+    "fonts": {
+      "body": "pretendard",
+      "top": [
+        "pretendard"
+      ],
+      "heading": "pretendard",
+      "baseSize": 16,
+      "headingSize": 16,
+      "boldShare": 0.28
+    },
+    "cta": {
+      "primary": {
+        "text": "견적 분석 받아보기",
+        "bg": "#000000",
+        "color": "#ffffff",
+        "contrast": 21,
+        "height": 56,
+        "widthRatio": 0.92,
+        "fixed": true,
+        "fontSize": 17,
+        "saturated": false
+      },
+      "count": 9,
+      "fixedCount": 1,
+      "fullWidthCount": 8,
+      "saturatedCount": 0,
+      "avgHeight": 59,
+      "colors": [
+        "#ffffff",
+        "#f4f4f4",
+        "#000000"
+      ]
+    },
+    "fixedViewportShare": 0.11
+  },
+  "screenshot": "2026-11-06_mw4d97lukmft_adhoc-차즘.home.jpg",
+  "forms": {
+    "forms": [],
+    "stepIndicator": "Step 1\n",
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [
+      {
+        "key": "google_ads",
+        "label": "Google 광고 (전환태그)",
+        "channel": "구글 검색/디스플레이/유튜브"
+      },
+      {
+        "key": "ga4",
+        "label": "Google Analytics",
+        "channel": "(분석)"
+      },
+      {
+        "key": "gtm",
+        "label": "Google Tag Manager",
+        "channel": "(태그 관리)"
+      },
+      {
+        "key": "meta_pixel",
+        "label": "Meta 픽셀",
+        "channel": "페이스북/인스타그램 광고"
+      },
+      {
+        "key": "naver_ads",
+        "label": "네이버 광고 전환 (wcs)",
+        "channel": "네이버 검색광고/GFA"
+      },
+      {
+        "key": "naver_gfa",
+        "label": "네이버 GFA 픽셀",
+        "channel": "네이버 성과형 디스플레이"
+      },
+      {
+        "key": "kakao_pixel",
+        "label": "카카오 픽셀",
+        "channel": "카카오모먼트/카카오 광고"
+      },
+      {
+        "key": "mixpanel",
+        "label": "Mixpanel",
+        "channel": "(제품 분석)"
+      }
+    ],
+    "ids": {
+      "googleAds": [
+        "AW-16644132305"
+      ],
+      "gtm": [
+        "GTM-K829Z5JR"
+      ],
+      "kakaoPixel": [
+        "3569240421205495413"
+      ]
+    },
+    "paidChannels": [
+      "구글 검색/디스플레이/유튜브",
+      "페이스북/인스타그램 광고",
+      "네이버 검색광고/GFA",
+      "네이버 성과형 디스플레이",
+      "카카오모먼트/카카오 광고"
+    ],
+    "thirdPartyHosts": [
+      "chazm.co.kr",
+      "static.chazm.co.kr",
+      "www.googletagmanager.com",
+      "external.searchos.io",
+      "t1.kakaocdn.net",
+      "appleid.cdn-apple.com",
+      "cdn.chazm.co.kr",
+      "connect.facebook.net",
+      "t1.daumcdn.net",
+      "www.google.com",
+      "www.googleadservices.com",
+      "ad.doubleclick.net",
+      "wcs.naver.net",
+      "karrot-pixel.business.daangn.com",
+      "meta.searchos.io",
+      "googleads.g.doubleclick.net",
+      "openapi.chazm.co.kr",
+      "",
+      "browser-intake-datadoghq.com",
+      "analytics.google.com",
+      "stats.g.doubleclick.net",
+      "collect.daangn.com",
+      "karrot-dsp-conversion-event.daangn.com",
+      "www.facebook.com",
+      "ca-512c45867d9c4bc1a475c476b2170fe5.ecs.ap-northeast-1.on.aws",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "api.notifly.tech",
+      "nam.veta.naver.com",
+      "bc.ds.kakao.com",
+      "e.notifly.tech",
+      "api-js.mixpanel.com"
+    ]
+  },
+  "viewportKey": "mobile",
+  "device": "모바일",
+  "requestId": "mw4d97lukmft",
+  "admin": {
+    "ok": true,
+    "id": "req-mw4d97lukmft-home"
+  }
+}
