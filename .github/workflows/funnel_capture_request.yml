@@ -29,7 +29,7 @@ jobs:
 
       - name: Capture
         env:
-          FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL }}
+          FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL || 'https://goranisee.netlify.app' }}
           FUNNEL_ADMIN_PASSWORD: ${{ secrets.FUNNEL_ADMIN_PASSWORD }}
           P_URL: ${{ github.event.client_payload.url }}
           P_COMP: ${{ github.event.client_payload.competitor }}

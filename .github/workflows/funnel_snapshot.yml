@@ -45,7 +45,7 @@ jobs:
       - name: Run funnel collector
         env:
           # 이 저장소의 어드민 자동 전송. 비우면 저장소에만 쌓임.
-          FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL }}
+          FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL || 'https://goranisee.netlify.app' }}
           FUNNEL_ADMIN_PASSWORD: ${{ secrets.FUNNEL_ADMIN_PASSWORD }}
         run: |
           ARGS=""

@@ -24,7 +24,7 @@ snapshots/
 
 | Secret | 값 |
 |---|---|
-| `FUNNEL_ADMIN_URL` | `https://goranisee.netlify.app` |
+| `FUNNEL_ADMIN_URL` | (선택) 기본값 `https://goranisee.netlify.app` — 다른 주소일 때만 |
 | `FUNNEL_ADMIN_PASSWORD` | 어드민 `ADMIN_PASSWORD`와 같은 값 |
 
 둘 중 하나라도 없으면 전송을 건너뛰고 저장소에만 쌓습니다. 단계 이름은 `funnel_targets.json`의 `stages[].adminStage`로 어드민 선택지에 맞춥니다
