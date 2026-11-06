@@ -1,0 +1,246 @@
+{
+  "site": "adhoc-chazm-co-kr",
+  "siteName": "chazm.co.kr",
+  "stage": "home",
+  "url": "https://chazm.co.kr/",
+  "capturedAt": "2026-11-06T09:31:38.435+09:00",
+  "ok": true,
+  "httpStatus": 200,
+  "finalUrl": "https://chazm.co.kr/",
+  "settledMs": 1405,
+  "viewport": {
+    "w": 1280,
+    "h": 800,
+    "pageHeight": 3481
+  },
+  "title": "신차 리스·장기렌트 견적 비교 - 차즘(Chazm)",
+  "hero": [
+    {
+      "text": "차가 필요한 순간,",
+      "fontSize": 24,
+      "y": -0.001,
+      "appeal": []
+    },
+    {
+      "text": "빠르게 만나요 2주 만에 집 앞으로",
+      "fontSize": 20,
+      "y": 0.127,
+      "appeal": []
+    },
+    {
+      "text": "읽어보면 도움되는 아티클",
+      "fontSize": 20,
+      "y": 0.253,
+      "appeal": []
+    }
+  ],
+  "ctas": [
+    {
+      "text": "차즘 vs 타사 견적, 직접 비교했어요.",
+      "pos": {
+        "x": 0.5,
+        "y": 0.281,
+        "w": 332,
+        "h": 96
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [],
+      "href": "https://chazm.co.kr/post/59"
+    },
+    {
+      "text": "차즘의 견적이 합리적인 이유",
+      "pos": {
+        "x": 0.5,
+        "y": 0.313,
+        "w": 332,
+        "h": 96
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [],
+      "href": "https://chazm.co.kr/post/60"
+    }
+  ],
+  "promo": [
+    {
+      "label": "빠르게 만나요 2주 만에 집 앞으로",
+      "pos": {
+        "x": 0.5,
+        "y": 0.135,
+        "w": 332,
+        "h": 56
+      },
+      "items": 1,
+      "images": 14,
+      "kind": "reco"
+    },
+    {
+      "label": "읽어보면 도움되는 아티클",
+      "pos": {
+        "x": 0.5,
+        "y": 0.257,
+        "w": 332,
+        "h": 28
+      },
+      "items": 7,
+      "images": 3,
+      "kind": "reco"
+    },
+    {
+      "label": "자주묻는 질문",
+      "pos": {
+        "x": 0.5,
+        "y": 0.669,
+        "w": 340,
+        "h": 28
+      },
+      "items": 6,
+      "images": 0,
+      "kind": "reco"
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "floating",
+          "purpose": "other",
+          "text": "홈 차량찾기 내차고 차주Q&A 마이",
+          "pos": {
+            "x": 0.5,
+            "y": 0.22,
+            "w": 420,
+            "h": 69
+          },
+          "viewportArea": 0.03,
+          "position": "bottom"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [
+      "2주 안에 도착하는 한정 물량이에요"
+    ],
+    "trust": [
+      "출고후기"
+    ],
+    "price": [
+      "2년무료!",
+      "더 든든해진 혜택",
+      "150만원 상당 틴팅•하이패스 지원",
+      "최대 600만원 받고",
+      "총 1,500만원의 지원금",
+      "50만원 지원금과 함께",
+      "월 50만원대에",
+      "선납금 200만원 지원",
+      "월 499,200원~",
+      "월 243,800원~",
+      "월 606,980원~",
+      "월 405,500원~"
+    ]
+  },
+  "counts": {
+    "links": 60,
+    "images": 42,
+    "buttons": 8
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#f5f7f9",
+        "share": 0.332,
+        "saturation": 0.02
+      },
+      {
+        "color": "#eeeef3",
+        "share": 0.249,
+        "saturation": 0.02
+      },
+      {
+        "color": "#ffffff",
+        "share": 0.231,
+        "saturation": 0
+      },
+      {
+        "color": "#6d7280",
+        "share": 0.053,
+        "saturation": 0.15
+      },
+      {
+        "color": "#c5ccd7",
+        "share": 0.053,
+        "saturation": 0.08
+      },
+      {
+        "color": "#ababab",
+        "share": 0.043,
+        "saturation": 0
+      }
+    ],
+    "brand": [
+      {
+        "color": "#ff5b16",
+        "share": 1,
+        "saturation": 0.91,
+        "by": "count"
+      }
+    ],
+    "fonts": {
+      "body": "pretendard",
+      "top": [
+        "pretendard"
+      ],
+      "heading": "pretendard",
+      "baseSize": 16,
+      "headingSize": 20,
+      "boldShare": 0.58
+    },
+    "cta": {
+      "primary": {
+        "text": "차즘 vs 타사 견적, 직접 비교했어요.",
+        "bg": "#ffffff",
+        "color": "#000000",
+        "contrast": 21,
+        "height": 96,
+        "widthRatio": 0.26,
+        "fixed": false,
+        "fontSize": 16,
+        "saturated": false
+      },
+      "count": 2,
+      "fixedCount": 0,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": 96,
+      "colors": [
+        "#ffffff"
+      ]
+    },
+    "fixedViewportShare": 0.03
+  },
+  "screenshot": "2026-11-06_mw48n7lwhlxu_adhoc-chazm-co-kr.desktop.jpg",
+  "viewportKey": "desktop",
+  "device": "데스크톱",
+  "requestId": "mw48n7lwhlxu"
+}
