@@ -1,0 +1,38 @@
+{
+  "stagesReached": [
+    "home",
+    "list"
+  ],
+  "reachedInquiry": false,
+  "tapsToInquiry": null,
+  "loginRequired": false,
+  "stoppedAt": "list",
+  "stopReason": "다음 단계(detail) 진입점 미발견",
+  "path": [
+    {
+      "stage": "home",
+      "url": "https://chazm.co.kr/",
+      "via": null,
+      "overlays": 1,
+      "ctas": 5,
+      "urgency": 1,
+      "trust": 1,
+      "price": 12
+    },
+    {
+      "stage": "list",
+      "url": "https://chazm.co.kr/product/ready",
+      "via": {
+        "text": "더보기",
+        "kind": "href",
+        "fixed": false
+      },
+      "overlays": 2,
+      "ctas": 2,
+      "urgency": 0,
+      "trust": 0,
+      "price": 2
+    }
+  ],
+  "inquiryForm": null
+}

@@ -1,0 +1,353 @@
+{
+  "site": "adhoc-차즘",
+  "siteName": "차즘",
+  "stage": "list",
+  "url": "https://chazm.co.kr/product/ready",
+  "capturedAt": "2026-11-06T10:15:50.887+09:00",
+  "ok": true,
+  "httpStatus": null,
+  "flow": {
+    "step": 2,
+    "tapsFromHome": 1,
+    "via": {
+      "from": "home",
+      "text": "더보기",
+      "kind": "href",
+      "href": "https://chazm.co.kr/product/ready",
+      "fixed": false,
+      "pos": {
+        "x": 0.5,
+        "y": 0.224,
+        "w": 302,
+        "h": 52
+      },
+      "candidates": 11
+    },
+    "loginWall": false,
+    "id": "flow1017",
+    "nextNotFound": "detail"
+  },
+  "finalUrl": "https://chazm.co.kr/product/ready",
+  "settledMs": 1406,
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "pageHeight": 844
+  },
+  "title": "지금 가능한 모든 차 빠릿 출고 - 원하는 차 2주 안에 받는 방법",
+  "hero": [
+    {
+      "text": "네트워크가 원활하지 않습니다. 인터넷 연결 상태 확인 후 다시 시도해주세요",
+      "fontSize": 18,
+      "y": 0.412,
+      "appeal": [
+        "price"
+      ]
+    },
+    {
+      "text": "나가기 다시 시도하기",
+      "fontSize": 16,
+      "y": 0.548,
+      "appeal": []
+    }
+  ],
+  "ctas": [
+    {
+      "text": "나가기",
+      "pos": {
+        "x": 0.281,
+        "y": 0.591,
+        "w": 109,
+        "h": 48
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(244, 244, 244)",
+      "color": "rgb(51, 51, 51)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "다시 시도하기",
+      "pos": {
+        "x": 0.65,
+        "y": 0.591,
+        "w": 163,
+        "h": 48
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(0, 0, 0)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": 16,
+      "appeal": []
+    }
+  ],
+  "promo": [],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "header",
+          "purpose": "other",
+          "text": "",
+          "pos": {
+            "x": 0.5,
+            "y": 0.033,
+            "w": 390,
+            "h": 56
+          },
+          "viewportArea": 0.07,
+          "position": "top"
+        },
+        {
+          "kind": "popup",
+          "purpose": "other",
+          "text": "네트워크가 원활하지 않습니다. 인터넷 연결 상태 확인 후 다시 시도해주세요 이용에 불편을 드려 죄송합니다. 나가기 다시 시도하기",
+          "pos": {
+            "x": 0.5,
+            "y": 0.5,
+            "w": 390,
+            "h": 844
+          },
+          "viewportArea": 1,
+          "position": "top"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [],
+    "trust": [],
+    "price": [
+      "모집법인 임직원 명단",
+      "네트워크가 원활하지 않습니다."
+    ]
+  },
+  "counts": {
+    "links": 13,
+    "images": 4,
+    "buttons": 3
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.4,
+        "saturation": 0
+      },
+      {
+        "color": "#eeeef3",
+        "share": 0.326,
+        "saturation": 0.02
+      },
+      {
+        "color": "#f5f7f9",
+        "share": 0.24,
+        "saturation": 0.02
+      },
+      {
+        "color": "#f4f4f4",
+        "share": 0.027,
+        "saturation": 0
+      },
+      {
+        "color": "#000000",
+        "share": 0.008,
+        "saturation": 0
+      }
+    ],
+    "brand": [],
+    "fonts": {
+      "body": "pretendard",
+      "top": [
+        "pretendard"
+      ],
+      "heading": "pretendard",
+      "baseSize": 16,
+      "headingSize": 18,
+      "boldShare": 0.28
+    },
+    "cta": {
+      "primary": {
+        "text": "다시 시도하기",
+        "bg": "#000000",
+        "color": "#ffffff",
+        "contrast": 21,
+        "height": 48,
+        "widthRatio": 0.42,
+        "fixed": true,
+        "fontSize": 16,
+        "saturated": false
+      },
+      "count": 2,
+      "fixedCount": 2,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": 48,
+      "colors": [
+        "#f4f4f4",
+        "#000000"
+      ]
+    },
+    "fixedViewportShare": 1
+  },
+  "screenshot": "2026-11-06_flow1017_adhoc-차즘.list.jpg",
+  "forms": {
+    "forms": [],
+    "stepIndicator": null,
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [
+      {
+        "key": "google_ads",
+        "label": "Google 광고 (전환태그)",
+        "channel": "구글 검색/디스플레이/유튜브"
+      },
+      {
+        "key": "ga4",
+        "label": "Google Analytics",
+        "channel": "(분석)"
+      },
+      {
+        "key": "gtm",
+        "label": "Google Tag Manager",
+        "channel": "(태그 관리)"
+      },
+      {
+        "key": "meta_pixel",
+        "label": "Meta 픽셀",
+        "channel": "페이스북/인스타그램 광고"
+      },
+      {
+        "key": "naver_ads",
+        "label": "네이버 광고 전환 (wcs)",
+        "channel": "네이버 검색광고/GFA"
+      },
+      {
+        "key": "naver_gfa",
+        "label": "네이버 GFA 픽셀",
+        "channel": "네이버 성과형 디스플레이"
+      },
+      {
+        "key": "kakao_pixel",
+        "label": "카카오 픽셀",
+        "channel": "카카오모먼트/카카오 광고"
+      },
+      {
+        "key": "mixpanel",
+        "label": "Mixpanel",
+        "channel": "(제품 분석)"
+      }
+    ],
+    "ids": {
+      "googleAds": [
+        "AW-16644132305"
+      ],
+      "gtm": [
+        "GTM-K829Z5JR"
+      ],
+      "kakaoPixel": [
+        "3569240421205495413"
+      ]
+    },
+    "paidChannels": [
+      "구글 검색/디스플레이/유튜브",
+      "페이스북/인스타그램 광고",
+      "네이버 검색광고/GFA",
+      "네이버 성과형 디스플레이",
+      "카카오모먼트/카카오 광고"
+    ],
+    "thirdPartyHosts": [
+      "chazm.co.kr",
+      "static.chazm.co.kr",
+      "www.googletagmanager.com",
+      "external.searchos.io",
+      "t1.kakaocdn.net",
+      "appleid.cdn-apple.com",
+      "cdn.chazm.co.kr",
+      "connect.facebook.net",
+      "t1.daumcdn.net",
+      "www.google.com",
+      "ad.doubleclick.net",
+      "wcs.naver.net",
+      "karrot-pixel.business.daangn.com",
+      "meta.searchos.io",
+      "googleads.g.doubleclick.net",
+      "analytics.google.com",
+      "stats.g.doubleclick.net",
+      "collect.daangn.com",
+      "karrot-dsp-conversion-event.daangn.com",
+      "",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "www.facebook.com",
+      "browser-intake-datadoghq.com",
+      "nam.veta.naver.com",
+      "bc.ds.kakao.com",
+      "api.notifly.tech",
+      "openapi.chazm.co.kr",
+      "e.notifly.tech",
+      "api-js.mixpanel.com"
+    ]
+  },
+  "viewportKey": "mobile",
+  "device": "모바일",
+  "requestId": "flow1017",
+  "flowSummary": {
+    "stagesReached": [
+      "home",
+      "list"
+    ],
+    "reachedInquiry": false,
+    "tapsToInquiry": null,
+    "loginRequired": false,
+    "stoppedAt": "list",
+    "stopReason": "다음 단계(detail) 진입점 미발견",
+    "path": [
+      {
+        "stage": "home",
+        "url": "https://chazm.co.kr/",
+        "via": null,
+        "overlays": 1,
+        "ctas": 5,
+        "urgency": 1,
+        "trust": 1,
+        "price": 12
+      },
+      {
+        "stage": "list",
+        "url": "https://chazm.co.kr/product/ready",
+        "via": {
+          "text": "더보기",
+          "kind": "href",
+          "fixed": false
+        },
+        "overlays": 2,
+        "ctas": 2,
+        "urgency": 0,
+        "trust": 0,
+        "price": 2
+      }
+    ],
+    "inquiryForm": null
+  },
+  "admin": {
+    "ok": true,
+    "id": "req-flow1017-list"
+  }
+}
