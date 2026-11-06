@@ -439,12 +439,12 @@ function attachRequestLog(page) {
 /* 링크 이동과 '신청' 버튼 클릭까지만. 입력·제출은 절대 하지 않음.                 */
 /* ------------------------------------------------------------------ */
 const NEXT_RULES = {
-  list:    { text: /차량|매물|전체|보기|찾기|검색|둘러보|리스트|견적|시작|구독|렌트|리스|모델/, hrefNot: /login|signin|member|event|notice|faq|terms|privacy|#$/i },
-  detail:  { href: /detail|view|\/car[s]?\/|\/vehicle|\/model|\/product|\/item|id=|catalog|trim/i, hrefNot: /login|signin|list|search|category/i },
+  list:    { text: /차량|매물|전체|보기|찾기|검색|둘러보|리스트|견적|시작|구독|렌트|리스|모델/, strong: /차량|매물|전체 ?차량|전체 ?보기|차 ?찾기|검색|둘러보|모델|견적/, weak: /^더 ?보기$|^더보기 ?>?$|아티클|소식|이벤트|공지/, hrefHint: /car|vehicle|list|search|model|product|catalog|estimate/i, hrefNot: /login|signin|member|event|notice|faq|terms|privacy|article|blog|news|#$/i },
+  detail:  { href: /detail|view|\/car[s]?\/|\/vehicle|\/model|\/product|\/item|id=|catalog|trim|estimate|quote/i, hrefNot: /login|signin|category|article|blog|news|faq/i },
   inquiry: { text: /견적|신청|상담|문의|구매|예약|계약|시작하기|받기|바로 가기|이용하기/, hrefNot: /login|signin/i },
 };
 const FIND_NEXT = ({ stage, rule: rs }) => {
-  const rule = { text: rs.text ? new RegExp(rs.text, 'i') : null, href: rs.href ? new RegExp(rs.href, 'i') : null, hrefNot: rs.hrefNot ? new RegExp(rs.hrefNot, 'i') : null };
+  const rule = { text: rs.text ? new RegExp(rs.text, 'i') : null, href: rs.href ? new RegExp(rs.href, 'i') : null, hrefNot: rs.hrefNot ? new RegExp(rs.hrefNot, 'i') : null, strong: rs.strong ? new RegExp(rs.strong, 'i') : null, weak: rs.weak ? new RegExp(rs.weak, 'i') : null, hrefHint: rs.hrefHint ? new RegExp(rs.hrefHint, 'i') : null };
   const vis = el => { const r = el.getBoundingClientRect(); const cs = getComputedStyle(el); return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none' && cs.opacity !== '0'; };
   const txt = el => (el.innerText || el.textContent || el.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
   const pageH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, 1), vh = innerHeight, vw = innerWidth;
@@ -463,7 +463,7 @@ const FIND_NEXT = ({ stage, rule: rs }) => {
     if (href && href.replace(/#.*$/, '') === location.href.replace(/#.*$/, '')) continue;
     let score = 0;
     if (stage === 'detail') { if (!href || !rule.href.test(href)) continue; if (el.querySelector('img') || el.closest('li, article, [class*=card], [class*=item]')?.querySelector('img')) score += 2; if (/원|만원|km|년/.test(txt(el.closest('li, article, [class*=card], [class*=item]') || el))) score += 1; score -= absY(el) / pageH; }
-    else { if (!t || t.length > 30 || !rule.text.test(t)) continue; if (fixed(el)) score += 3; if (r.width >= vw * 0.6) score += 2; if (el.tagName === 'BUTTON' || el.getAttribute('role') === 'button') score += 1; const bg = getComputedStyle(el).backgroundColor; if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') score += 1; if (absY(el) < vh) score += 1; if (stage === 'list' && !href) score -= 2; }
+    else { if (!t || t.length > 30 || !rule.text.test(t)) continue; if (rule.strong && rule.strong.test(t)) score += 3; if (rule.weak && rule.weak.test(t)) score -= 3; if (rule.hrefHint && href && rule.hrefHint.test(href)) score += 2; if (fixed(el)) score += 3; if (r.width >= vw * 0.6) score += 2; if (el.tagName === 'BUTTON' || el.getAttribute('role') === 'button') score += 1; const bg = getComputedStyle(el).backgroundColor; if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') score += 1; if (absY(el) < vh) score += 1; if (stage === 'list' && !href) score -= 2; }
     cands.push({ el, score, t, href, fixed: fixed(el), x: +((r.left + r.width / 2) / vw).toFixed(3), y: +((absY(el) + r.height / 2) / pageH).toFixed(3), w: Math.round(r.width), h: Math.round(r.height) });
   }
   cands.sort((a, b) => b.score - a.score);
@@ -492,7 +492,7 @@ async function runFlow(context, site, startUrl, cfg, vp, outDir, base, onStep) {
       if (!result.ok || result.flow.loginWall) break;
       const next = order[i + 1]; if (!next) break;
       const rs = NEXT_RULES[next];
-      const found = await page.evaluate(FIND_NEXT, { stage: next, rule: { text: rs.text && rs.text.source, href: rs.href && rs.href.source, hrefNot: rs.hrefNot && rs.hrefNot.source } }).catch(e => { log('  FIND_NEXT 오류: ' + e.message); return null; });
+      const found = await page.evaluate(FIND_NEXT, { stage: next, rule: { text: rs.text && rs.text.source, href: rs.href && rs.href.source, hrefNot: rs.hrefNot && rs.hrefNot.source, strong: rs.strong && rs.strong.source, weak: rs.weak && rs.weak.source, hrefHint: rs.hrefHint && rs.hrefHint.source } }).catch(e => { log('  FIND_NEXT 오류: ' + e.message); return null; });
       if (!found) { log(`  ⏹ ${stage} → ${next}: 다음 단계로 가는 링크/버튼을 찾지 못했습니다`); steps[steps.length - 1].flow.nextNotFound = next; break; }
       via = { from: stage, text: sanitize(found.t), kind: found.kind, href: found.href || null, fixed: found.fixed, pos: { x: found.x, y: found.y, w: found.w, h: found.h }, candidates: found.candidates };
       log(`  → ${next}: "${via.text}" (${found.kind}${found.fixed ? ', 고정' : ''})`);
