@@ -199,7 +199,21 @@ function renderCompare() {
 let CAP_Q = [];
 try { CAP_Q = JSON.parse(localStorage.getItem("capQueue") || "[]"); } catch {}
 const saveQ = () => { try { localStorage.setItem("capQueue", JSON.stringify(CAP_Q.slice(0, 30))); } catch {} };
+// 자동 수집이 막힌/오류 창이 남은 페이지 → 휴대폰 재수집 목록
+let REDO_DONE = []; try { REDO_DONE = JSON.parse(localStorage.getItem("redoDone") || "[]"); } catch {}
+function renderRedo() {
+  const el = $("#cap-redo"); if (!el) return;
+  const bad = ALL.filter((c) => c.stage !== "광고데이터" && (c.data?.captureError || /사이트 오류 창이 남아|접근 차단/.test(c.data?.warning || "") || (c.data?.siteErrorSeen && /오류 창/.test(c.note || ""))) && !REDO_DONE.includes(c.id));
+  // 같은 URL에 더 최신 정상 캡처가 있으면 해결된 것으로 봄
+  const need = bad.filter((c) => !ALL.some((x) => x.competitor === c.competitor && x.url === c.url && !x.data?.captureError && !/사이트 오류 창이 남아/.test(x.data?.warning || "") && new Date(x.captured_at) > new Date(c.captured_at)));
+  if (!need.length) { el.innerHTML = ""; return; }
+  el.innerHTML = `<h3 style="font-size:14px;margin:0 0 6px">휴대폰 재수집 필요 <span style="font-weight:400;color:var(--muted);font-size:12px">자동 수집(해외 IP)이 막히거나 사이트 오류 창이 남은 페이지 ${need.length}건 — 휴대폰 즐겨찾기로 캡처하면 자동으로 이 목록에서 빠집니다</span></h3>
+    ${need.map((c) => `<div class="cap-row" style="grid-template-columns:1fr 1fr auto"><span class="u" title="${esc(c.url)}"><b>${esc(c.competitor)}</b> · ${esc(c.stage)} · ${esc(c.url)}</span><span class="t">${esc(c.data?.captureError || c.data?.warning || "").slice(0, 80)}</span><span><button class="sm" data-copy-url="${esc(c.url)}">주소 복사</button> <button class="sm" data-redo-done="${c.id}" title="목록에서 숨기기">완료</button></span></div>`).join("")}`;
+  el.querySelectorAll("[data-copy-url]").forEach((b) => b.addEventListener("click", () => navigator.clipboard.writeText(b.dataset.copyUrl).then(() => toast("주소 복사됨 — 휴대폰에서 열어 즐겨찾기로 캡처")).catch(() => toast(b.dataset.copyUrl))));
+  el.querySelectorAll("[data-redo-done]").forEach((b) => b.addEventListener("click", () => { REDO_DONE.push(b.dataset.redoDone); try { localStorage.setItem("redoDone", JSON.stringify(REDO_DONE.slice(-200))); } catch {} renderRedo(); }));
+}
 function renderCaptureQueue() {
+  renderRedo();
   const el = $("#cap-queue"); if (!el) return;
   $("#cap-comp-list").innerHTML = [...new Set(ALL.map((c) => c.competitor))].sort().map((c) => `<option value="${esc(c)}">`).join("");
   if (!CAP_Q.length) { el.innerHTML = ""; return; }
