@@ -29,7 +29,7 @@ $("#btn-logout").addEventListener("click", async () => { await fetch("/api/login
 async function load() {
   try {
     ALL = await api("/api/captures");
-    const comps = [...new Set(ALL.map((c) => c.competitor))].sort();
+    const comps = [...new Set(ALL.filter((c) => c.stage !== "광고데이터").map((c) => c.competitor))].sort();
     const sel = $("#f-comp");
     const prev = [...sel.selectedOptions].map((o) => o.value);
     sel.innerHTML = comps.map((c) => `<option ${prev.includes(c) || !prev.length ? "selected" : ""}>${esc(c)}</option>`).join("");
@@ -372,7 +372,7 @@ function diffHtml(cur, prev) {
 // ---------- 타임라인 ----------
 function renderTimeline() {
   const dev = $("#f-device").value, comps0 = [...$("#f-comp").selectedOptions].map((o) => o.value);
-  const rows = ALL.filter((c) => (!dev || c.device === dev) && (!comps0.length || comps0.includes(c.competitor)));
+  const rows = ALL.filter((c) => c.stage !== "광고데이터" && (!dev || c.device === dev) && (!comps0.length || comps0.includes(c.competitor)));
   const el = $("#tab-timeline");
   if (!rows.length) { el.innerHTML = `<div class="empty">수집 이력이 없습니다.</div>`; return; }
   const comps = [...new Set(rows.map((c) => c.competitor))].sort();
@@ -499,12 +499,12 @@ $("#btn-csv").addEventListener("click", () => {
 function render() {
   const rows = filtered();
   $("#stat").textContent = `${rows.length}건 / 전체 ${ALL.length}건`;
-  renderTable(); renderCompare(); renderFlow(); renderAds(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
+  renderTable(); renderCompare(); renderFlow(); renderAds(); if (typeof renderAdspend === "function") renderAdspend(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
   if (CAP_Q.some((q) => !q.error && !ALL.find((c) => c.id === q.id || c.id.startsWith(q.id + "-")) && Date.now() - q.at < 600000)) startCapPoll();
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
-  ["table", "compare", "flow", "ads", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  ["table", "compare", "flow", "ads", "adspend", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
 }));
 $("#f-device").addEventListener("change", render);
 $("#f-comp").addEventListener("change", render);

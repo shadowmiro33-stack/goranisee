@@ -102,6 +102,7 @@
   .ads-table td.off { color:var(--muted); }
   .chip { display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; background:var(--bg); border:1px solid var(--line); margin:2px 3px 2px 0; }
   .chip.paid { background:#ecfdf5; border-color:#a7f3d0; color:#065f46; }
+  .stack { display:flex; height:10px; border-radius:5px; overflow:hidden; background:var(--line); margin:4px 0; } .stack span { display:block; height:100%; }
   .cmp-note { font-size:12px; color:var(--muted); margin-top:10px; }
   .cap-row { display:grid; grid-template-columns:70px 1fr 110px 90px auto; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--line); font-size:13px; }
   .cap-row .t { color:var(--muted); font-size:12px; }
@@ -160,10 +161,11 @@
     <button data-tab="compare">화면 비교</button>
     <button data-tab="flow">퍼널 흐름</button>
     <button data-tab="ads">광고 채널</button>
+    <button data-tab="adspend">광고비 추정</button>
     <button data-tab="capture">URL로 수집</button>
     <button data-tab="timeline">수집 이력 · 변화 추적</button>
     <button data-tab="prompt">AI 분석용 프롬프트</button>
-    <button data-tab="tool">수집 버튼 만들기</button>
+    <button data-tab="tool">수동 수집(즐겨찾기)</button>
   </div>
   <div class="filters">
     <span>화면</span>
@@ -176,6 +178,7 @@
   <section id="tab-compare" hidden></section>
   <section id="tab-flow" hidden></section>
   <section id="tab-ads" hidden></section>
+  <section id="tab-adspend" hidden></section>
   <section id="tab-capture" hidden>
     <div class="box">
       <h2>URL로 수집 (archive.org의 "Save Page Now"처럼)</h2>
@@ -229,5 +232,6 @@
 <div id="detail"><div class="panel"><button class="close" id="btn-close">닫기</button><div id="detail-body"></div></div></div>
 <div id="toast"></div>
 <script src="app.js"></script>
+<script src="adspend.js"></script>
 </body>
 </html>
