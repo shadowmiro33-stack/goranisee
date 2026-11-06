@@ -257,7 +257,7 @@ function toAdminCapture(res, cfg, stageDef, viewportShotB64, shotFull) {
     prices: (res.appeals && res.appeals.price || []).map(s => (s.match(/[\d,]{2,}\s?(만원|원)/) || [])[0]).filter(Boolean).slice(0, 8),
     forms: [], nav: [],
     firstScreenText: res.hero.map(h => h.text).join(' | '),
-    style: res.style || null, warning: res.warning || null, flow: res.flow || null, flowSummary: res.flowSummary || null, crawl: res.crawl || null, formsDetail: res.forms || null, adTech: res.adTech || null,
+    style: res.style || null, warning: res.warning || null, siteErrorSeen: res.siteErrorSeen || 0, flow: res.flow || null, flowSummary: res.flowSummary || null, crawl: res.crawl || null, formsDetail: res.forms || null, adTech: res.adTech || null,
     source: 'funnel_collector', sourceStage: res.stage, viewportKey: res.viewportKey || null, screenshotFull: !!shotFull, screenshotHeight: shotFull ? Math.min(pageH, (cfg.capture && cfg.capture.maxScreenshotHeight) || 12000) : vh, overlaysByTrigger: res.overlays, promoDetail: res.promo, ctaDetail: res.ctas,
   };
 }
@@ -303,6 +303,23 @@ async function analyzeOnPage(page, site, stageKey, cfg, shotPath, result) {
         last = len; await sleep(700);
       }
       result.settledMs = Date.now() - t0;
+    }
+    // 사이트 자체 오류 창(네트워크 오류·다시 시도) 감지 → '다시 시도' 클릭 또는 새로고침 후 재대기 (최대 2회). 해외 IP·요청 제한으로 SPA API가 실패할 때 뜸
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const err = await page.evaluate(() => {
+        const RX = /네트워크가 원활하지|네트워크 (오류|연결)|인터넷 연결 상태|다시 시도해|일시적인 오류|서버와의 연결|요청이 실패|Network Error|Something went wrong|try again/i;
+        const vis = el => { const r = el.getBoundingClientRect(); const cs = getComputedStyle(el); return r.width > 80 && r.height > 40 && cs.visibility !== 'hidden' && cs.display !== 'none'; };
+        const cands = [...document.querySelectorAll('[role=dialog], [aria-modal=true], [class*=modal], [class*=popup], [class*=layer], [class*=dialog], [class*=toast]')].filter(vis);
+        for (const el of cands) { const t = (el.innerText || '').replace(/\s+/g, ' '); if (t.length < 400 && RX.test(t)) { const btn = [...el.querySelectorAll('button, a, [role=button]')].find(b => /다시 ?시도|재시도|retry|확인|새로고침/i.test(b.innerText || '')); if (btn) { btn.setAttribute('data-funnel-retry', '1'); return { text: t.slice(0, 80), hasRetry: true }; } return { text: t.slice(0, 80), hasRetry: false }; } }
+        return null;
+      }).catch(() => null);
+      if (!err) break;
+      log(`  ↻ 사이트 오류 창 감지("${err.text.slice(0, 40)}") → ${err.hasRetry ? '다시 시도 클릭' : '새로고침'} (${attempt + 1}/2)`);
+      result.siteErrorSeen = (result.siteErrorSeen || 0) + 1;
+      if (err.hasRetry) await page.click('[data-funnel-retry]', { timeout: 5000 }).catch(() => {}); else await page.reload({ waitUntil: 'domcontentloaded', timeout: 45000 }).catch(() => {});
+      await sleep(4000 + attempt * 3000);
+      try { await page.waitForLoadState('networkidle', { timeout: 8000 }); } catch (_) {}
+      if (attempt === 1) { const still = await page.evaluate(() => /네트워크가 원활하지|네트워크 오류|인터넷 연결 상태|다시 시도해/i.test(document.body.innerText || '')).catch(() => false); if (still) result.warning = '사이트 오류 창이 남아 있음(해외 IP 거부 또는 요청 제한 추정). 한국 네트워크에서 직접 캡처 권장'; }
     }
     // 차단/오류 페이지 판정: HTTP 4xx/5xx 또는 짧은 본문에 차단 문구 → 실패로 기록 (우회하지 않음, 수동 캡처 안내)
     {
@@ -506,7 +523,7 @@ async function runCrawl(context, site, startUrl, cfg, vp, outDir, base, maxPages
       } catch (e) { result.error = String(e.message || e).slice(0, 300); log(`  ✖ ${site.name} #${result.crawl.index} ${n}  ${result.error}`); }
       results.push(result);
       await onPage(result);
-      await jitter(1200, 2500);
+      await jitter(4000, 8000);
     }
   } finally { await page.close(); }
   return { results, discovered: seen.size, queued: queue.length };
