@@ -75,7 +75,7 @@ const EXTRACT = () => {
 
   const RX = {
     cta: /(구매|신청|예약|상담|견적|문의|시작|가입|로그인|바로|담기|장바구니|결제|주문|보러|확인하기|받기|둘러보기|검색|비교|찜|알림)/,
-    promoHead: /(추천|인기|함께|많이 본|BEST|베스트|HOT|핫딜|특가|오늘의|신규|MD|기획전|이벤트|프로모션|랭킹|TOP)/i,
+    promoHead: /(추천|인기|함께|많이 본|BEST|베스트|HOT|핫딜|특가|오늘의|신규|MD|기획전|이벤트|프로모션|랭킹|TOP|필요한|아티클|FAQ|자주 ?묻|빠르게|둘러보|지금 뜨는|화제|신차|한정|혜택)/i,
     urgency: /(오늘만|마감|남음|남았|한정|선착순|마지막|품절 임박|곧 종료|D-\d|\d+명이 보|실시간|지금)/,
     trust: /(리뷰|후기|평점|★|만족도|인증|보증|무료 반품|환불|보장|진단|검수|누적|회원|거래)/,
     price: /(할인|쿠폰|무료|적립|캐시백|혜택|%|원|특가|최저가|월 \d|이자|무이자)/,
@@ -93,8 +93,12 @@ const EXTRACT = () => {
     if (r.width < 80 || r.height < 32) return;
     const fx = fixedAncestor(el);
     const strong = RX.cta.test(t);
-    if (!strong && !fx && r.width < vw * 0.6) return;
     const cs = getComputedStyle(el);
+    const ownBg = cs.backgroundColor && cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent';
+    const ownBorder = parseFloat(cs.borderTopWidth) > 0 && cs.borderTopStyle !== 'none';
+    const buttonLike = el.tagName === 'BUTTON' || el.getAttribute('role') === 'button' || ownBg || ownBorder;
+    if (!strong && !fx && !(buttonLike && r.width >= vw * 0.5)) return;
+    if (!fx && r.height > 96) return; // 카드·리스트 행은 CTA가 아님
     ctas.push({ text: t, pos: rel(el), fixed: !!fx, fullWidth: r.width >= vw * 0.85, bg: bg(el), color: cs.color, fontSize: parseFloat(cs.fontSize), appeal: classify(t), href: el.href ? String(el.href).slice(0, 200) : undefined });
   });
   // 중복(같은 문구·위치) 제거, 상위 40개
@@ -114,6 +118,12 @@ const EXTRACT = () => {
     promos.push({ label: t, pos: rel(h), items, images: imgs, kind: /광고|AD|스폰서/i.test(t) ? 'ad' : 'reco' });
   });
   // 배너형 이미지/링크 (가로로 넓고 높이 60~400)
+  document.querySelectorAll('[class*=banner], [class*=bnr], [class*=swiper-slide], [class*=slide], [class*=carousel] > *').forEach(el => {
+    if (!vis(el)) return; const r = el.getBoundingClientRect(); const cs = getComputedStyle(el);
+    if (r.width < vw * 0.8 || r.height < 60 || r.height > 420) return;
+    if (!(cs.backgroundImage && cs.backgroundImage !== 'none') && !el.querySelector('img')) return;
+    promos.push({ label: (txt(el) || '(배너)').slice(0, 80), pos: rel(el), items: 1, images: 1, kind: 'banner' });
+  });
   document.querySelectorAll('a img, [class*=banner] img, [class*=bnr] img, [class*=swiper] img').forEach(img => {
     if (!vis(img)) return; const r = img.getBoundingClientRect();
     if (r.width < vw * 0.8 || r.height < 60 || r.height > 420) return;
@@ -147,7 +157,7 @@ const EXTRACT = () => {
   document.querySelectorAll('h1,h2,h3,p,strong,span,div').forEach(el => {
     if (!vis(el) || el.children.length > 2) return;
     const r = el.getBoundingClientRect(); if (absY(el) > vh * 1.2) return;
-    const t = txt(el); if (t.length < 4 || t.length > 60) return;
+    const t = txt(el); if (t.length < 6 || t.length > 60 || /^[\d\s,.주원%~\-]+$/.test(t)) return;
     const fs = parseFloat(getComputedStyle(el).fontSize); if (fs < 16) return;
     heads.push({ text: t, fontSize: fs, y: +(absY(el) / pageH).toFixed(3) });
   });
@@ -182,7 +192,13 @@ const EXTRACT = () => {
   }
   const totalArea = Object.values(paletteAcc).reduce((a, b) => a + b, 0) || 1;
   const palette = Object.entries(paletteAcc).map(([color, a]) => ({ color, share: +(a / totalArea).toFixed(3), saturation: +sat(parseRgb(color.replace(/^#(..)(..)(..)$/, (_, r, g, b) => `rgb(${parseInt(r, 16)},${parseInt(g, 16)},${parseInt(b, 16)})`)) || [0, 0, 0]).toFixed(2) })).sort((a, b) => b.share - a.share);
-  const brand = palette.filter(p => p.saturation >= 0.35 && p.share >= 0.005).slice(0, 3);
+  let brand = palette.filter(p => p.saturation >= 0.35 && p.share >= 0.005).slice(0, 3);
+  if (!brand.length) {
+    const acc = {};
+    for (const el of all) { if (!vis(el)) continue; const cs = getComputedStyle(el); for (const c of [cs.backgroundColor, cs.color, cs.borderTopColor]) { const p = parseRgb(c); if (p && p[3] > 0.5 && sat(p) >= 0.5 && Math.max(p[0], p[1], p[2]) > 60) { const k = hex(c); acc[k] = (acc[k] || 0) + 1; } } }
+    const tot = Object.values(acc).reduce((a, b) => a + b, 0) || 1;
+    brand = Object.entries(acc).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([color, n]) => ({ color, share: +(n / tot).toFixed(3), saturation: +sat(parseRgb(color.replace(/^#(..)(..)(..)$/, (_, r, g, b) => `rgb(${parseInt(r, 16)},${parseInt(g, 16)},${parseInt(b, 16)})`))).toFixed(2), by: 'count' }));
+  }
   const headingEl = [...document.querySelectorAll('h1,h2')].find(vis);
   const topFonts = Object.entries(fontAcc).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([f]) => f);
   const ctaStyles = ctaOut.map(c => ({ text: c.text, bg: hex(c.bg), color: hex(c.color), contrast: contrast(c.bg, c.color), height: c.pos.h, widthRatio: +(c.pos.w / vw).toFixed(2), fixed: c.fixed, fontSize: c.fontSize, saturated: (parseRgb(c.bg) ? sat(parseRgb(c.bg)) : 0) >= 0.35 }));
