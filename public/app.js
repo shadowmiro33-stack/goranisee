@@ -450,6 +450,7 @@ function buildPrompt() {
       if (d.flow?.via) lines.push(`- 이 단계 진입 장치: "${d.flow.via.text}" (${d.flow.via.kind === "click" ? "버튼" : "링크"}${d.flow.via.fixed ? ", 고정" : ""}), 첫 화면에서 ${d.flow.tapsFromHome}탭`);
       if (d.flowSummary) lines.push(`- 신청까지 흐름 요약: ${(d.flowSummary.stagesReached || []).join("→")} · 탭 ${d.flowSummary.tapsToInquiry ?? "미도달"} · 폼 ${d.flowSummary.inquiryForm ? `${d.flowSummary.inquiryForm.fields}필드(필수 ${d.flowSummary.inquiryForm.required})` : "없음"} · 로그인 ${d.flowSummary.loginRequired ? "필요" : "불필요"}`);
       if (d.adTech?.paidChannels?.length) lines.push(`- 광고 채널 신호: ${d.adTech.paidChannels.join(", ")}`);
+      if (typeof noteOf === "function") { const nt = noteOf(c.competitor); if (nt.keep || nt.avoid) lines.push(`- 분석자 메모: 참고 "${nt.keep || ""}" / 회피 "${nt.avoid || ""}"`); }
       if (d.benefits?.length) lines.push(`- 혜택/소구 문구: ${d.benefits.slice(0, 10).map((b) => b.text).join(" | ")}`);
       if (d.overlays?.length) lines.push(`- 팝업/배너: ${d.overlays.map((o) => `[${o.kind}] ${String(o.text || "").slice(0, 80)}`).join(" | ")}`);
       if (d.sections?.length) lines.push(`- 추천/광고 섹션: ${d.sections.map((x) => `${x.title}(${x.cards}개,${x.pos})`).join(", ")}`);
@@ -501,12 +502,12 @@ $("#btn-csv").addEventListener("click", () => {
 function render() {
   const rows = filtered();
   $("#stat").textContent = `${rows.length}건 / 전체 ${ALL.length}건`;
-  renderTable(); renderCompare(); renderFlow(); renderAds(); if (typeof renderAdspend === "function") renderAdspend(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
+  renderTable(); renderCompare(); renderFlow(); renderAds(); if (typeof renderAdspend === "function") renderAdspend(); if (typeof renderCompareCard === "function") renderCompareCard(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
   if (CAP_Q.some((q) => !q.error && !ALL.find((c) => c.id === q.id || c.id.startsWith(q.id + "-")) && Date.now() - q.at < 600000)) startCapPoll();
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
-  ["table", "compare", "flow", "ads", "adspend", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  ["table", "cmp", "compare", "flow", "ads", "adspend", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
 }));
 $("#f-device").addEventListener("change", render);
 $("#f-comp").addEventListener("change", render);

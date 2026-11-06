@@ -102,6 +102,8 @@
   .ads-table td.off { color:var(--muted); }
   .chip { display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; background:var(--bg); border:1px solid var(--line); margin:2px 3px 2px 0; }
   .chip.paid { background:#ecfdf5; border-color:#a7f3d0; color:#065f46; }
+  .cmp-card tr.grp td { background:var(--soft); font-weight:600; font-size:12px; color:var(--muted); letter-spacing:.02em; }
+  .cmp-card td.stage { width:170px; }
   .stack { display:flex; height:10px; border-radius:5px; overflow:hidden; background:var(--line); margin:4px 0; } .stack span { display:block; height:100%; }
   .cmp-note { font-size:12px; color:var(--muted); margin-top:10px; }
   .cap-row { display:grid; grid-template-columns:70px 1fr 110px 90px auto; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--line); font-size:13px; }
@@ -158,6 +160,7 @@
 <main>
   <div class="tabs">
     <button class="active" data-tab="table">비교표</button>
+    <button data-tab="cmp">경쟁사 비교</button>
     <button data-tab="compare">화면 비교</button>
     <button data-tab="flow">퍼널 흐름</button>
     <button data-tab="ads">광고 채널</button>
@@ -175,6 +178,7 @@
     <span id="stat"></span>
   </div>
   <section id="tab-table"></section>
+  <section id="tab-cmp" hidden></section>
   <section id="tab-compare" hidden></section>
   <section id="tab-flow" hidden></section>
   <section id="tab-ads" hidden></section>
@@ -234,5 +238,6 @@
 <div id="toast"></div>
 <script src="app.js"></script>
 <script src="adspend.js"></script>
+<script src="compare.js"></script>
 </body>
 </html>
