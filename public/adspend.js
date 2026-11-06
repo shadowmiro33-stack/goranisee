@@ -5,17 +5,34 @@
 //   data.type = "creative_obs": 소재 수 관측 1건 = {competitor_name, channel: "meta"|"google", creatives, avgDays, date}
 const AD_STAGE = "광고데이터";
 const DEFAULT_ASSUMPTIONS = {
-  ctrByRank: [0.12, 0.07, 0.045, 0.03, 0.02],          // 파워링크 모바일 1~5위 클릭률 가정
-  cpcDefault: 1500,                                      // CPC 미입력 시 (원)
+  // ── 건수 가정 (클릭률·노출) ──
+  ctrByRank: [0.12, 0.07, 0.045, 0.03, 0.02],          // 파워링크 모바일 1~5위 클릭률
   cpcRankFactor: [1, 0.8, 0.65, 0.55, 0.45],             // 순위별 CPC = 1위 CPC × 계수
-  metaPerCreativeDay: { low: 15000, mid: 40000, high: 100000 },   // 메타 활성 소재 1개당 일 집행액 (원)
-  googlePerCreativeDay: { low: 10000, mid: 30000, high: 80000 },
-  kakaoWhenTag: { low: 300000, high: 3000000 },          // 카카오 픽셀 존재 시 월 집행 범위 (원)
-  gfaWhenTag: { low: 500000, high: 5000000 },            // 네이버 GFA 픽셀 존재 시
-  googleDisplayWhenTag: { low: 300000, high: 3000000 },  // 구글 전환태그만 있고 소재 관측 없을 때
+  // ── 단가 가이드 (플랫폼 공식 최소값·기본값 기준, VAT 별도) ──
+  naverPowerlinkMinCpc: 70,                              // 네이버 파워링크 최소 입찰가 70원 (네이버 검색광고 안내, 2026)
+  cpcDefault: 1500,                                      // 1위 CPC 미입력 시 가정 (자동차 카테고리 경쟁 키워드는 수천~수만원)
+  brandSearch: { light: 500000, premium: 1000000 },      // 네이버 브랜드검색 30일 기본 단가: 라이트 50만~, 프리미엄 100만~ (조회수 구간에 따라 상승)
+  brandSearchVolumeFactor: [1, 1.5, 2.5, 4],             // 월 조회수 구간(~5만 / ~20만 / ~50만 / 50만+) 배수 가정
+  kakao: { cpc: 200, cpm: 3000 },                        // 카카오모먼트 기본 입찰가: CPC 200원, 비즈보드 CPM 3,000원 (최소 CPC 10원·CPM 1,000원)
+  kakaoImpressions: { low: 100000, high: 1000000 },      // 카카오 픽셀 검출 시 월 노출 가정 (건)
+  gfa: { cpm: 3000 },                                    // 네이버 GFA CPM 가정 (공식 단가표 없음, 입찰형)
+  gfaImpressions: { low: 150000, high: 1500000 },
+  meta: { cpm: 8000 },                                   // 메타 국내 평균 CPM 가정 (원)
+  metaImpressionsPerCreativeDay: { low: 500, high: 4000 }, // 활성 소재 1개당 일 노출 가정 (건)
+  metaDefaultCreatives: { low: 3, high: 10 },            // 소재 수 미관측·픽셀만 있을 때
+  google: { cpm: 5000 },                                 // 구글 디스플레이/유튜브 CPM 가정
+  googleImpressionsPerCreativeDay: { low: 500, high: 4000 },
+  googleDefaultCreatives: { low: 2, high: 8 },
   days: 30,
 };
+const RATE_SOURCES = [
+  ["네이버 파워링크 최소 입찰가 70원, 브랜드검색 30일 100만원~ (비즈팝콘, 2026 네이버 안내 정리)", "https://bizpopcorn.co.kr/blog/naver-ad-price"],
+  ["네이버 브랜드검색 기본 단가 50만원 수준, 유형·조회수·기간에 따라 상승 (애드마켓팁, 2026.7)", "https://blog.admarketip.com/naver-brand-search-cost/"],
+  ["카카오모먼트 최소·기본 입찰가 CPC 10/200원, CPM 1,000/3,000원 (AMPM, 2023.7)", "https://inside.ampm.co.kr/insight/2370"],
+  ["카카오모먼트 공식 과금 안내", "https://kakaobusiness.gitbook.io/main/ad/moment"],
+];
 const KRW = (n) => n == null || isNaN(n) ? "—" : n >= 1e8 ? (n / 1e8).toFixed(1) + "억" : n >= 1e4 ? Math.round(n / 1e4).toLocaleString() + "만" : Math.round(n).toLocaleString();
+const NUM = (n) => n == null || isNaN(n) ? "—" : Math.round(n).toLocaleString();
 let AS = null; // assumptions
 
 function adRows() { return ALL.filter((c) => c.stage === AD_STAGE); }
@@ -25,50 +42,74 @@ async function saveAssumptions(values) { await api("/api/captures", { method: "P
 // 경쟁사 목록 = 퍼널 수집 경쟁사 + 관측에 등장한 경쟁사
 function adCompetitors() {
   const s = new Set(ALL.filter((c) => c.stage !== AD_STAGE).map((c) => c.competitor));
-  adRows().forEach((c) => { if (c.data?.type === "keyword_obs") Object.keys(c.data.ranks || {}).forEach((k) => s.add(k)); if (c.data?.type === "creative_obs") s.add(c.data.competitor_name); });
+  adRows().forEach((c) => { if (c.data?.type === "keyword_obs") Object.keys(c.data.ranks || {}).forEach((k) => s.add(k)); if (c.data?.type === "creative_obs" || c.data?.type === "brand_obs") s.add(c.data.competitor_name); });
   s.delete("_설정"); return [...s].sort();
 }
-// 경쟁사별 최신 광고 태그 (자동 수집 adTech)
 function latestTags(comp) {
   const rows = ALL.filter((c) => c.competitor === comp && c.data?.adTech).sort((a, b) => new Date(b.captured_at) - new Date(a.captured_at));
   return new Set((rows[0]?.data?.adTech?.tags || []).map((t) => t.key));
 }
-// 키워드 관측: 키워드별 최신 관측 1건만 사용 (관측일 기준)
 function latestKeywordObs() {
   const m = {};
   adRows().filter((c) => c.data?.type === "keyword_obs").forEach((c) => { const k = c.data.keyword; if (!m[k] || new Date(c.data.date) > new Date(m[k].data.date)) m[k] = c; });
   return Object.values(m);
 }
-function latestCreativeObs(comp, channel) {
-  return adRows().filter((c) => c.data?.type === "creative_obs" && c.data.competitor_name === comp && c.data.channel === channel).sort((a, b) => new Date(b.data.date) - new Date(a.data.date))[0]?.data || null;
+function latestObs(type, comp, extra) {
+  return adRows().filter((c) => c.data?.type === type && c.data.competitor_name === comp && (!extra || extra(c.data))).sort((a, b) => new Date(b.data.date) - new Date(a.data.date))[0]?.data || null;
 }
+const latestCreativeObs = (comp, ch) => latestObs("creative_obs", comp, (d) => d.channel === ch);
+
+// 추정 = 라인아이템(건수 × 단가)의 합. 각 라인은 {ch, label, count, countUnit, unit, unitLabel, low, mid, high, source}
 function estimate(comp, A) {
-  const out = { search: { low: 0, mid: 0, high: 0, n: 0 }, meta: { low: 0, mid: 0, high: 0, n: 0 }, google: { low: 0, mid: 0, high: 0, n: 0 }, kakao: { low: 0, mid: 0, high: 0 }, gfa: { low: 0, mid: 0, high: 0 }, basis: [] };
-  // 1) 검색광고
+  const items = [];
+  const push = (o) => items.push(o);
+  const tags = latestTags(comp);
+  // 1) 검색광고: 키워드별 클릭 수 × CPC
   latestKeywordObs().forEach((c) => {
     const d = c.data; const rank = d.ranks?.[comp]; if (!rank || rank < 1) return;
     const r = Math.min(5, Math.max(1, +rank));
     const vol = +d.volume || 0, cpc1 = +d.cpc || A.cpcDefault;
     const clicks = vol * (A.ctrByRank[r - 1] || 0.02);
-    const cpc = cpc1 * (A.cpcRankFactor[r - 1] || 0.45);
+    const cpc = Math.max(A.naverPowerlinkMinCpc, cpc1 * (A.cpcRankFactor[r - 1] || 0.45));
     const mid = clicks * cpc;
-    out.search.mid += mid; out.search.low += mid * 0.6; out.search.high += mid * 1.5; out.search.n++;
+    push({ ch: "search", label: `파워링크 "${d.keyword}" ${r}위`, count: clicks, countUnit: "클릭/월", unit: cpc, unitLabel: "CPC", low: mid * 0.6, mid, high: mid * 1.5, source: `검색량 ${NUM(vol)} × CTR ${(A.ctrByRank[r - 1] * 100).toFixed(1)}% · 1위CPC ${NUM(cpc1)}${d.cpc ? "" : "(가정)"} × ${A.cpcRankFactor[r - 1]} · 관측 ${d.date}` });
   });
-  if (out.search.n) out.basis.push(`검색광고 키워드 ${out.search.n}개 관측`);
-  const tags = latestTags(comp);
-  // 2) 메타
+  // 1-b) 브랜드검색 (관측 시)
+  const bo = latestObs("brand_obs", comp);
+  if (bo && bo.running) {
+    const base = bo.kind === "premium" ? A.brandSearch.premium : A.brandSearch.light;
+    const f = A.brandSearchVolumeFactor[Math.min(3, Math.max(0, +bo.tier || 0))] || 1;
+    push({ ch: "search", label: `브랜드검색 (${bo.kind === "premium" ? "프리미엄" : "라이트"}형, 조회수 구간 ${+bo.tier + 1})`, count: 1, countUnit: "계약/30일", unit: base * f, unitLabel: "30일 단가", low: base * f, mid: base * f * 1.3, high: base * f * 2, source: `기본 ${KRW(base)} × 구간 배수 ${f} · 관측 ${bo.date}` });
+  }
+  // 2) 메타: 소재 수 × 일 노출 × CPM
   const mo = latestCreativeObs(comp, "meta");
-  if (mo) { const n = +mo.creatives || 0; out.meta = { low: n * A.metaPerCreativeDay.low * A.days, mid: n * A.metaPerCreativeDay.mid * A.days, high: n * A.metaPerCreativeDay.high * A.days, n }; out.basis.push(`메타 활성 소재 ${n}개 (${mo.date})`); }
-  else if (tags.has("meta_pixel")) { out.meta = { low: 3 * A.metaPerCreativeDay.low * A.days, mid: 6 * A.metaPerCreativeDay.mid * A.days, high: 10 * A.metaPerCreativeDay.high * A.days, n: 0 }; out.basis.push("메타 픽셀 검출 (소재 수 미관측 → 3~10개 가정)"); }
+  const metaN = mo ? { low: +mo.creatives, high: +mo.creatives, obs: true } : tags.has("meta_pixel") ? { ...A.metaDefaultCreatives, obs: false } : null;
+  if (metaN) {
+    const impLow = metaN.low * A.metaImpressionsPerCreativeDay.low * A.days, impHigh = metaN.high * A.metaImpressionsPerCreativeDay.high * A.days;
+    const impMid = Math.sqrt(impLow * impHigh);
+    push({ ch: "meta", label: metaN.obs ? `메타 활성 소재 ${metaN.low}개` : `메타 픽셀 검출 (소재 ${metaN.low}~${metaN.high}개 가정)`, count: impMid, countUnit: "노출/월", countRange: [impLow, impHigh], unit: A.meta.cpm, unitLabel: "CPM", low: impLow / 1000 * A.meta.cpm, mid: impMid / 1000 * A.meta.cpm, high: impHigh / 1000 * A.meta.cpm, source: `소재당 일 노출 ${NUM(A.metaImpressionsPerCreativeDay.low)}~${NUM(A.metaImpressionsPerCreativeDay.high)} × ${A.days}일${mo ? ` · 관측 ${mo.date}` : ""}` });
+  }
   // 3) 구글
   const go = latestCreativeObs(comp, "google");
-  if (go) { const n = +go.creatives || 0; out.google = { low: n * A.googlePerCreativeDay.low * A.days, mid: n * A.googlePerCreativeDay.mid * A.days, high: n * A.googlePerCreativeDay.high * A.days, n }; out.basis.push(`구글 소재 ${n}개 (${go.date})`); }
-  else if (tags.has("google_ads")) { out.google = { low: A.googleDisplayWhenTag.low, mid: (A.googleDisplayWhenTag.low + A.googleDisplayWhenTag.high) / 2, high: A.googleDisplayWhenTag.high, n: 0 }; out.basis.push("구글 전환태그 검출 (소재 미관측 → 범위 가정)"); }
-  // 4) 카카오 / GFA: 태그 존재 시 범위
-  if (tags.has("kakao_pixel")) { out.kakao = { low: A.kakaoWhenTag.low, mid: (A.kakaoWhenTag.low + A.kakaoWhenTag.high) / 2, high: A.kakaoWhenTag.high }; out.basis.push("카카오 픽셀 검출 (범위 가정)"); }
-  if (tags.has("naver_gfa")) { out.gfa = { low: A.gfaWhenTag.low, mid: (A.gfaWhenTag.low + A.gfaWhenTag.high) / 2, high: A.gfaWhenTag.high }; out.basis.push("네이버 GFA 픽셀 검출 (범위 가정)"); }
-  const sum = (k) => ["search", "meta", "google", "kakao", "gfa"].reduce((a, ch) => a + (out[ch][k] || 0), 0);
-  out.total = { low: sum("low"), mid: sum("mid"), high: sum("high") };
+  const gN = go ? { low: +go.creatives, high: +go.creatives, obs: true } : tags.has("google_ads") ? { ...A.googleDefaultCreatives, obs: false } : null;
+  if (gN) {
+    const impLow = gN.low * A.googleImpressionsPerCreativeDay.low * A.days, impHigh = gN.high * A.googleImpressionsPerCreativeDay.high * A.days, impMid = Math.sqrt(impLow * impHigh);
+    push({ ch: "google", label: gN.obs ? `구글 소재 ${gN.low}개` : `구글 전환태그 검출 (소재 ${gN.low}~${gN.high}개 가정)`, count: impMid, countUnit: "노출/월", countRange: [impLow, impHigh], unit: A.google.cpm, unitLabel: "CPM", low: impLow / 1000 * A.google.cpm, mid: impMid / 1000 * A.google.cpm, high: impHigh / 1000 * A.google.cpm, source: `소재당 일 노출 ${NUM(A.googleImpressionsPerCreativeDay.low)}~${NUM(A.googleImpressionsPerCreativeDay.high)} × ${A.days}일${go ? ` · 관측 ${go.date}` : ""}` });
+  }
+  // 4) 카카오 / GFA: 노출 가정 × CPM
+  if (tags.has("kakao_pixel")) { const L = A.kakaoImpressions.low, H = A.kakaoImpressions.high, M = Math.sqrt(L * H); push({ ch: "kakao", label: "카카오모먼트 (픽셀 검출)", count: M, countUnit: "노출/월", countRange: [L, H], unit: A.kakao.cpm, unitLabel: "CPM", low: L / 1000 * A.kakao.cpm, mid: M / 1000 * A.kakao.cpm, high: H / 1000 * A.kakao.cpm, source: "월 노출 가정 × 비즈보드 기본 CPM" }); }
+  if (tags.has("naver_gfa")) { const L = A.gfaImpressions.low, H = A.gfaImpressions.high, M = Math.sqrt(L * H); push({ ch: "gfa", label: "네이버 GFA (픽셀 검출)", count: M, countUnit: "노출/월", countRange: [L, H], unit: A.gfa.cpm, unitLabel: "CPM", low: L / 1000 * A.gfa.cpm, mid: M / 1000 * A.gfa.cpm, high: H / 1000 * A.gfa.cpm, source: "월 노출 가정 × CPM 가정" }); }
+  const out = { items, basis: [] };
+  for (const ch of ["search", "meta", "google", "kakao", "gfa"]) { const l = items.filter((i) => i.ch === ch); out[ch] = { low: l.reduce((a, i) => a + i.low, 0), mid: l.reduce((a, i) => a + i.mid, 0), high: l.reduce((a, i) => a + i.high, 0), n: l.length }; }
+  const kwN = items.filter((i) => i.ch === "search" && i.countUnit === "클릭/월").length;
+  if (kwN) out.basis.push(`검색광고 키워드 ${kwN}개 관측 (클릭 ${NUM(items.filter((i) => i.countUnit === "클릭/월").reduce((a, i) => a + i.count, 0))}건/월)`);
+  if (bo?.running) out.basis.push("브랜드검색 운영 관측");
+  if (metaN) out.basis.push(metaN.obs ? `메타 소재 ${metaN.low}개 관측` : "메타 픽셀 검출 (소재 수 가정)");
+  if (gN) out.basis.push(gN.obs ? `구글 소재 ${gN.low}개 관측` : "구글 전환태그 검출 (소재 수 가정)");
+  if (tags.has("kakao_pixel")) out.basis.push("카카오 픽셀 검출 (노출 가정)");
+  if (tags.has("naver_gfa")) out.basis.push("GFA 픽셀 검출 (노출 가정)");
+  out.total = { low: items.reduce((a, i) => a + i.low, 0), mid: items.reduce((a, i) => a + i.mid, 0), high: items.reduce((a, i) => a + i.high, 0) };
+  out.counts = { clicks: items.filter((i) => i.countUnit === "클릭/월").reduce((a, i) => a + i.count, 0), impressions: items.filter((i) => i.countUnit === "노출/월").reduce((a, i) => a + i.count, 0) };
   return out;
 }
 // 시계열: 관측일별로 그 시점까지의 최신 관측으로 추정 (월 추정액 중간값)
@@ -107,11 +148,12 @@ function renderAdspend() {
   const kw = latestKeywordObs();
   const est = Object.fromEntries(comps.map((c) => [c, estimate(c, A)]));
   const series = Object.fromEntries(comps.map((c) => [c, spendSeries(c, A)]).filter(([, s]) => s.length));
+  const detailTable = (e) => `<div class="tablewrap" style="margin-top:6px"><table class="ads-table"><thead><tr><th>항목</th><th>건수</th><th>단가</th><th>월 추정 (하한 / 중간 / 상한)</th><th>산출 근거</th></tr></thead><tbody>${e.items.map((i) => `<tr><td>${esc(i.label)}</td><td>${i.countRange ? `${NUM(i.countRange[0])}~${NUM(i.countRange[1])}` : NUM(i.count)} <span style="color:var(--muted);font-size:11px">${i.countUnit}</span></td><td>${NUM(i.unit)}원 <span style="color:var(--muted);font-size:11px">${i.unitLabel}</span></td><td>${KRW(i.low)} / <b>${KRW(i.mid)}</b> / ${KRW(i.high)}원</td><td style="font-size:11px;color:var(--muted)">${esc(i.source)}</td></tr>`).join("") || `<tr><td colspan="5" style="color:var(--muted)">관측·태그 없음</td></tr>`}<tr><td><b>합계</b></td><td>클릭 ${NUM(e.counts.clicks)} · 노출 ${NUM(e.counts.impressions)}</td><td></td><td><b>${KRW(e.total.low)} / ${KRW(e.total.mid)} / ${KRW(e.total.high)}원</b></td><td></td></tr></tbody></table></div>`;
   const chBar = (e) => { const tot = e.total.mid || 1; const parts = [["search", "검색", "#2563eb"], ["meta", "메타", "#4f46e5"], ["google", "구글", "#059669"], ["kakao", "카카오", "#d97706"], ["gfa", "GFA", "#0891b2"]]; return `<div class="stack">${parts.map(([k, l, c]) => e[k].mid ? `<span style="width:${(e[k].mid / tot * 100).toFixed(1)}%;background:${c}" title="${l} ${KRW(e[k].mid)}원"></span>` : "").join("")}</div><div class="flow-kv">${parts.map(([k, l]) => e[k].mid ? `${l} ${KRW(e[k].low)}~${KRW(e[k].high)}` : "").filter(Boolean).join(" · ") || "근거 없음"}</div>`; };
   el.innerHTML = `
-    <div class="cmp-note" style="margin:0 0 10px"><b>추정치입니다.</b> 검색광고는 "키워드 월 검색량 × 순위별 클릭률 × 순위별 CPC", 메타·구글은 "활성 소재 수 × 소재당 일 집행액 벤치마크 × 30일", 카카오·GFA는 태그 검출 시 범위로 계산합니다. 가정값은 아래에서 바꿀 수 있고, 관측(키워드 순위·소재 수)이 쌓일수록 범위가 좁아집니다.</div>
+    <div class="cmp-note" style="margin:0 0 10px"><b>추정치입니다.</b> 모든 항목을 <b>건수 × 단가</b>로 계산합니다: 검색광고는 키워드별 월 클릭 수(검색량 × 순위별 클릭률) × CPC, 브랜드검색은 30일 계약 단가, 메타·구글·카카오·GFA는 월 노출 수 × CPM. 단가는 플랫폼 공식 최소/기본값(아래 단가 가이드)을 기준으로 하고, 건수(클릭·노출)는 관측과 가정으로 채웁니다. "집행액 상세 내역"에서 항목별 건수·단가·근거를 볼 수 있습니다.</div>
     <div class="tablewrap"><table class="ads-table"><thead><tr><th>경쟁사</th><th>월 추정 집행액 (중간)</th><th>범위 (하한~상한)</th><th>채널 구성</th><th>근거</th></tr></thead><tbody>
-      ${comps.map((c) => { const e = est[c]; return `<tr><td class="stage">${esc(c)}</td><td style="font-weight:600;font-size:15px">${KRW(e.total.mid)}원</td><td>${KRW(e.total.low)} ~ ${KRW(e.total.high)}원</td><td style="min-width:220px">${chBar(e)}</td><td style="font-size:12px;color:var(--muted)">${e.basis.map(esc).join("<br>") || "관측·태그 없음"}</td></tr>`; }).join("") || `<tr><td colspan="5" style="color:var(--muted)">경쟁사가 없습니다. 먼저 퍼널 수집을 하거나 아래에 관측을 입력하세요.</td></tr>`}
+      ${comps.map((c) => { const e = est[c]; return `<tr><td class="stage">${esc(c)}</td><td style="font-weight:600;font-size:15px">${KRW(e.total.mid)}원<br><span style="font-weight:400;font-size:11px;color:var(--muted)">클릭 ${NUM(e.counts.clicks)} · 노출 ${NUM(e.counts.impressions)}/월</span></td><td>${KRW(e.total.low)} ~ ${KRW(e.total.high)}원</td><td style="min-width:220px">${chBar(e)}</td><td style="font-size:12px;color:var(--muted)">${e.basis.map(esc).join("<br>") || "관측·태그 없음"}</td></tr><tr><td colspan="5" style="padding:0 8px 8px"><details><summary style="cursor:pointer;font-size:12px;color:var(--accent)">집행액 상세 내역 (${e.items.length}개 항목)</summary>${detailTable(e)}</details></td></tr>`; }).join("") || `<tr><td colspan="5" style="color:var(--muted)">경쟁사가 없습니다. 먼저 퍼널 수집을 하거나 아래에 관측을 입력하세요.</td></tr>`}
     </tbody></table></div>
     ${Object.keys(series).length ? `<h3 style="font-size:14px;margin:16px 0 6px">월 추정 집행액 추이 (관측일 기준, 띠 = 하한~상한)</h3><div class="box">${seriesSvg(series)}</div>` : ""}
 
@@ -136,16 +178,47 @@ function renderAdspend() {
       <div style="flex-basis:100%;font-size:12px;color:var(--muted)">바로가기: ${comps.map((c) => `${esc(c)} <a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=KR&q=${encodeURIComponent(c)}&search_type=keyword_unordered" target="_blank" rel="noopener">Meta</a>/<a href="https://adstransparency.google.com/?region=KR&query=${encodeURIComponent(c)}" target="_blank" rel="noopener">Google</a>`).join(" · ")}</div>
     </div>
 
-    <details style="margin-top:16px"><summary style="cursor:pointer;font-size:14px;font-weight:600">가정값 (벤치마크) 수정</summary>
+    <h3 style="font-size:14px;margin:18px 0 6px">브랜드검색 관측 <span style="font-weight:400;color:var(--muted);font-size:12px">네이버에서 경쟁사 브랜드명을 검색해 최상단 브랜드검색 광고가 있는지 기록</span></h3>
+    <div class="box" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <select id="br-comp">${comps.map((c) => `<option>${esc(c)}</option>`).join("")}</select>
+      <select id="br-run"><option value="1">운영 중</option><option value="0">미운영</option></select>
+      <select id="br-kind"><option value="light">라이트형</option><option value="premium">프리미엄형(이미지·동영상)</option></select>
+      <select id="br-tier"><option value="0">월 조회수 ~5만</option><option value="1">~20만</option><option value="2">~50만</option><option value="3">50만+</option></select>
+      <input type="date" id="br-date" value="${new Date().toISOString().slice(0, 10)}">
+      <button class="primary" id="br-save">저장</button>
+      <div style="flex-basis:100%"></div>
+      ${comps.map((c) => { const o = latestObs("brand_obs", c); return o ? `<span class="chip">${esc(c)} · ${o.running ? (o.kind === "premium" ? "프리미엄" : "라이트") + " 운영" : "미운영"} (${esc(o.date)})</span>` : ""; }).join("")}
+    </div>
+
+    <h3 style="font-size:14px;margin:18px 0 6px">플랫폼 단가 가이드 (추정에 쓰는 기준값)</h3>
+    <div class="box" style="font-size:12px">
+      <div class="tablewrap"><table class="ads-table"><thead><tr><th>플랫폼·상품</th><th>공식 최소/기본 단가</th><th>이 모델의 적용값</th></tr></thead><tbody>
+        <tr><td>네이버 파워링크</td><td>최소 입찰가 70원/클릭 (실제는 키워드 경쟁에 따라 수천~수만원)</td><td>키워드별 1위 CPC 입력값 × 순위 계수, 하한 ${A.naverPowerlinkMinCpc}원</td></tr>
+        <tr><td>네이버 브랜드검색</td><td>30일 기본 라이트 50만원~, 프리미엄 100만원~ (조회수 구간·기간에 따라 상승)</td><td>${KRW(A.brandSearch.light)} / ${KRW(A.brandSearch.premium)} × 구간 배수 ${A.brandSearchVolumeFactor.join("/")}</td></tr>
+        <tr><td>카카오모먼트</td><td>CPC 최소 10원·기본 200원, 비즈보드 CPM 최소 1,000원·기본 3,000원</td><td>CPM ${NUM(A.kakao.cpm)}원 × 월 노출 ${NUM(A.kakaoImpressions.low)}~${NUM(A.kakaoImpressions.high)}</td></tr>
+        <tr><td>네이버 GFA</td><td>입찰형, 공식 단가표 없음</td><td>CPM ${NUM(A.gfa.cpm)}원 × 월 노출 ${NUM(A.gfaImpressions.low)}~${NUM(A.gfaImpressions.high)}</td></tr>
+        <tr><td>메타 (FB/IG)</td><td>경매형, 공식 단가 없음 (국내 CPM 통상 수천~1만원대)</td><td>CPM ${NUM(A.meta.cpm)}원 × 소재당 일 노출 ${NUM(A.metaImpressionsPerCreativeDay.low)}~${NUM(A.metaImpressionsPerCreativeDay.high)}</td></tr>
+        <tr><td>구글 디스플레이/유튜브</td><td>경매형</td><td>CPM ${NUM(A.google.cpm)}원 × 소재당 일 노출 ${NUM(A.googleImpressionsPerCreativeDay.low)}~${NUM(A.googleImpressionsPerCreativeDay.high)}</td></tr>
+      </tbody></table></div>
+      <div style="margin-top:6px;color:var(--muted)">출처: ${RATE_SOURCES.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${esc(t)}</a>`).join(" · ")}. VAT 별도. 경매형 채널은 공식 단가가 없어 CPM을 가정하며, 우리 계정의 실제 CPM·CPC로 바꿔 넣는 것이 가장 정확합니다.</div>
+    </div>
+
+    <details style="margin-top:16px"><summary style="cursor:pointer;font-size:14px;font-weight:600">가정값 (건수·단가) 수정</summary>
       <div class="box" style="margin-top:8px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;font-size:12px">
         <label>파워링크 1~5위 클릭률 (쉼표) <input id="as-ctr" value="${A.ctrByRank.join(",")}"></label>
         <label>순위별 CPC 계수 (1위 대비) <input id="as-cpcf" value="${A.cpcRankFactor.join(",")}"></label>
-        <label>CPC 기본값(원) <input id="as-cpc" type="number" value="${A.cpcDefault}"></label>
-        <label>메타 소재당 일 집행액 하/중/상(원) <input id="as-meta" value="${A.metaPerCreativeDay.low},${A.metaPerCreativeDay.mid},${A.metaPerCreativeDay.high}"></label>
-        <label>구글 소재당 일 집행액 하/중/상(원) <input id="as-google" value="${A.googlePerCreativeDay.low},${A.googlePerCreativeDay.mid},${A.googlePerCreativeDay.high}"></label>
-        <label>구글 태그만 있을 때 월 하/상(원) <input id="as-gd" value="${A.googleDisplayWhenTag.low},${A.googleDisplayWhenTag.high}"></label>
-        <label>카카오 픽셀 있을 때 월 하/상(원) <input id="as-kakao" value="${A.kakaoWhenTag.low},${A.kakaoWhenTag.high}"></label>
-        <label>네이버 GFA 픽셀 있을 때 월 하/상(원) <input id="as-gfa" value="${A.gfaWhenTag.low},${A.gfaWhenTag.high}"></label>
+        <label>1위 CPC 미입력 시 가정(원) <input id="as-cpc" type="number" value="${A.cpcDefault}"></label>
+        <label>브랜드검색 30일 기본 단가 라이트,프리미엄(원) <input id="as-brand" value="${A.brandSearch.light},${A.brandSearch.premium}"></label>
+        <label>메타 CPM(원) <input id="as-metacpm" type="number" value="${A.meta.cpm}"></label>
+        <label>메타 소재당 일 노출 하,상(건) <input id="as-metaimp" value="${A.metaImpressionsPerCreativeDay.low},${A.metaImpressionsPerCreativeDay.high}"></label>
+        <label>메타 소재 수 미관측 시 하,상(개) <input id="as-metan" value="${A.metaDefaultCreatives.low},${A.metaDefaultCreatives.high}"></label>
+        <label>구글 CPM(원) <input id="as-gcpm" type="number" value="${A.google.cpm}"></label>
+        <label>구글 소재당 일 노출 하,상(건) <input id="as-gimp" value="${A.googleImpressionsPerCreativeDay.low},${A.googleImpressionsPerCreativeDay.high}"></label>
+        <label>구글 소재 수 미관측 시 하,상(개) <input id="as-gn" value="${A.googleDefaultCreatives.low},${A.googleDefaultCreatives.high}"></label>
+        <label>카카오 CPM(원) <input id="as-kcpm" type="number" value="${A.kakao.cpm}"></label>
+        <label>카카오 월 노출 하,상(건) <input id="as-kimp" value="${A.kakaoImpressions.low},${A.kakaoImpressions.high}"></label>
+        <label>GFA CPM(원) <input id="as-gfacpm" type="number" value="${A.gfa.cpm}"></label>
+        <label>GFA 월 노출 하,상(건) <input id="as-gfaimp" value="${A.gfaImpressions.low},${A.gfaImpressions.high}"></label>
         <div style="grid-column:1/-1;display:flex;gap:8px;align-items:center"><button class="primary" id="as-save">가정값 저장</button><button class="sm" id="as-reset">기본값으로</button><span style="color:var(--muted)">우리 회사 실제 집행 데이터(소재당 일 집행액, 키워드별 CPC)로 보정하면 오차가 줄어듭니다.</span></div>
       </div>
     </details>`;
@@ -172,9 +245,17 @@ function renderAdspend() {
   };
   const nums = (s) => s.split(",").map((x) => +x.trim()).filter((x) => !isNaN(x));
   $("#as-save").onclick = async () => {
-    const m = nums($("#as-meta").value), g = nums($("#as-google").value), gd = nums($("#as-gd").value), kk = nums($("#as-kakao").value), gf = nums($("#as-gfa").value);
-    const values = { ctrByRank: nums($("#as-ctr").value), cpcRankFactor: nums($("#as-cpcf").value), cpcDefault: +$("#as-cpc").value || A.cpcDefault, metaPerCreativeDay: { low: m[0], mid: m[1], high: m[2] }, googlePerCreativeDay: { low: g[0], mid: g[1], high: g[2] }, googleDisplayWhenTag: { low: gd[0], high: gd[1] }, kakaoWhenTag: { low: kk[0], high: kk[1] }, gfaWhenTag: { low: gf[0], high: gf[1] }, days: 30 };
+    const pair = (id, k1, k2) => { const v = nums($("#" + id).value); return { [k1]: v[0], [k2]: v[1] }; };
+    const values = { ctrByRank: nums($("#as-ctr").value), cpcRankFactor: nums($("#as-cpcf").value), cpcDefault: +$("#as-cpc").value || A.cpcDefault,
+      brandSearch: pair("as-brand", "light", "premium"), meta: { cpm: +$("#as-metacpm").value || A.meta.cpm }, metaImpressionsPerCreativeDay: pair("as-metaimp", "low", "high"), metaDefaultCreatives: pair("as-metan", "low", "high"),
+      google: { cpm: +$("#as-gcpm").value || A.google.cpm }, googleImpressionsPerCreativeDay: pair("as-gimp", "low", "high"), googleDefaultCreatives: pair("as-gn", "low", "high"),
+      kakao: { ...A.kakao, cpm: +$("#as-kcpm").value || A.kakao.cpm }, kakaoImpressions: pair("as-kimp", "low", "high"), gfa: { cpm: +$("#as-gfacpm").value || A.gfa.cpm }, gfaImpressions: pair("as-gfaimp", "low", "high"), days: 30 };
     await saveAssumptions(values); toast("가정값 저장"); load();
+  };
+  $("#br-save").onclick = async () => {
+    const comp = $("#br-comp").value, date = $("#br-date").value; if (!comp) return;
+    await api("/api/captures", { method: "POST", body: JSON.stringify({ id: `br-${date}-${btoa(unescape(encodeURIComponent(comp))).replace(/[^a-z0-9]/gi, "").slice(0, 16)}`, competitor: "_설정", stage: AD_STAGE, capturedAt: date + "T00:00:00+09:00", type: "brand_obs", competitor_name: comp, running: $("#br-run").value === "1", kind: $("#br-kind").value, tier: +$("#br-tier").value, date }) });
+    toast("저장됨"); load();
   };
   $("#as-reset").onclick = async () => { await saveAssumptions({}); toast("기본값으로 되돌림"); load(); };
 }
