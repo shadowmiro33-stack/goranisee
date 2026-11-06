@@ -1,7 +1,7 @@
 name: Funnel Capture Request (URL)
 
 # 어드민 "URL로 수집" 버튼 → repository_dispatch → 단일 URL 즉시 수집 → 어드민 전송
-# client_payload: { url, competitor, stage, device, request_id, flow }
+# client_payload: { url, competitor, stage, device, request_id, flow, crawl, max_pages }
 on:
   repository_dispatch:
     types: [funnel_capture]
@@ -9,7 +9,7 @@ on:
 jobs:
   capture:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 40
     permissions:
       contents: write
 
@@ -37,9 +37,12 @@ jobs:
           P_DEVICE: ${{ github.event.client_payload.device }}
           P_REQ: ${{ github.event.client_payload.request_id }}
           P_FLOW: ${{ github.event.client_payload.flow }}
+          P_CRAWL: ${{ github.event.client_payload.crawl }}
+          P_MAX: ${{ github.event.client_payload.max_pages }}
         run: |
           [ -n "$P_URL" ] || { echo "client_payload.url 이 없습니다"; exit 1; }
           FLOW=""; [ "$P_FLOW" = "true" ] && FLOW="--flow"
+          [ "$P_CRAWL" = "true" ] && FLOW="--crawl --max-pages ${P_MAX:-30}"
           node collector/funnel_collector.cjs --url "$P_URL" --competitor "${P_COMP:-}" --stage "${P_STAGE:-home}" --device "${P_DEVICE:-둘다}" --request-id "${P_REQ:-}" $FLOW
 
       - name: Upload run artifacts
@@ -50,6 +53,7 @@ jobs:
           path: |
             snapshots/adhoc/
             snapshots/flow/
+            snapshots/crawl/
           retention-days: 14
 
       - name: Commit snapshot

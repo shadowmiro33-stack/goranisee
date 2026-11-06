@@ -20,6 +20,8 @@
  *   node collector/funnel_collector.cjs --out snapshots # 출력 폴더
  *   node collector/funnel_collector.cjs --url https://... --competitor 엔카 --stage detail [--request-id r1] [--device 모바일|데스크톱|둘다]
  *       # 단일 URL 즉시 수집 (어드민 "URL로 수집" → repository_dispatch). 설정 파일의 sites는 무시.
+ *   node collector/funnel_collector.cjs --url https://... --competitor 엔카 --crawl --max-pages 30
+ *       # 전체 페이지 수집: 같은 도메인 링크(및 sitemap)를 따라 최대 N페이지 캡처, URL로 단계 자동 분류
  *   node collector/funnel_collector.cjs --url https://... --competitor 엔카 --flow [--request-id r1]
  *       # 흐름 모드: 첫 화면에서 시작해 리스트 → 상세 → 신청 버튼까지 따라가며 단계별 캡처 (입력·제출 없음)
  */
@@ -43,6 +45,8 @@ const ADHOC_COMPETITOR = arg('--competitor', null);
 const ADHOC_REQUEST = arg('--request-id', null);
 const ADHOC_DEVICE = arg('--device', null);
 const FLOW = args.includes('--flow');
+const CRAWL = args.includes('--crawl');
+const CRAWL_MAX = Math.min(80, Math.max(1, parseInt(arg('--max-pages', '30')) || 30));
 
 const KST = 9 * 60 * 60 * 1000;
 const todayKst = () => new Date(Date.now() + KST).toISOString().slice(0, 10);
@@ -237,11 +241,11 @@ function toAdminCapture(res, cfg, stageDef, viewportShotB64, shotFull) {
   const sections = res.promo.map(p => ({ title: (p.kind === 'banner' ? '[배너] ' : p.kind === 'ad' ? '[광고] ' : '') + p.label, cards: p.items, pos: posStr(p.pos), samplePrices: [] }));
   const headlines = res.hero.map(h => ({ tag: 'hero', text: h.text, pos: `${band(h.y, pageH, vh)}/중앙` }));
   return {
-    id: res.requestId ? `req-${res.requestId}${res.flow ? '-' + res.stage : ''}${res.viewportKey && res.viewportKey !== 'mobile' ? '-' + res.viewportKey : ''}` : `auto-${res.site}-${res.stage}-${res.viewportKey || 'mobile'}-${res.capturedAt.slice(0, 10)}`,
+    id: res.requestId ? `req-${res.requestId}${res.crawl ? '-p' + res.crawl.index : ''}${res.flow ? '-' + res.stage : ''}${res.viewportKey && res.viewportKey !== 'mobile' ? '-' + res.viewportKey : ''}` : `auto-${res.site}-${res.stage}-${res.viewportKey || 'mobile'}-${res.capturedAt.slice(0, 10)}`,
     competitor: res.siteName,
     stage: stageDef?.adminStage || stageDef?.label || res.stage,
     device: res.device || (res.viewportKey === 'desktop' ? '데스크톱' : '모바일'),
-    note: (res.flow ? `흐름 수집 ${res.flow.step}단계` + (res.flow.via ? ` · 진입: "${res.flow.via.text}"` : ' · 시작') : res.requestId ? '어드민 URL 수집 (GitHub Actions)' : (cfg.admin && cfg.admin.note) || '자동 수집') + (res.warning ? ' · ' + res.warning : ''),
+    note: (res.crawl ? `전체 페이지 수집 #${res.crawl.index} (깊이 ${res.crawl.depth})` : res.flow ? `흐름 수집 ${res.flow.step}단계` + (res.flow.via ? ` · 진입: "${res.flow.via.text}"` : ' · 시작') : res.requestId ? '어드민 URL 수집 (GitHub Actions)' : (cfg.admin && cfg.admin.note) || '자동 수집') + (res.warning ? ' · ' + res.warning : ''),
     capturedAt: new Date(res.capturedAt).toISOString(),
     screenshot: viewportShotB64 ? 'data:image/jpeg;base64,' + viewportShotB64 : null,
     url: res.finalUrl || res.url,
@@ -253,7 +257,7 @@ function toAdminCapture(res, cfg, stageDef, viewportShotB64, shotFull) {
     prices: (res.appeals && res.appeals.price || []).map(s => (s.match(/[\d,]{2,}\s?(만원|원)/) || [])[0]).filter(Boolean).slice(0, 8),
     forms: [], nav: [],
     firstScreenText: res.hero.map(h => h.text).join(' | '),
-    style: res.style || null, warning: res.warning || null, flow: res.flow || null, flowSummary: res.flowSummary || null, formsDetail: res.forms || null, adTech: res.adTech || null,
+    style: res.style || null, warning: res.warning || null, flow: res.flow || null, flowSummary: res.flowSummary || null, crawl: res.crawl || null, formsDetail: res.forms || null, adTech: res.adTech || null,
     source: 'funnel_collector', sourceStage: res.stage, viewportKey: res.viewportKey || null, screenshotFull: !!shotFull, screenshotHeight: shotFull ? Math.min(pageH, (cfg.capture && cfg.capture.maxScreenshotHeight) || 12000) : vh, overlaysByTrigger: res.overlays, promoDetail: res.promo, ctaDetail: res.ctas,
   };
 }
@@ -435,6 +439,66 @@ function attachRequestLog(page) {
 }
 
 /* ------------------------------------------------------------------ */
+/* 전체 페이지 수집(crawl): 시작 URL에서 같은 도메인 링크를 너비우선으로 따라가며 최대 N페이지 캡처 */
+/* GET 이동만. 로그인·폼·검색 결과 파라미터 페이지는 제외. sitemap.xml 이 있으면 우선 사용.      */
+/* ------------------------------------------------------------------ */
+const CRAWL_SKIP = /login|signin|signup|join|logout|member|mypage|cart|order|checkout|pay|terms|privacy|policy|\.(pdf|jpg|png|gif|zip|xml|json)$|mailto:|tel:|javascript:|#/i;
+function guessStage(url, title) {
+  const u = (url + ' ' + (title || '')).toLowerCase();
+  if (/detail|view|\/car[s]?\/\d|\/vehicle\/|id=\d|\/product\//.test(u)) return 'detail';
+  if (/list|search|category|catalog|\/cars?$|\/vehicles?|model/.test(u)) return 'list';
+  if (/estimate|quote|inquiry|consult|apply|request|contact|견적|상담|신청/.test(u)) return 'inquiry';
+  if (/event|promotion|benefit|이벤트|기획전/.test(u)) return 'event';
+  if (/faq|notice|about|company|review|blog|article|news|guide/.test(u)) return 'etc';
+  return 'etc';
+}
+async function fetchSitemap(context, origin) {
+  const urls = [];
+  for (const sm of ['/sitemap.xml', '/sitemap_index.xml']) {
+    try {
+      const r = await context.request.get(origin + sm, { timeout: 10000 }); if (!r.ok()) continue;
+      const xml = await r.text(); const locs = [...xml.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map(m => m[1]);
+      for (const l of locs) { if (/sitemap.*\.xml$/i.test(l) && urls.length < 2000) { try { const r2 = await context.request.get(l, { timeout: 10000 }); if (r2.ok()) urls.push(...[...(await r2.text()).matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map(m => m[1])); } catch (_) {} } else urls.push(l); }
+      if (urls.length) break;
+    } catch (_) {}
+  }
+  return [...new Set(urls)];
+}
+async function runCrawl(context, site, startUrl, cfg, vp, outDir, base, maxPages, onPage) {
+  const origin = new URL(startUrl).origin;
+  const seen = new Set(), queue = [{ url: startUrl, depth: 0 }], results = [];
+  const norm = u => { try { const x = new URL(u, startUrl); x.hash = ''; if (x.origin !== origin) return null; if (CRAWL_SKIP.test(x.pathname + x.search)) return null; if ([...x.searchParams.keys()].length > 2) return null; return x.href; } catch { return null; } };
+  const sm = await fetchSitemap(context, origin);
+  if (sm.length) { log(`  sitemap ${sm.length}개 URL 발견`); sm.map(norm).filter(Boolean).forEach(u => queue.push({ url: u, depth: 1 })); }
+  const page = await context.newPage();
+  attachRequestLog(page);
+  try {
+    while (queue.length && results.length < maxPages) {
+      const { url, depth } = queue.shift();
+      const n = norm(url); if (!n || seen.has(n)) continue; seen.add(n);
+      const result = { site: site.key, siteName: site.name, stage: 'etc', url: n, capturedAt: nowKst(), ok: false, _shotPath: path.join(outDir, `${base}.${String(results.length + 1).padStart(3, '0')}.jpg`), crawl: { index: results.length + 1, depth, from: startUrl } };
+      try {
+        const resp = await page.goto(n, { waitUntil: 'domcontentloaded', timeout: 45000 });
+        result.httpStatus = resp ? resp.status() : null;
+        if (seen.has(page.url()) && page.url() !== n) { seen.add(n); continue; } // 리다이렉트로 이미 본 페이지
+        await analyzeOnPage(page, site, 'etc', cfg, result._shotPath, result);
+        result.stage = depth === 0 ? 'home' : guessStage(page.url(), result.title);
+        // 다음 링크 수집 (depth 제한 2)
+        if (depth < 2) {
+          const links = await page.evaluate(() => [...document.querySelectorAll('a[href]')].map(a => a.href)).catch(() => []);
+          const fresh = [...new Set(links.map(norm).filter(Boolean))].filter(u => !seen.has(u));
+          fresh.slice(0, 60).forEach(u => queue.push({ url: u, depth: depth + 1 }));
+        }
+      } catch (e) { result.error = String(e.message || e).slice(0, 300); log(`  ✖ ${site.name} #${result.crawl.index} ${n}  ${result.error}`); }
+      results.push(result);
+      await onPage(result);
+      await jitter(1200, 2500);
+    }
+  } finally { await page.close(); }
+  return { results, discovered: seen.size, queued: queue.length };
+}
+
+/* ------------------------------------------------------------------ */
 /* 흐름 모드: 첫 화면 → 리스트 → 상세 → 신청 을 한 브라우저에서 따라가며 각 단계 캡처 */
 /* 링크 이동과 '신청' 버튼 클릭까지만. 입력·제출은 절대 하지 않음.                 */
 /* ------------------------------------------------------------------ */
@@ -543,7 +607,7 @@ async function main() {
   let viewports = cfg.viewports || [Object.assign({ key: 'mobile', label: '모바일' }, cfg.viewport || { width: 390, height: 844, mobile: true })];
   if (ADHOC_URL) {
     // --device 모바일 | 데스크톱 | 둘다(기본)
-    const want = ADHOC_DEVICE === '모바일' ? ['mobile'] : ADHOC_DEVICE === '데스크톱' ? ['desktop'] : FLOW ? ['mobile'] : ['mobile', 'desktop'];
+    const want = ADHOC_DEVICE === '모바일' ? ['mobile'] : ADHOC_DEVICE === '데스크톱' ? ['desktop'] : (FLOW || CRAWL) ? ['mobile'] : ['mobile', 'desktop'];
     viewports = want.map(k => viewports.find(v => v.key === k) || (k === 'desktop' ? { key: 'desktop', label: '데스크톱', width: 1280, height: 800, mobile: false } : { key: 'mobile', label: '모바일', width: 390, height: 844, mobile: true }));
   }
   log(`퍼널 스냅샷 수집 시작 ${date}  (config: ${path.relative(ROOT, CONFIG)}, out: ${path.relative(ROOT, OUT)}, 화면: ${viewports.map(v => v.label).join('·')})`);
@@ -577,6 +641,27 @@ async function main() {
       log(`▶ ${site.name} [${vp.label}]`);
       const prior = {};
       const siteEntry = { key: site.key, name: site.name, viewport: vp.key, pages: [] };
+      if (CRAWL && ADHOC_URL) {
+        const dir = path.join(OUT, 'crawl'); fs.mkdirSync(dir, { recursive: true });
+        const base = `${date}_${(ADHOC_REQUEST || Date.now().toString(36)).replace(/[^\w-]/g, '')}_${site.key}${suffix}`;
+        log(`  전체 페이지 수집 시작 (최대 ${CRAWL_MAX}페이지)`);
+        const stageMap = { event: '이벤트/기획전', etc: '기타' };
+        const { results, discovered, queued } = await runCrawl(context, site, ADHOC_URL, cfg, vp, dir, base, CRAWL_MAX, async (res) => {
+          res.viewportKey = vp.key; res.device = vp.label; res.requestId = ADHOC_REQUEST || undefined;
+          const { _shotPath, _viewportB64, _shotFull, ...clean } = res;
+          if (adminOn && clean.ok) {
+            try { const stageDef = (cfg.stages || []).find(s => s.key === clean.stage) || { adminStage: stageMap[clean.stage] || '기타' }; const out = await pushToAdmin(toAdminCapture(clean, cfg, stageDef, _viewportB64, _shotFull)); clean.admin = { ok: true, id: out.id }; log(`  ↑ 어드민 전송 (${out.id}) [${clean.stage}] ${clean.url}`); }
+            catch (e) { clean.admin = { ok: false, error: String(e.message || e).slice(0, 200) }; log(`  ↑ 어드민 전송 실패: ${clean.admin.error}`); }
+          }
+          fs.writeFileSync(path.join(dir, `${base}.${String(clean.crawl.index).padStart(3, '0')}.json`), JSON.stringify(clean, null, 2));
+          total++; if (!clean.ok) failed++;
+        });
+        const summary = { pages: results.length, ok: results.filter(r => r.ok).length, discovered, notVisited: queued, byStage: results.reduce((a, r) => (a[r.stage] = (a[r.stage] || 0) + 1, a), {}), urls: results.map(r => ({ url: r.finalUrl || r.url, stage: r.stage, ok: r.ok, title: r.title })) };
+        fs.writeFileSync(path.join(dir, `${base}.summary.json`), JSON.stringify(summary, null, 2));
+        log(`  ■ 전체 수집 요약: ${summary.ok}/${summary.pages}페이지, 발견 ${discovered} (미방문 ${queued}) · ${Object.entries(summary.byStage).map(([k, v]) => k + ' ' + v).join(', ')}`);
+        index.sites.push({ key: site.key, name: site.name, viewport: vp.key, crawl: summary });
+        continue;
+      }
       if (FLOW && ADHOC_URL) {
         const dir = path.join(OUT, 'flow'); fs.mkdirSync(dir, { recursive: true });
         const base = `${date}_${(ADHOC_REQUEST || Date.now().toString(36)).replace(/[^\w-]/g, '')}_${site.key}${suffix}`;

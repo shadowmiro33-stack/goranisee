@@ -24,6 +24,8 @@ export default async (req) => {
     device: b.device === "데스크톱" ? "데스크톱" : b.device === "모바일" ? "모바일" : "둘다",
     request_id,
     flow: b.flow === true || b.flow === 'true' ? 'true' : 'false',
+    crawl: b.crawl === true || b.crawl === 'true' ? 'true' : 'false',
+    max_pages: String(Math.min(80, Math.max(1, parseInt(b.max_pages) || 30))),
   };
   const r = await fetch(`https://api.github.com/repos/${repo}/dispatches`, {
     method: "POST",

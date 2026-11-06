@@ -32,7 +32,9 @@ async function load() {
     const comps = [...new Set(ALL.filter((c) => c.stage !== "광고데이터").map((c) => c.competitor))].sort();
     const sel = $("#f-comp");
     const prev = [...sel.selectedOptions].map((o) => o.value);
-    sel.innerHTML = comps.map((c) => `<option ${prev.includes(c) || !prev.length ? "selected" : ""}>${esc(c)}</option>`).join("");
+    const known = [...sel.options].map((o) => o.value);
+    // 새로 생긴 경쟁사는 자동으로 선택 (기존 선택은 유지)
+    sel.innerHTML = comps.map((c) => `<option ${prev.includes(c) || !prev.length || !known.includes(c) ? "selected" : ""}>${esc(c)}</option>`).join("");
     sel.size = Math.min(Math.max(comps.length, 1), 4);
     render();
   } catch (e) { if (e.message !== "unauthorized") { toast("불러오기 실패"); $("#tab-table").innerHTML = `<div class="empty" style="color:var(--danger)">서버 설정 오류<br><br><code style="white-space:pre-wrap">${esc(e.message)}</code><br><br><span style="color:var(--muted)">Netlify 환경변수 또는 Supabase 설정을 확인한 뒤 재배포하고 새로고침하세요.</span></div>`; } }
@@ -207,7 +209,7 @@ function renderCaptureQueue() {
     const age = (Date.now() - q.at) / 1000;
     const capErr = done?.data?.captureError;
     const st = done ? (capErr ? ["err", "실패"] : ["ok", "도착"]) : q.error ? ["err", "실패"] : age > 600 ? ["err", "10분 경과 · Actions 확인"] : ["wait", "수집 중…"];
-    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}${doneAll.length > 1 ? ` (${doneAll.length})` : ""}</span><span class="t">${esc(q.device)}${q.flow ? " · 흐름" : ""}</span><span>${done ? (capErr ? `<span class="t" title="${esc(capErr)}">${esc(capErr.slice(0, 90))}</span>` : `${q.flow ? `<button class="sm" data-tab-go="flow">퍼널 흐름</button>` : `<button class="sm" data-cmp-open="${done.id}">화면 비교</button>`} <button class="sm" data-id="${done.id}">상세</button>`) : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`} <button class="sm danger" data-q-del="${esc(q.id)}" title="요청 내역과 도착한 캡처 삭제">삭제</button></span></div>`;
+    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}${doneAll.length > 1 ? ` (${doneAll.length})` : ""}</span><span class="t">${esc(q.device)}${q.flow ? " · 흐름" : ""}${q.crawl ? ` · 전체 ${q.max_pages}p` : ""}</span><span>${done ? (capErr ? `<span class="t" title="${esc(capErr)}">${esc(capErr.slice(0, 90))}</span>` : `${q.flow ? `<button class="sm" data-tab-go="flow">퍼널 흐름</button>` : q.crawl ? `<button class="sm" data-tab-go="timeline">이력 보기</button>` : `<button class="sm" data-cmp-open="${done.id}">화면 비교</button>`} <button class="sm" data-id="${done.id}">상세</button>`) : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`} <button class="sm danger" data-q-del="${esc(q.id)}" title="요청 내역과 도착한 캡처 삭제">삭제</button></span></div>`;
   }).join("");
   el.querySelectorAll("[data-tab-go]").forEach((b) => b.addEventListener("click", () => document.querySelector(`.tabs button[data-tab="${b.dataset.tabGo}"]`).click()));
   el.querySelectorAll("[data-q-del]").forEach((b) => b.addEventListener("click", async () => {
@@ -236,7 +238,7 @@ function startCapPoll() {
 }
 $("#cap-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value === "둘 다" ? "둘다" : $("#cap-device").value, flow: $("#cap-flow").checked };
+  const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value === "둘 다" ? "둘다" : $("#cap-device").value, flow: $("#cap-flow").checked, crawl: $("#cap-crawl").checked, max_pages: +$("#cap-max").value || 30 };
   $("#cap-go").disabled = true;
   try {
     const r = await api("/api/capture-request", { method: "POST", body: JSON.stringify(body) });
