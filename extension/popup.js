@@ -49,8 +49,14 @@ $("capture").addEventListener("click", async () => {
   status("페이지 분석 중…");
   try {
     const [{ result }] = await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["extract.js"] });
-    let screenshot = null;
-    try { screenshot = await chrome.tabs.captureVisibleTab(undefined, { format: "jpeg", quality: 60 }); } catch (e) { /* 일부 페이지는 캡처 불가 */ }
+    let screenshot = null, screenshotFull = false, screenshotHeight = 0;
+    try {
+      status("전체 페이지 스크린샷 생성 중…");
+      const full = await captureFullPage(tab.id);
+      screenshot = full.dataUrl; screenshotFull = full.full; screenshotHeight = full.height;
+    } catch (e) {
+      try { screenshot = await chrome.tabs.captureVisibleTab(undefined, { format: "jpeg", quality: 60 }); } catch (e2) { /* 일부 페이지는 캡처 불가 */ }
+    }
 
     const capture = {
       id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
@@ -59,7 +65,7 @@ $("capture").addEventListener("click", async () => {
       device: $("device").value,
       note: $("note").value.trim(),
       capturedAt: new Date().toISOString(),
-      screenshot,
+      screenshot, screenshotFull, screenshotHeight,
       ...result,
     };
 
@@ -94,3 +100,32 @@ $("open").addEventListener("click", async () => {
 $("settings").addEventListener("click", (e) => { e.preventDefault(); chrome.runtime.openOptionsPage(); });
 
 load();
+
+// 스크롤하며 보이는 화면을 여러 장 찍어 세로로 이어붙인 전체 페이지 스크린샷 (최대 20장 ≈ 모바일 기준 16,000px)
+async function captureFullPage(tabId) {
+  const run = (func, args = []) => chrome.scripting.executeScript({ target: { tabId }, func, args }).then((r) => r[0]?.result);
+  const info = await run(() => ({ w: innerWidth, h: innerHeight, total: Math.max(document.documentElement.scrollHeight, document.body.scrollHeight), y0: scrollY, dpr: devicePixelRatio }));
+  const shots = Math.min(20, Math.ceil(info.total / info.h));
+  const parts = [];
+  for (let i = 0; i < shots; i++) {
+    const y = i * info.h;
+    await run((y, first) => {
+      window.scrollTo(0, y);
+      // 두 번째 장부터는 고정 요소(헤더·하단바·플로팅)를 숨겨 반복 노출을 막음
+      if (!first) document.querySelectorAll("body *").forEach((el) => { const p = getComputedStyle(el).position; if ((p === "fixed" || p === "sticky") && !el.dataset.__fcHidden) { el.dataset.__fcHidden = el.style.visibility || "_"; el.style.visibility = "hidden"; } });
+    }, [y, i === 0]);
+    await new Promise((r) => setTimeout(r, i === 0 ? 400 : 650)); // captureVisibleTab 호출 제한(초당 2회) 대응
+    const actualY = await run(() => scrollY);
+    parts.push({ y: actualY, dataUrl: await chrome.tabs.captureVisibleTab(undefined, { format: "jpeg", quality: 70 }) });
+    if (actualY + info.h >= info.total) break;
+  }
+  await run((y0) => { document.querySelectorAll("[data-__fc-hidden], [data-__fcHidden]").forEach((el) => { el.style.visibility = el.dataset.__fcHidden === "_" ? "" : el.dataset.__fcHidden; delete el.dataset.__fcHidden; }); window.scrollTo(0, y0); }, [info.y0]);
+  // 이어붙이기
+  const imgs = await Promise.all(parts.map((p) => new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = p.dataUrl; })));
+  const scale = imgs[0].width / info.w;
+  const height = Math.min(info.total, parts[parts.length - 1].y + info.h);
+  const canvas = document.createElement("canvas"); canvas.width = imgs[0].width; canvas.height = Math.round(height * scale);
+  const ctx = canvas.getContext("2d");
+  parts.forEach((p, i) => ctx.drawImage(imgs[i], 0, Math.round(p.y * scale)));
+  return { dataUrl: canvas.toDataURL("image/jpeg", 0.6), full: height >= info.total, height };
+}

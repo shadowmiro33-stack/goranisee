@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>수집 저장</title>
+<style>body{margin:0;font:14px/1.5 -apple-system,"Malgun Gothic",system-ui,sans-serif;color:#17181c;background:#f6f7f9;padding:24px}h1{font-size:15px;margin:0 0 10px}#m{color:#6b7280}#m.ok{color:#1f8a4c}#m.err{color:#b42318}</style></head>
+<body><h1>퍼널 비교 수집기 · 저장 창</h1><div id="m">경쟁사 페이지에서 수집 데이터를 기다리는 중…</div>
+<script>
+// 즐겨찾기 버튼이 경쟁사 사이트의 CSP 때문에 직접 전송하지 못할 때, 이 창(우리 도메인)을 열고 postMessage로 데이터를 넘깁니다.
+const m = document.getElementById("m");
+let handled = false;
+window.addEventListener("message", async (ev) => {
+  const d = ev.data || {}; if (d.type !== "fc_capture" || handled) return; handled = true;
+  const reply = (msg) => { try { ev.source.postMessage(msg, ev.origin); } catch (e) {} };
+  try {
+    m.textContent = "저장 중…";
+    const r = await fetch("/api/captures", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + d.password }, body: JSON.stringify(d.capture) });
+    if (!r.ok) { const t = await r.text(); let e = t; try { e = JSON.parse(t).error || t; } catch (_) {} throw new Error(r.status === 401 ? "비밀번호가 틀렸습니다. 어드민에서 버튼을 다시 만드세요." : "서버 오류 " + r.status + ": " + String(e).slice(0, 200)); }
+    if (d.domRow) { const r2 = await fetch("/api/captures", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + d.password }, body: JSON.stringify(d.domRow) }); if (!r2.ok) throw new Error("DOM 스냅샷 저장 실패 " + r2.status); }
+    if (d.domRow) { fetch("/api/capture-request", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + d.password }, body: JSON.stringify({ render: d.capture.id }) }).catch(() => {}); }
+    m.className = "ok"; m.textContent = "저장 완료. 이 창은 3초 뒤 닫힙니다." + (d.domRow ? " 전체 화면 스크린샷은 1~2분 뒤 어드민에 생성됩니다." : "");
+    reply({ type: "fc_done", ok: true });
+    setTimeout(() => window.close(), 3000);
+  } catch (e) { m.className = "err"; m.textContent = "실패: " + e.message; reply({ type: "fc_done", ok: false, error: e.message }); }
+});
+if (window.opener) { try { window.opener.postMessage({ type: "fc_ready" }, "*"); } catch (e) {} }
+else m.textContent = "이 창은 즐겨찾기 수집 버튼이 자동으로 엽니다.";
+</script></body></html>

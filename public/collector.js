@@ -1,5 +1,6 @@
 // 북마클릿 본체. 어드민의 "수집 버튼" 탭이 서버 주소와 비밀번호를 채워 javascript: 링크로 만듭니다.
-// 확장 프로그램 extract.js 와 같은 항목을 수집하되, 스크린샷은 없습니다.
+// 확장 프로그램 extract.js 와 같은 항목을 수집합니다. 스크린샷 대신 페이지 DOM 스냅샷을 보내고, 어드민이 GitHub 러너에서 전체 화면을 그려 넣습니다.
+// 사이트가 외부 전송(CSP connect-src)을 막으면 어드민 창(ingest.html)을 열어 postMessage로 저장합니다.
 (function () {
   var SERVER = "__SERVER__", PASSWORD = "__PASSWORD__";
   var STAGES = ["첫 화면(랜딩)", "카테고리/상품 목록", "상품 상세", "장바구니", "결제", "회원가입/로그인", "이벤트/기획전", "기타"];
@@ -40,7 +41,16 @@
     var forms = q("form").filter(function (f) { return isVisible(f) && !f.closest("#__fc_panel"); }).map(function (f) { var b = f.querySelector('button, input[type="submit"]'); return { fields: Array.prototype.slice.call(f.querySelectorAll("input, select, textarea")).filter(isVisible).map(function (i) { return i.placeholder || i.name || i.type; }).slice(0, 8), submit: clean(b ? (b.innerText || b.value) : ""), pos: pos(f) }; }).filter(function (f) { return f.fields.length; }).slice(0, 6);
     var nav = uniq(q("nav a, header a").filter(isVisible).map(function (a) { return clean(a.innerText); }).filter(function (t) { return t && t.length <= 20; })).slice(0, 25);
     var firstScreenText = clean(q("body *").filter(function (el) { if (el.closest("#__fc_panel") || !isVisible(el) || el.children.length) return false; var r = el.getBoundingClientRect(); return r.top + scrollY < vh * 1.2 && r.bottom > 0; }).map(function (el) { return el.innerText; }).join(" | ")).slice(0, 1200);
-    return { url: location.href, title: clean(document.title), description: clean(meta("description") || meta("og:description")), viewport: vw + "x" + vh, pageHeight: document.documentElement.scrollHeight, headlines: headlines, ctas: ctas, benefits: benefits, overlays: overlays, sections: sections, prices: prices, forms: forms, nav: nav, firstScreenText: firstScreenText };
+    var dom = null, domTruncated = false;
+    try {
+      var root = document.documentElement.cloneNode(true);
+      Array.prototype.slice.call(root.querySelectorAll("script, noscript, iframe, #__fc_panel, link[rel='preload'], link[rel='prefetch']")).forEach(function (e) { e.remove(); });
+      var head = root.querySelector("head"); if (head) { var b = document.createElement("base"); b.href = location.href; head.insertBefore(b, head.firstChild); }
+      // 스크롤 위치·고정 요소는 렌더러가 처리. 현재 computed 스타일 중 display:none 인 요소 제거로 용량 절감
+      dom = "<!doctype html>" + root.outerHTML;
+      if (dom.length > 2500000) { dom = dom.slice(0, 2500000); domTruncated = true; }
+    } catch (e) { dom = null; }
+    return { dom: dom, hasDom: !!dom, domTruncated: domTruncated, scrollY: scrollY, url: location.href, title: clean(document.title), description: clean(meta("description") || meta("og:description")), viewport: vw + "x" + vh, pageHeight: document.documentElement.scrollHeight, headlines: headlines, ctas: ctas, benefits: benefits, overlays: overlays, sections: sections, prices: prices, forms: forms, nav: nav, firstScreenText: firstScreenText };
   }
 
   // 작은 패널 UI
@@ -63,11 +73,31 @@
     var btn = $("__fc_go"); btn.disabled = true; $("__fc_m").textContent = "분석·전송 중…";
     try {
       var data = extract();
-      data.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6); data.competitor = competitor; data.stage = $("__fc_s").value; data.device = $("__fc_d").value; data.note = clean($("__fc_n").value); data.capturedAt = new Date().toISOString();
+      var domRow = null; if (data.dom) { domRow = { id: null, competitor: "_설정", stage: "광고데이터", type: "dom", dom: data.dom, forUrl: location.href }; delete data.dom; }
+      data.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6); if (domRow) { domRow.id = data.id + "-dom"; domRow.forId = data.id; } data.competitor = competitor; data.stage = $("__fc_s").value; data.device = $("__fc_d").value; data.note = clean($("__fc_n").value); data.capturedAt = new Date().toISOString();
       try { localStorage.setItem("__fc_last", JSON.stringify({ competitor: competitor, stage: data.stage })); } catch (e) {}
+      var done = function (msg) { $("__fc_m").style.color = "#1f8a4c"; $("__fc_m").textContent = msg; btn.disabled = false; };
+      var fail = function (e) { $("__fc_m").style.color = "#b42318"; $("__fc_m").textContent = "실패: " + e.message + (e.message.indexOf("(") < 0 ? " → " + SERVER : ""); btn.disabled = false; };
+      var okMsg = "전송 완료: CTA " + data.ctas.length + "개, 소구 문구 " + data.benefits.length + "개" + (domRow ? " · 전체 화면은 1~2분 뒤 어드민에서 생성" : "");
+      // 1차: 직접 전송. 사이트 보안정책(CSP)이 외부 전송을 막으면 2차: 어드민 창을 열어 그 창에서 저장 (postMessage는 CSP 영향 없음)
+      var viaWindow = function () {
+        $("__fc_m").style.color = "#6b7280"; $("__fc_m").textContent = "이 사이트가 외부 전송을 막아 어드민 창을 통해 저장합니다… (팝업 허용 필요)";
+        var w = window.open(SERVER + "/ingest.html", "__fc_ingest", "width=420,height=260");
+        if (!w) { fail(new Error("팝업이 차단됐습니다. 이 사이트의 팝업을 허용한 뒤 다시 눌러주세요")); return; }
+        var timer = setTimeout(function () { window.removeEventListener("message", onMsg); fail(new Error("어드민 창 응답 없음 (" + SERVER + ")")); }, 60000);
+        function onMsg(ev) {
+          if (ev.origin !== SERVER) return;
+          var m = ev.data || {};
+          if (m.type === "fc_ready") { w.postMessage({ type: "fc_capture", password: PASSWORD, capture: data, domRow: domRow }, SERVER); }
+          else if (m.type === "fc_done") { clearTimeout(timer); window.removeEventListener("message", onMsg); if (m.ok) done(okMsg); else fail(new Error(m.error || "저장 실패")); }
+        }
+        window.addEventListener("message", onMsg);
+      };
       fetch(SERVER + "/api/captures", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + PASSWORD }, body: JSON.stringify(data) })
-        .then(function (r) { if (r.status === 401) throw new Error("비밀번호가 틀렸습니다. 어드민에서 버튼을 다시 만드세요."); if (!r.ok) return r.text().then(function (t) { var m = t; try { m = JSON.parse(t).error || t; } catch (e) {} throw new Error("서버 오류 " + r.status + ": " + String(m).slice(0, 200)); }); $("__fc_m").style.color = "#1f8a4c"; $("__fc_m").textContent = "전송 완료: CTA " + data.ctas.length + "개, 소구 문구 " + data.benefits.length + "개"; btn.disabled = false; })
-        .catch(function (e) { $("__fc_m").style.color = "#b42318"; $("__fc_m").textContent = "실패: " + e.message + (e.message.indexOf("(") < 0 ? " → " + SERVER : ""); btn.disabled = false; });
+        .then(function (r) { if (r.status === 401) throw new Error("비밀번호가 틀렸습니다. 어드민에서 버튼을 다시 만드세요."); if (!r.ok) return r.text().then(function (t) { var m = t; try { m = JSON.parse(t).error || t; } catch (e) {} throw new Error("서버 오류 " + r.status + ": " + String(m).slice(0, 200)); }); return r.json(); })
+        .then(function () { if (!domRow) return; return fetch(SERVER + "/api/captures", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + PASSWORD }, body: JSON.stringify(domRow) }); })
+        .then(function () { if (domRow) { fetch(SERVER + "/api/capture-request", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + PASSWORD }, body: JSON.stringify({ render: data.id }) }).catch(function () {}); } done(okMsg); })
+        .catch(function (e) { if (/fetch|network|load failed|csp|refused|blocked/i.test(e.message)) viaWindow(); else fail(e); });
     } catch (e) { $("__fc_m").style.color = "#b42318"; $("__fc_m").textContent = "분석 실패: " + e.message; btn.disabled = false; }
   };
 })();

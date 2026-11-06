@@ -385,12 +385,13 @@ function renderTimeline() {
       const prev = list.find((x) => x !== c && x.stage === c.stage && x.device === c.device && !x.data?.captureError && new Date(x.captured_at) < new Date(c.captured_at));
       const d = c.data?.captureError ? null : diffCapture(c, prev);
       if (changedOnly && (!d || !d.length)) return "";
-      return `<div class="tl-row"><span class="t">${fmt(c.captured_at)}</span><span class="s">${esc(c.stage)}</span><span class="d">${esc(c.device || "")}</span><span class="h" title="${esc(c.url)}">${c.data?.captureError ? `<span style="color:var(--danger)">실패: ${esc(c.data.captureError.slice(0, 60))}</span>` : esc(c.data?.headlines?.[0]?.text || c.title || c.url || "")}${c.data?.flow ? ` <span class="chip">흐름 ${c.data.flow.step}단계</span>` : ""}</span><span><button class="sm" data-id="${c.id}">상세</button> <button class="sm danger" data-del="${c.id}">삭제</button></span></div>${c.data?.captureError ? "" : diffHtml(c, prev)}`;
+      return `<div class="tl-row"><span class="t">${fmt(c.captured_at)}</span><span class="s">${esc(c.stage)}</span><span class="d">${esc(c.device || "")}</span><span class="h" title="${esc(c.url)}">${c.data?.captureError ? `<span style="color:var(--danger)">실패: ${esc(c.data.captureError.slice(0, 60))}</span>` : esc(c.data?.headlines?.[0]?.text || c.title || c.url || "")}${c.data?.flow ? ` <span class="chip">흐름 ${c.data.flow.step}단계</span>` : ""}</span><span>${c.data?.hasDom && !c.data?.renderedAt ? `<button class="sm" data-render="${c.id}" title="DOM 스냅샷으로 전체 화면 스크린샷 생성">전체 화면 생성</button> ` : ""}<button class="sm" data-id="${c.id}">상세</button> <button class="sm danger" data-del="${c.id}">삭제</button></span></div>${c.data?.captureError ? "" : diffHtml(c, prev)}`;
     }).join("");
     if (!items) return "";
     return `<div class="tl-comp"><h2>${esc(comp)} <button class="sm danger" data-del-comp="${esc(comp)}" style="float:right">경쟁사 전체 삭제</button></h2>${items}</div>`;
   }).join("") || `<div class="empty">변화가 감지된 수집이 없습니다.</div>`;
   $("#tl-changed")?.addEventListener("change", (e) => { window.__tlChanged = e.target.checked; renderTimeline(); });
+  el.querySelectorAll("[data-render]").forEach((b) => b.addEventListener("click", async () => { b.disabled = true; try { await api("/api/capture-request", { method: "POST", body: JSON.stringify({ render: b.dataset.render }) }); toast("전체 화면 생성 요청 (1~2분)"); } catch (e) { toast("요청 실패: " + e.message); b.disabled = false; } }));
 }
 
 // ---------- 상세 ----------

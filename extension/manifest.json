@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "경쟁사 퍼널 비교 수집기",
   "description": "경쟁사 사이트의 마케팅 소구점, CTA, 광고/추천 영역을 퍼널 단계별로 수집해 팀 어드민으로 보냅니다.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "permissions": ["activeTab", "scripting", "storage", "tabs"],
   "host_permissions": ["<all_urls>"],
   "action": {

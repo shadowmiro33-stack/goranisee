@@ -1,0 +1,26 @@
+name: Render Manual Capture (full-page screenshot)
+
+# 즐겨찾기(북마클릿) 수집본은 스크린샷이 없고 DOM 스냅샷만 있음 → 러너에서 그려서 전체 화면 스크린샷을 채움
+# client_payload: { id }
+on:
+  repository_dispatch:
+    types: [funnel_render]
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Playwright (Chromium)
+        run: |
+          npm i --no-save --no-package-lock playwright@1.47.2
+          npx playwright install --with-deps chromium
+      - name: Render
+        env:
+          FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL || 'https://goranisee.netlify.app' }}
+          FUNNEL_ADMIN_PASSWORD: ${{ secrets.FUNNEL_ADMIN_PASSWORD }}
+        run: node collector/render_snapshot.cjs --id "${{ github.event.client_payload.id }}"
