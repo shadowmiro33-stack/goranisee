@@ -492,7 +492,13 @@ async function runFlow(context, site, startUrl, cfg, vp, outDir, base, onStep) {
       if (!result.ok || result.flow.loginWall) break;
       const next = order[i + 1]; if (!next) break;
       const rs = NEXT_RULES[next];
-      const found = await page.evaluate(FIND_NEXT, { stage: next, rule: { text: rs.text && rs.text.source, href: rs.href && rs.href.source, hrefNot: rs.hrefNot && rs.hrefNot.source, strong: rs.strong && rs.strong.source, weak: rs.weak && rs.weak.source, hrefHint: rs.hrefHint && rs.hrefHint.source } }).catch(e => { log('  FIND_NEXT 오류: ' + e.message); return null; });
+      const selOverride = site.flowSelectors && site.flowSelectors[next];
+      const found = selOverride ? await page.evaluate(sel => {
+        const el = [...document.querySelectorAll(sel)].find(e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; }); if (!el) return null;
+        document.querySelectorAll('[data-funnel-next]').forEach(n => n.removeAttribute('data-funnel-next')); el.setAttribute('data-funnel-next', '1');
+        const r = el.getBoundingClientRect(); const pageH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, 1);
+        return { t: (el.innerText || el.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim(), href: el.href || '', kind: el.href ? 'href' : 'click', fixed: false, x: +((r.left + r.width / 2) / innerWidth).toFixed(3), y: +((r.top + scrollY + r.height / 2) / pageH).toFixed(3), w: Math.round(r.width), h: Math.round(r.height), candidates: 1, bySelector: true };
+      }, selOverride).catch(() => null) : await page.evaluate(FIND_NEXT, { stage: next, rule: { text: rs.text && rs.text.source, href: rs.href && rs.href.source, hrefNot: rs.hrefNot && rs.hrefNot.source, strong: rs.strong && rs.strong.source, weak: rs.weak && rs.weak.source, hrefHint: rs.hrefHint && rs.hrefHint.source } }).catch(e => { log('  FIND_NEXT 오류: ' + e.message); return null; });
       if (!found) { log(`  ⏹ ${stage} → ${next}: 다음 단계로 가는 링크/버튼을 찾지 못했습니다`); steps[steps.length - 1].flow.nextNotFound = next; break; }
       via = { from: stage, text: sanitize(found.t), kind: found.kind, href: found.href || null, fixed: found.fixed, pos: { x: found.x, y: found.y, w: found.w, h: found.h }, candidates: found.candidates };
       log(`  → ${next}: "${via.text}" (${found.kind}${found.fixed ? ', 고정' : ''})`);
