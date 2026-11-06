@@ -1,7 +1,7 @@
 name: Funnel Capture Request (URL)
 
 # 어드민 "URL로 수집" 버튼 → repository_dispatch → 단일 URL 즉시 수집 → 어드민 전송
-# client_payload: { url, competitor, stage, device, request_id }
+# client_payload: { url, competitor, stage, device, request_id, flow }
 on:
   repository_dispatch:
     types: [funnel_capture]
@@ -36,16 +36,20 @@ jobs:
           P_STAGE: ${{ github.event.client_payload.stage }}
           P_DEVICE: ${{ github.event.client_payload.device }}
           P_REQ: ${{ github.event.client_payload.request_id }}
+          P_FLOW: ${{ github.event.client_payload.flow }}
         run: |
           [ -n "$P_URL" ] || { echo "client_payload.url 이 없습니다"; exit 1; }
-          node collector/funnel_collector.cjs --url "$P_URL" --competitor "${P_COMP:-}" --stage "${P_STAGE:-home}" --device "${P_DEVICE:-둘다}" --request-id "${P_REQ:-}"
+          FLOW=""; [ "$P_FLOW" = "true" ] && FLOW="--flow"
+          node collector/funnel_collector.cjs --url "$P_URL" --competitor "${P_COMP:-}" --stage "${P_STAGE:-home}" --device "${P_DEVICE:-둘다}" --request-id "${P_REQ:-}" $FLOW
 
       - name: Upload run artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: funnel-capture-${{ github.run_id }}
-          path: snapshots/adhoc/
+          path: |
+            snapshots/adhoc/
+            snapshots/flow/
           retention-days: 14
 
       - name: Commit snapshot
@@ -53,7 +57,7 @@ jobs:
           git checkout -- package.json 2>/dev/null || true
           git config --global user.name "Funnel Snapshot Bot"
           git config --global user.email "bot@users.noreply.github.com"
-          git add snapshots/adhoc/
+          git add snapshots/adhoc/ snapshots/flow/ 2>/dev/null || git add snapshots/
           git diff --cached --quiet || git commit -m "auto: funnel capture request ${{ github.event.client_payload.request_id }} [$(TZ=Asia/Seoul date +'%Y-%m-%d %H:%M KST')]"
           git pull --rebase -q || true
           git push

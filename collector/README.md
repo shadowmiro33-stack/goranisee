@@ -12,7 +12,7 @@ snapshots/
   <site>/<stage>/<YYYY-MM-DD>.json|.jpg           모바일(390px, 2x) 추출 결과·전체 스크린샷
   <site>/<stage>/<YYYY-MM-DD>.desktop.json|.jpg   데스크톱(1280px) 동일
   <site>/<stage>/latest[.desktop].json|.jpg       최신본 복사
-.github/workflows/funnel_snapshot.yml   매주 월요일 10:23 KST + 수동 실행
+.github/workflows/funnel_snapshot.yml   매일 06:23 KST + 수동 실행
 ```
 
 ## goranisee 어드민 연동 (https://goranisee.netlify.app)
@@ -36,6 +36,16 @@ snapshots/
 
 어드민에서 URL을 넣으면 `funnel_capture_request.yml`이 `repository_dispatch`(`funnel_capture`)로 실행되어 그 URL 하나를 바로 수집하고 어드민으로 보냅니다.
 결과는 `snapshots/adhoc/<단계>/<날짜>_<요청id>_<사이트>.json|.jpg` 에 남습니다. 어드민 쪽 설정은 goranisee README 2-C 참고.
+
+## 신청까지 흐름 모드 (`--flow`)
+
+첫 화면 URL에서 시작해 **리스트 → 매물 상세 → 신청 버튼**까지 링크 이동/버튼 클릭으로 따라가며 단계별로 캡처합니다. 입력·제출은 하지 않습니다.
+각 단계에 `flow.via`(어떤 링크/버튼으로 들어왔는지), 마지막 단계에 `flowSummary`(도달 단계, 신청까지 탭 수, 신청 폼 필드/필수 수, 로그인 필요 여부, 단계별 팝업·소구점 수)가 붙습니다.
+어드민 "URL로 수집"의 **신청까지 흐름 따라가기**, 또는 `funnel_targets.json`의 `sites[].flowStart`(매일 자동)로 실행됩니다. 결과는 어드민 **퍼널 흐름** 탭.
+
+## 광고·마케팅 채널 신호 (`adTech`)
+
+페이지가 호출하는 전환 태그·픽셀(Google Ads, Meta 픽셀, 네이버 wcs/GFA, 카카오 픽셀, TikTok, Criteo, 앱 어트리뷰션 등)을 네트워크 요청과 HTML에서 찾아 `adTech.tags`, 광고 계정 ID(`ids`), 유료 채널 추정(`paidChannels`)을 기록합니다. 어드민 **광고 채널** 탭에서 경쟁사별 운영 채널과 최초/최근 검출일을 비교하고, 변화 추적에서 태그가 생기거나 사라진 날을 잡습니다.
 
 ## 실행
 

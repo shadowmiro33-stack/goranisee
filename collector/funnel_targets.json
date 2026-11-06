@@ -1,5 +1,5 @@
 {
-  "$comment": "퍼널 스냅샷 수집 대상. 공개 페이지만 등록합니다. 로그인·폼 제출이 필요한 단계는 자동 수집하지 않고 뷰어에 수동 업로드합니다. 페이지에 urlDesktop을 주면 데스크톱 화면은 그 주소로 엽니다(없으면 url 그대로).",
+  "$comment": "퍼널 스냅샷 수집 대상. 공개 페이지만 등록합니다. 로그인·폼 제출이 필요한 단계는 자동 수집하지 않고 뷰어에 수동 업로드합니다. 페이지에 urlDesktop을 주면 데스크톱 화면은 그 주소로 엽니다(없으면 url 그대로). sites[].flowStart 에 시작 URL을 주면 매일 '신청까지 흐름'도 함께 수집합니다.",
   "viewports": [
     {
       "key": "mobile",
@@ -68,7 +68,8 @@
           "followFrom": "list",
           "linkSelector": "a[href*='/car/detail'], a[href*='carid='], a[href*='/dc/dc_cardetailview']"
         }
-      ]
+      ],
+      "flowStart": "https://m.encar.com/"
     },
     {
       "key": "kcar",
@@ -89,7 +90,8 @@
           "followFrom": "list",
           "linkSelector": "a[href*='/bc/detail'], a[href*='cid=']"
         }
-      ]
+      ],
+      "flowStart": "https://m.kcar.com/"
     }
   ],
   "capture": {

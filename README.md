@@ -64,9 +64,9 @@
 
 이 저장소 Settings → Secrets and variables → Actions 에는 `FUNNEL_ADMIN_URL`(이 어드민 주소)와 `FUNNEL_ADMIN_PASSWORD`(`ADMIN_PASSWORD`와 같은 값)가 있어야 결과가 돌아옵니다.
 
-## 2-D. 주간 자동 수집
+## 2-D. 매일 자동 수집 · 변화 추적 · 퍼널 흐름 · 광고 채널
 
-`collector/funnel_targets.json`에 등록된 경쟁사·단계 URL을 매주 월요일 10:23 KST에 모바일·데스크톱 두 화면 폭으로 수집해 어드민에 보냅니다 (Actions → *Competitor Funnel Snapshot* 에서 수동 실행도 가능). 결과 원본은 `snapshots/`에 날짜별로 쌓입니다. 자세한 내용은 `collector/README.md`.
+`collector/funnel_targets.json`에 등록된 경쟁사·단계 URL을 매일 06:23 KST에 모바일·데스크톱 두 화면 폭으로 수집하고, `flowStart`가 있는 경쟁사는 첫 화면 → 리스트 → 상세 → 신청까지 흐름도 따라가 어드민에 보냅니다. 어드민의 **수집 이력·변화 추적**에서 전날 대비 바뀐 문구·CTA·팝업·가격·광고 태그가 표시되고, **퍼널 흐름** 탭에서 신청까지 탭 수·입력 폼·로그인 요구 같은 마찰을 경쟁사별로 비교하며, **광고 채널** 탭에서 전환 태그·픽셀로 추정한 유료 광고 채널을 봅니다 (Actions → *Competitor Funnel Snapshot* 에서 수동 실행도 가능). 결과 원본은 `snapshots/`에 날짜별로 쌓입니다. 자세한 내용은 `collector/README.md`.
 
 로그인이 필요한 단계(상담 신청·결제)는 자동 수집하지 않으므로 2-A/2-B로 직접 캡처합니다.
 

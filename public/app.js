@@ -202,12 +202,20 @@ function renderCaptureQueue() {
   $("#cap-comp-list").innerHTML = [...new Set(ALL.map((c) => c.competitor))].sort().map((c) => `<option value="${esc(c)}">`).join("");
   if (!CAP_Q.length) { el.innerHTML = ""; return; }
   el.innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:4px">요청 내역 (이 브라우저)</div>` + CAP_Q.map((q) => {
-    const done = ALL.find((c) => c.id === q.id) || ALL.find((c) => c.id.startsWith(q.id + "-"));
+    const doneAll = ALL.filter((c) => c.id === q.id || c.id.startsWith(q.id + "-"));
+    const done = ALL.find((c) => c.id === q.id) || doneAll.find((c) => c.id.endsWith("-inquiry")) || doneAll[0];
     const age = (Date.now() - q.at) / 1000;
     const capErr = done?.data?.captureError;
     const st = done ? (capErr ? ["err", "실패"] : ["ok", "도착"]) : q.error ? ["err", "실패"] : age > 600 ? ["err", "10분 경과 · Actions 확인"] : ["wait", "수집 중…"];
-    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}</span><span class="t">${esc(q.device)}</span><span>${done ? (capErr ? `<span class="t" title="${esc(capErr)}">${esc(capErr.slice(0, 90))}</span>` : `<button class="sm" data-cmp-open="${done.id}">화면 비교</button> <button class="sm" data-id="${done.id}">상세</button>`) : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`}</span></div>`;
+    return `<div class="cap-row"><span class="t">${fmt(new Date(q.at).toISOString())}</span><span class="u" title="${esc(q.url)}">${esc(q.competitor || "")} · ${esc(q.stage)} · ${esc(q.url)}</span><span class="st ${st[0]}">${st[1]}${doneAll.length > 1 ? ` (${doneAll.length})` : ""}</span><span class="t">${esc(q.device)}${q.flow ? " · 흐름" : ""}</span><span>${done ? (capErr ? `<span class="t" title="${esc(capErr)}">${esc(capErr.slice(0, 90))}</span>` : `${q.flow ? `<button class="sm" data-tab-go="flow">퍼널 흐름</button>` : `<button class="sm" data-cmp-open="${done.id}">화면 비교</button>`} <button class="sm" data-id="${done.id}">상세</button>`) : q.error ? `<span class="t" title="${esc(q.error)}">${esc(q.error.slice(0, 60))}</span>` : `<a href="${esc(q.actions || "#")}" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent)">진행 보기</a>`} <button class="sm danger" data-q-del="${esc(q.id)}" title="요청 내역과 도착한 캡처 삭제">삭제</button></span></div>`;
   }).join("");
+  el.querySelectorAll("[data-tab-go]").forEach((b) => b.addEventListener("click", () => document.querySelector(`.tabs button[data-tab="${b.dataset.tabGo}"]`).click()));
+  el.querySelectorAll("[data-q-del]").forEach((b) => b.addEventListener("click", async () => {
+    const qid = b.dataset.qDel; const hits = ALL.filter((c) => c.id === qid || c.id.startsWith(qid + "-"));
+    if (!confirm(hits.length ? `요청 내역과 도착한 캡처 ${hits.length}건을 삭제할까요?` : "요청 내역에서 지울까요?")) return;
+    for (const c of hits) { try { await api("/api/captures?id=" + c.id, { method: "DELETE" }); } catch {} }
+    CAP_Q = CAP_Q.filter((q) => q.id !== qid); saveQ(); toast("삭제됨"); load();
+  }));
   el.querySelectorAll("[data-cmp-open]").forEach((b) => b.addEventListener("click", () => {
     const c = ALL.find((x) => x.id === b.dataset.cmpOpen); if (!c) return;
     cmpState.stage = c.stage; cmpState.a = c.competitor;
@@ -228,7 +236,7 @@ function startCapPoll() {
 }
 $("#cap-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value === "둘 다" ? "둘다" : $("#cap-device").value };
+  const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value === "둘 다" ? "둘다" : $("#cap-device").value, flow: $("#cap-flow").checked };
   $("#cap-go").disabled = true;
   try {
     const r = await api("/api/capture-request", { method: "POST", body: JSON.stringify(body) });
@@ -239,18 +247,148 @@ $("#cap-form").addEventListener("submit", async (e) => {
   finally { $("#cap-go").disabled = false; }
 });
 
+
+// ---------- 퍼널 흐름 (첫 화면 → 리스트 → 상세 → 신청, 경쟁사별 선형 비교) ----------
+const FLOW_STAGES = ["home", "list", "detail", "inquiry"];
+const FLOW_LABEL = { home: "첫 화면", list: "리스트", detail: "상세", inquiry: "신청" };
+function flowGroups(rows) {
+  const g = {};
+  rows.filter((c) => c.data?.flow?.id).forEach((c) => { const id = c.data.flow.id; (g[id] = g[id] || { id, competitor: c.competitor, device: c.device, at: c.captured_at, steps: {} }); g[id].steps[c.data.flow.sourceStage || c.data.sourceStage || c.data.flow.stage || stageKeyOf(c)] = c; if (c.data.flowSummary) g[id].summary = c.data.flowSummary; if (new Date(c.captured_at) > new Date(g[id].at)) g[id].at = c.captured_at; });
+  return Object.values(g).sort((a, b) => new Date(b.at) - new Date(a.at));
+}
+function stageKeyOf(c) { const k = c.data?.sourceStage; if (k) return k; return ({ "첫 화면(랜딩)": "home", "카테고리/상품 목록": "list", "상품 상세": "detail", "결제": "inquiry", "장바구니": "inquiry" })[c.stage] || "home"; }
+function renderFlow() {
+  const el = $("#tab-flow");
+  const groups = flowGroups(ALL.filter((c) => !c.data?.captureError || c.data?.flowSummary));
+  if (!groups.length) { el.innerHTML = `<div class="empty">아직 흐름 수집이 없습니다. <b>URL로 수집</b> 탭에서 "신청까지 흐름 따라가기"를 켜고 경쟁사 첫 화면 주소를 넣어 보세요. 매일 자동 수집 대상(엔카·케이카)은 다음 실행부터 여기 쌓입니다.</div>`; return; }
+  // 경쟁사별 최신 흐름 1개씩 + 이전 흐름 선택
+  const byComp = {}; groups.forEach((g) => { (byComp[g.competitor] = byComp[g.competitor] || []).push(g); });
+  const sel = window.__flowSel || {};
+  const cmpRows = Object.entries(byComp).map(([comp, list]) => {
+    const g = list.find((x) => x.id === sel[comp]) || list[0];
+    const sm = g.summary || {};
+    const strip = FLOW_STAGES.map((k, i) => {
+      const c = g.steps[k]; const d = c?.data || {};
+      const via = c?.data?.flow?.via;
+      const arrow = i === 0 ? "" : `<div class="flow-arrow"><b>→</b>${via ? `<span class="via" title="${esc(via.text)}">${esc(via.text)}</span><span>${via.kind === "click" ? "버튼" : "링크"}${via.fixed ? "·고정" : ""}</span>` : `<span>${c ? "" : "미도달"}</span>`}</div>`;
+      const thumb = c ? `<div class="flow-thumb"><span class="st">${i + 1}. ${FLOW_LABEL[k]}</span><img data-cmp-shot="${c.id}" alt=""><div class="none">불러오는 중…</div></div>` : `<div class="flow-thumb"><span class="st">${i + 1}. ${FLOW_LABEL[k]}</span><div class="none">${sm.stoppedAt && FLOW_STAGES.indexOf(sm.stoppedAt) < i ? "도달 못함" : "수집 없음"}</div></div>`;
+      const ov = d.overlays?.length || 0, ctas = d.ctas?.length || 0, ben = d.benefits?.length || 0;
+      const kv = c ? `<div class="flow-kv"><b>${esc(d.headlines?.[0]?.text || c.title || "").slice(0, 40)}</b><br>CTA ${ctas} · 팝업/플로팅 ${ov} · 소구 문구 ${ben}${d.style?.cta?.primary ? `<br>대표 CTA "${esc(d.style.cta.primary.text)}"${d.style.cta.primary.fixed ? " (고정)" : ""}` : ""}${k === "inquiry" && sm.inquiryForm ? `<br>입력 ${sm.inquiryForm.fields}필드 (필수 ${sm.inquiryForm.required})${sm.inquiryForm.submit ? ` → "${esc(sm.inquiryForm.submit)}"` : ""}${sm.inquiryForm.stepIndicator ? ` · ${esc(sm.inquiryForm.stepIndicator)}` : ""}` : ""}<br><button class="sm" data-id="${c.id}" style="margin-top:4px">상세</button></div>` : "";
+      return arrow + `<div class="flow-step">${thumb}${kv}</div>`;
+    }).join("");
+    const friction = [];
+    if (sm.loginRequired) friction.push("신청 전 로그인 요구");
+    if (sm.inquiryForm && sm.inquiryForm.required >= 4) friction.push(`필수 입력 ${sm.inquiryForm.required}개`);
+    if (sm.inquiryForm?.stepIndicator) friction.push(`다단계 폼 (${sm.inquiryForm.stepIndicator})`);
+    (sm.path || []).forEach((p) => { if (p.overlays >= 3) friction.push(`${FLOW_LABEL[p.stage] || p.stage}에 팝업/플로팅 ${p.overlays}개`); });
+    if (sm.stopReason) friction.push(`중단: ${sm.stopReason}`);
+    const pushers = (sm.path || []).filter((p) => p.via).map((p) => `${FLOW_LABEL[p.stage]} 진입 ← "${p.via.text}"${p.via.fixed ? " (하단 고정)" : ""}`);
+    return `<div class="flow-comp">
+      <h2>${esc(comp)} <span class="m">${fmt(g.at)} · ${esc(g.device || "")}</span>
+        ${list.length > 1 ? `<select data-flow-sel="${esc(comp)}" style="margin-left:auto;font-size:12px">${list.map((x) => `<option value="${x.id}" ${x.id === g.id ? "selected" : ""}>${fmt(x.at)}${x.summary?.reachedInquiry ? " · 신청 도달" : ""}</option>`).join("")}</select>` : ""}</h2>
+      <div class="flow-strip">${strip}</div>
+      <div class="flow-sum">
+        <div>신청까지 탭 수<b>${sm.reachedInquiry ? sm.tapsToInquiry : "—"}</b></div>
+        <div>도달 단계<b style="font-size:14px">${(sm.stagesReached || []).map((k) => FLOW_LABEL[k] || k).join(" → ") || "—"}</b></div>
+        <div>신청 폼 입력<b>${sm.inquiryForm ? `${sm.inquiryForm.fields} <span style="font-size:12px;color:var(--muted)">(필수 ${sm.inquiryForm.required})</span>` : "—"}</b></div>
+        <div>로그인 필요<b>${sm.loginRequired ? "예" : "아니오"}</b></div>
+        <div>단계별 팝업/플로팅<b style="font-size:14px">${(sm.path || []).map((p) => p.overlays).join(" / ") || "—"}</b></div>
+      </div>
+      ${pushers.length ? `<div class="flow-kv" style="margin-top:8px"><b>다음 단계로 미는 장치</b><br>${pushers.map(esc).join("<br>")}</div>` : ""}
+      ${friction.length ? `<div class="flow-stop">마찰 포인트: ${friction.map(esc).join(" · ")}</div>` : ""}
+    </div>`;
+  }).join("");
+  // 요약 비교표
+  const comps = Object.keys(byComp);
+  const row = (label, f) => `<tr><td class="stage">${label}</td>${comps.map((c) => { const g = (byComp[c].find((x) => x.id === sel[c]) || byComp[c][0]); return `<td>${f(g.summary || {}, g)}</td>`; }).join("")}</tr>`;
+  const table = `<div class="tablewrap" style="margin-top:4px"><table class="flow-table"><thead><tr><th>항목</th>${comps.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>
+    ${row("신청까지 탭 수", (s) => s.reachedInquiry ? s.tapsToInquiry : "미도달")}
+    ${row("도달 단계", (s) => (s.stagesReached || []).map((k) => FLOW_LABEL[k] || k).join(" → "))}
+    ${row("진입 장치(순서)", (s) => (s.path || []).filter((p) => p.via).map((p) => `"${esc(p.via.text)}"${p.via.fixed ? "·고정" : ""}`).join(" → ") || "—")}
+    ${row("신청 폼", (s) => s.inquiryForm ? `${s.inquiryForm.fields}필드 / 필수 ${s.inquiryForm.required}${s.inquiryForm.submit ? ` / "${esc(s.inquiryForm.submit)}"` : ""}` : "—")}
+    ${row("로그인 요구", (s) => s.loginRequired ? "예" : "아니오")}
+    ${row("단계별 팝업/플로팅", (s) => (s.path || []).map((p) => `${FLOW_LABEL[p.stage]} ${p.overlays}`).join(", ") || "—")}
+    ${row("단계별 긴급성/신뢰/혜택 문구", (s) => (s.path || []).map((p) => `${FLOW_LABEL[p.stage]} ${p.urgency}/${p.trust}/${p.price}`).join(", ") || "—")}
+  </tbody></table></div>`;
+  el.innerHTML = `<div class="cmp-note" style="margin:0 0 10px">첫 화면에서 시작해 리스트 → 상세 → 신청 버튼까지 실제로 따라간 결과입니다. 화살표 위 문구가 각 단계로 넘어갈 때 누른 링크/버튼입니다.</div>${cmpRows}<h3 style="font-size:14px;margin:14px 0 6px">경쟁사 흐름 요약 비교</h3>${table}`;
+  el.querySelectorAll("[data-flow-sel]").forEach((s) => s.addEventListener("change", () => { window.__flowSel = { ...(window.__flowSel || {}), [s.dataset.flowSel]: s.value }; renderFlow(); }));
+  el.querySelectorAll("img[data-cmp-shot]").forEach(async (img) => { const src = await shotOf(img.dataset.cmpShot); const box = img.closest(".flow-thumb"); if (src) { img.src = src; box.querySelector(".none")?.remove(); } else box.querySelector(".none").textContent = "스크린샷 없음"; });
+}
+
+// ---------- 광고 채널 (트래킹 태그·픽셀로 추정) ----------
+function renderAds() {
+  const el = $("#tab-ads");
+  const rows = ALL.filter((c) => c.data?.adTech);
+  if (!rows.length) { el.innerHTML = `<div class="empty">광고 채널 신호가 있는 수집이 아직 없습니다. 자동 수집(URL로 수집·매일 수집)에서 페이지가 부르는 광고 태그·픽셀을 읽어 채널을 추정합니다. 확장·즐겨찾기 수집본에는 이 정보가 없습니다.</div>`; return; }
+  const comps = [...new Set(rows.map((c) => c.competitor))].sort();
+  // 경쟁사별: 최신 수집본들(최근 7일)의 태그 합집합, 첫 발견일·최근 발견일
+  const info = {};
+  comps.forEach((comp) => {
+    const list = rows.filter((c) => c.competitor === comp).sort((a, b) => new Date(a.captured_at) - new Date(b.captured_at));
+    const tags = {};
+    list.forEach((c) => (c.data.adTech.tags || []).forEach((t) => { const x = (tags[t.key] = tags[t.key] || { ...t, first: c.captured_at, last: c.captured_at, n: 0 }); x.last = c.captured_at; x.n++; }));
+    const latest = list[list.length - 1];
+    const latestKeys = new Set((latest.data.adTech.tags || []).map((t) => t.key));
+    Object.values(tags).forEach((t) => (t.active = latestKeys.has(t.key)));
+    info[comp] = { tags, latest, ids: latest.data.adTech.ids || {}, hosts: latest.data.adTech.thirdPartyHosts || [] };
+  });
+  const allKeys = [...new Set(Object.values(info).flatMap((i) => Object.values(i.tags).map((t) => t.key)))];
+  const meta = (k) => Object.values(info).flatMap((i) => Object.values(i.tags)).find((t) => t.key === k);
+  const paid = allKeys.filter((k) => !meta(k).channel.startsWith("(")), other = allKeys.filter((k) => meta(k).channel.startsWith("("));
+  const trow = (k) => { const m = meta(k); return `<tr><td class="stage">${esc(m.label)}<br><span style="font-weight:400;color:var(--muted);font-size:11px">${esc(m.channel)}</span></td>${comps.map((c) => { const t = info[c].tags[k]; return t ? `<td class="${t.active ? "on" : "off"}">${t.active ? "운영 중" : "최근 미검출"}<br><span style="font-weight:400;font-size:11px;color:var(--muted)">최초 ${fmt(t.first).slice(0, 5)} · 최근 ${fmt(t.last).slice(0, 5)}</span></td>` : `<td class="off">—</td>`; }).join("")}</tr>`; };
+  el.innerHTML = `<div class="cmp-note" style="margin:0 0 10px">경쟁사 페이지가 호출하는 광고 전환 태그·픽셀로 <b>어떤 유료 채널에 광고를 집행 중인지</b> 추정합니다 (태그가 있으면 그 채널에서 전환을 측정하고 있다는 뜻). 새 태그가 생기면 새 채널 시작, 사라지면 중단 신호로 봅니다. 광고 소재 자체는 Meta 광고 라이브러리·Google 광고 투명성 센터에서 확인할 수 있습니다.</div>
+    <div class="tablewrap"><table class="ads-table"><thead><tr><th>유료 광고 채널 신호</th>${comps.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${paid.map(trow).join("") || `<tr><td colspan="${comps.length + 1}" style="color:var(--muted)">검출된 유료 채널 태그 없음</td></tr>`}</tbody></table></div>
+    <h3 style="font-size:14px;margin:14px 0 6px">분석·CRM·상담 도구</h3>
+    <div class="tablewrap"><table class="ads-table"><thead><tr><th>도구</th>${comps.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${other.map(trow).join("") || `<tr><td colspan="${comps.length + 1}" style="color:var(--muted)">없음</td></tr>`}</tbody></table></div>
+    <h3 style="font-size:14px;margin:14px 0 6px">광고 소재 확인 링크</h3>
+    <div class="flow-kv">${comps.map((c) => `<b>${esc(c)}</b>: <a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=KR&q=${encodeURIComponent(c)}&search_type=keyword_unordered" target="_blank" rel="noopener">Meta 광고 라이브러리</a> · <a href="https://adstransparency.google.com/?region=KR&query=${encodeURIComponent(c)}" target="_blank" rel="noopener">Google 광고 투명성 센터</a>${info[c].ids.metaPixel ? ` · Meta 픽셀 ID ${esc(info[c].ids.metaPixel.join(","))}` : ""}${info[c].ids.googleAds ? ` · Google Ads ${esc(info[c].ids.googleAds.join(","))}` : ""}${info[c].ids.naverWcs ? ` · 네이버 wcs ${esc(info[c].ids.naverWcs.join(","))}` : ""}`).join("<br>")}</div>
+    <details style="margin-top:12px"><summary style="font-size:12px;color:var(--muted);cursor:pointer">제3자 호출 도메인 전체 보기</summary>${comps.map((c) => `<div class="flow-kv" style="margin-top:6px"><b>${esc(c)}</b> ${info[c].hosts.map((h) => `<span class="chip">${esc(h)}</span>`).join("")}</div>`).join("")}</details>`;
+}
+
+// ---------- 변화 추적: 같은 경쟁사·단계·화면의 직전 수집과 비교 ----------
+function diffCapture(cur, prev) {
+  if (!prev) return null;
+  const a = cur.data || {}, b = prev.data || {};
+  const set = (arr, f) => new Set((arr || []).map(f).filter(Boolean));
+  const cmp = (label, A, B) => { const add = [...A].filter((x) => !B.has(x)), del = [...B].filter((x) => !A.has(x)); return add.length || del.length ? { label, add, del } : null; };
+  const out = [
+    cmp("헤드라인", set(a.headlines, (h) => h.text), set(b.headlines, (h) => h.text)),
+    cmp("CTA", set(a.ctas, (c) => c.text), set(b.ctas, (c) => c.text)),
+    cmp("혜택·소구 문구", set(a.benefits, (x) => x.text), set(b.benefits, (x) => x.text)),
+    cmp("팝업·배너", set(a.overlays, (o) => String(o.text || "").replace(/^\[[^\]]*\]\s*/, "").slice(0, 60)), set(b.overlays, (o) => String(o.text || "").replace(/^\[[^\]]*\]\s*/, "").slice(0, 60))),
+    cmp("추천·광고 섹션", set(a.sections, (x) => x.title), set(b.sections, (x) => x.title)),
+    cmp("노출 가격", set(a.prices, (x) => x), set(b.prices, (x) => x)),
+    cmp("광고 태그", set(a.adTech?.tags, (t) => t.label), set(b.adTech?.tags, (t) => t.label)),
+  ].filter(Boolean);
+  return out;
+}
+function diffHtml(cur, prev) {
+  const d = diffCapture(cur, prev);
+  if (d === null) return `<div class="diff same">첫 수집 (비교 대상 없음)</div>`;
+  if (!d.length) return `<div class="diff same">직전 수집(${fmt(prev.captured_at)})과 변화 없음</div>`;
+  return `<div class="diff"><span class="k">직전 ${fmt(prev.captured_at)} 대비</span>${d.map((x) => `<div><span class="k">${x.label}</span>${x.add.map((t) => `<span class="add">+ ${esc(t)}</span>`).join(" ")} ${x.del.map((t) => `<span class="del">${esc(t)}</span>`).join(" ")}</div>`).join("")}</div>`;
+}
+
 // ---------- 타임라인 ----------
 function renderTimeline() {
-  const rows = filtered();
+  const dev = $("#f-device").value, comps0 = [...$("#f-comp").selectedOptions].map((o) => o.value);
+  const rows = ALL.filter((c) => (!dev || c.device === dev) && (!comps0.length || comps0.includes(c.competitor)));
   const el = $("#tab-timeline");
   if (!rows.length) { el.innerHTML = `<div class="empty">수집 이력이 없습니다.</div>`; return; }
   const comps = [...new Set(rows.map((c) => c.competitor))].sort();
-  el.innerHTML = comps.map((comp) => {
+  const changedOnly = window.__tlChanged || false;
+  el.innerHTML = `<div class="cmp-note" style="margin:0 0 8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">같은 경쟁사·단계·화면의 직전 수집과 비교해 바뀐 문구·CTA·팝업·가격·광고 태그를 표시합니다. 매일 06:23에 자동 수집되므로 일 단위 변화가 쌓입니다. <label style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="tl-changed" ${changedOnly ? "checked" : ""}> 변화 있는 것만</label></div>` + comps.map((comp) => {
     const list = rows.filter((r) => r.competitor === comp).sort((a, b) => new Date(b.captured_at) - new Date(a.captured_at));
-    return `<div class="tl-comp"><h2>${esc(comp)} <button class="sm danger" data-del-comp="${esc(comp)}" style="float:right">경쟁사 전체 삭제</button></h2>
-      ${list.map((c) => `<div class="tl-row"><span class="t">${fmt(c.captured_at)}</span><span class="s">${esc(c.stage)}</span><span class="d">${esc(c.device || "")}</span><span class="h" title="${esc(c.url)}">${esc(c.data?.headlines?.[0]?.text || c.title || c.url || "")}</span><span><button class="sm" data-id="${c.id}">상세</button> <button class="sm danger" data-del="${c.id}">삭제</button></span></div>`).join("")}
-    </div>`;
-  }).join("");
+    const items = list.map((c) => {
+      const prev = list.find((x) => x !== c && x.stage === c.stage && x.device === c.device && !x.data?.captureError && new Date(x.captured_at) < new Date(c.captured_at));
+      const d = c.data?.captureError ? null : diffCapture(c, prev);
+      if (changedOnly && (!d || !d.length)) return "";
+      return `<div class="tl-row"><span class="t">${fmt(c.captured_at)}</span><span class="s">${esc(c.stage)}</span><span class="d">${esc(c.device || "")}</span><span class="h" title="${esc(c.url)}">${c.data?.captureError ? `<span style="color:var(--danger)">실패: ${esc(c.data.captureError.slice(0, 60))}</span>` : esc(c.data?.headlines?.[0]?.text || c.title || c.url || "")}${c.data?.flow ? ` <span class="chip">흐름 ${c.data.flow.step}단계</span>` : ""}</span><span><button class="sm" data-id="${c.id}">상세</button> <button class="sm danger" data-del="${c.id}">삭제</button></span></div>${c.data?.captureError ? "" : diffHtml(c, prev)}`;
+    }).join("");
+    if (!items) return "";
+    return `<div class="tl-comp"><h2>${esc(comp)} <button class="sm danger" data-del-comp="${esc(comp)}" style="float:right">경쟁사 전체 삭제</button></h2>${items}</div>`;
+  }).join("") || `<div class="empty">변화가 감지된 수집이 없습니다.</div>`;
+  $("#tl-changed")?.addEventListener("change", (e) => { window.__tlChanged = e.target.checked; renderTimeline(); });
 }
 
 // ---------- 상세 ----------
@@ -266,6 +404,9 @@ async function openDetail(id) {
     <h3>페이지</h3><div><b>${esc(c.title)}</b><br><span style="color:var(--muted)">${esc(d.description)}</span></div>
     <h3>헤드라인</h3>${li(d.headlines, (h) => `<code>${h.tag}</code> ${esc(h.text)} <span style="color:var(--muted)">(${esc(h.pos)})</span>`)}
     ${d.style ? `<h3>강조 방식 (디자인 근거)</h3>${styleHtml(d)}` : ""}
+    ${d.flow ? `<h3>퍼널 흐름</h3><div>${d.flow.step}단계 · 첫 화면에서 ${d.flow.tapsFromHome}탭${d.flow.via ? ` · 진입: "${esc(d.flow.via.text)}" (${d.flow.via.kind === "click" ? "버튼" : "링크"}${d.flow.via.fixed ? ", 고정" : ""})` : ""}${d.flow.loginWall ? " · 로그인 벽" : ""}</div>` : ""}
+    ${d.formsDetail?.forms?.length ? `<h3>입력 폼 (마찰)</h3>${li(d.formsDetail.forms, (f) => `${f.fields}필드 (필수 ${f.required}) · ${esc((f.labels || []).join(", "))}${f.submit ? ` → <b>${esc(f.submit)}</b>` : ""}`)}${d.formsDetail.stepIndicator ? `<div style="color:var(--muted)">단계 표시: ${esc(d.formsDetail.stepIndicator)}</div>` : ""}` : ""}
+    ${d.adTech ? `<h3>광고·마케팅 태그</h3><div>${(d.adTech.tags || []).map((t) => `<span class="chip ${t.channel.startsWith("(") ? "" : "paid"}" title="${esc(t.channel)}">${esc(t.label)}</span>`).join("") || '<span class="none">없음</span>'}</div>` : ""}
     <h3>CTA (마케팅 키워드 매칭 우선)</h3>${li(d.ctas, (x) => `${esc(x.text)} <span style="color:var(--muted)">${esc(x.pos)} · ${x.size}${x.strong ? " · 강조색" : ""}${x.fixed ? " · 고정" : ""}</span>`)}
     <h3>혜택·소구 문구</h3>${li(d.benefits, (b) => `${esc(b.text)} <span style="color:var(--muted)">(${esc(b.pos)})</span>`)}
     <h3>팝업·배너·플로팅</h3>${li(d.overlays, (o) => `[${esc(o.kind)} ${o.size}] ${esc(o.text)}`)}
@@ -304,6 +445,9 @@ function buildPrompt() {
       const ctas = (d.ctas || []).filter((x) => x.match).slice(0, 8);
       if (ctas.length) lines.push(`- CTA: ${ctas.map((x) => `${x.text}(${x.pos}${x.strong ? ",강조" : ""}${x.fixed ? ",고정" : ""})`).join(", ")}`);
       if (d.style) lines.push(`- 강조 방식: ${styleLine(d)}`);
+      if (d.flow?.via) lines.push(`- 이 단계 진입 장치: "${d.flow.via.text}" (${d.flow.via.kind === "click" ? "버튼" : "링크"}${d.flow.via.fixed ? ", 고정" : ""}), 첫 화면에서 ${d.flow.tapsFromHome}탭`);
+      if (d.flowSummary) lines.push(`- 신청까지 흐름 요약: ${(d.flowSummary.stagesReached || []).join("→")} · 탭 ${d.flowSummary.tapsToInquiry ?? "미도달"} · 폼 ${d.flowSummary.inquiryForm ? `${d.flowSummary.inquiryForm.fields}필드(필수 ${d.flowSummary.inquiryForm.required})` : "없음"} · 로그인 ${d.flowSummary.loginRequired ? "필요" : "불필요"}`);
+      if (d.adTech?.paidChannels?.length) lines.push(`- 광고 채널 신호: ${d.adTech.paidChannels.join(", ")}`);
       if (d.benefits?.length) lines.push(`- 혜택/소구 문구: ${d.benefits.slice(0, 10).map((b) => b.text).join(" | ")}`);
       if (d.overlays?.length) lines.push(`- 팝업/배너: ${d.overlays.map((o) => `[${o.kind}] ${String(o.text || "").slice(0, 80)}`).join(" | ")}`);
       if (d.sections?.length) lines.push(`- 추천/광고 섹션: ${d.sections.map((x) => `${x.title}(${x.cards}개,${x.pos})`).join(", ")}`);
@@ -355,12 +499,12 @@ $("#btn-csv").addEventListener("click", () => {
 function render() {
   const rows = filtered();
   $("#stat").textContent = `${rows.length}건 / 전체 ${ALL.length}건`;
-  renderTable(); renderCompare(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
+  renderTable(); renderCompare(); renderFlow(); renderAds(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
   if (CAP_Q.some((q) => !q.error && !ALL.find((c) => c.id === q.id || c.id.startsWith(q.id + "-")) && Date.now() - q.at < 600000)) startCapPoll();
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
-  ["table", "compare", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  ["table", "compare", "flow", "ads", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
 }));
 $("#f-device").addEventListener("change", render);
 $("#f-comp").addEventListener("change", render);

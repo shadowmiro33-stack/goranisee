@@ -20,6 +20,8 @@
  *   node collector/funnel_collector.cjs --out snapshots # 출력 폴더
  *   node collector/funnel_collector.cjs --url https://... --competitor 엔카 --stage detail [--request-id r1] [--device 모바일|데스크톱|둘다]
  *       # 단일 URL 즉시 수집 (어드민 "URL로 수집" → repository_dispatch). 설정 파일의 sites는 무시.
+ *   node collector/funnel_collector.cjs --url https://... --competitor 엔카 --flow [--request-id r1]
+ *       # 흐름 모드: 첫 화면에서 시작해 리스트 → 상세 → 신청 버튼까지 따라가며 단계별 캡처 (입력·제출 없음)
  */
 
 const fs = require('fs');
@@ -40,6 +42,7 @@ const ADHOC_URL = arg('--url', null);
 const ADHOC_COMPETITOR = arg('--competitor', null);
 const ADHOC_REQUEST = arg('--request-id', null);
 const ADHOC_DEVICE = arg('--device', null);
+const FLOW = args.includes('--flow');
 
 const KST = 9 * 60 * 60 * 1000;
 const todayKst = () => new Date(Date.now() + KST).toISOString().slice(0, 10);
@@ -234,11 +237,11 @@ function toAdminCapture(res, cfg, stageDef, viewportShotB64, shotFull) {
   const sections = res.promo.map(p => ({ title: (p.kind === 'banner' ? '[배너] ' : p.kind === 'ad' ? '[광고] ' : '') + p.label, cards: p.items, pos: posStr(p.pos), samplePrices: [] }));
   const headlines = res.hero.map(h => ({ tag: 'hero', text: h.text, pos: `${band(h.y, pageH, vh)}/중앙` }));
   return {
-    id: res.requestId ? `req-${res.requestId}${res.viewportKey && res.viewportKey !== 'mobile' ? '-' + res.viewportKey : ''}` : `auto-${res.site}-${res.stage}-${res.viewportKey || 'mobile'}-${res.capturedAt.slice(0, 10)}`,
+    id: res.requestId ? `req-${res.requestId}${res.flow ? '-' + res.stage : ''}${res.viewportKey && res.viewportKey !== 'mobile' ? '-' + res.viewportKey : ''}` : `auto-${res.site}-${res.stage}-${res.viewportKey || 'mobile'}-${res.capturedAt.slice(0, 10)}`,
     competitor: res.siteName,
     stage: stageDef?.adminStage || stageDef?.label || res.stage,
     device: res.device || (res.viewportKey === 'desktop' ? '데스크톱' : '모바일'),
-    note: (res.requestId ? '어드민 URL 수집 (GitHub Actions)' : (cfg.admin && cfg.admin.note) || '자동 수집') + (res.warning ? ' · ' + res.warning : ''),
+    note: (res.flow ? `흐름 수집 ${res.flow.step}단계` + (res.flow.via ? ` · 진입: "${res.flow.via.text}"` : ' · 시작') : res.requestId ? '어드민 URL 수집 (GitHub Actions)' : (cfg.admin && cfg.admin.note) || '자동 수집') + (res.warning ? ' · ' + res.warning : ''),
     capturedAt: new Date(res.capturedAt).toISOString(),
     screenshot: viewportShotB64 ? 'data:image/jpeg;base64,' + viewportShotB64 : null,
     url: res.finalUrl || res.url,
@@ -250,7 +253,7 @@ function toAdminCapture(res, cfg, stageDef, viewportShotB64, shotFull) {
     prices: (res.appeals && res.appeals.price || []).map(s => (s.match(/[\d,]{2,}\s?(만원|원)/) || [])[0]).filter(Boolean).slice(0, 8),
     forms: [], nav: [],
     firstScreenText: res.hero.map(h => h.text).join(' | '),
-    style: res.style || null, warning: res.warning || null,
+    style: res.style || null, warning: res.warning || null, flow: res.flow || null, flowSummary: res.flowSummary || null, formsDetail: res.forms || null, adTech: res.adTech || null,
     source: 'funnel_collector', sourceStage: res.stage, viewportKey: res.viewportKey || null, screenshotFull: !!shotFull, screenshotHeight: shotFull ? Math.min(pageH, (cfg.capture && cfg.capture.maxScreenshotHeight) || 12000) : vh, overlaysByTrigger: res.overlays, promoDetail: res.promo, ctaDetail: res.ctas,
   };
 }
@@ -263,12 +266,27 @@ async function pushToAdmin(capture) {
 
 async function capturePage(context, site, page_, cfg, resolvedUrl, shotPath) {
   const page = await context.newPage();
-  const cap = cfg.capture || {};
+  attachRequestLog(page);
   const result = { site: site.key, siteName: site.name, stage: page_.stage, url: resolvedUrl, capturedAt: nowKst(), ok: false, _shotPath: shotPath };
   try {
     const resp = await page.goto(resolvedUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
     result.httpStatus = resp ? resp.status() : null;
-    result.finalUrl = page.url();
+    await analyzeOnPage(page, site, page_.stage, cfg, shotPath, result);
+  } catch (e) {
+    result.error = String(e && e.message || e).slice(0, 300);
+    log(`  ✖ ${site.name}/${page_.stage}  ${result.error}`);
+    try { await page.screenshot({ path: result._shotPath.replace(/\.jpg$/, '.error.jpg'), type: 'jpeg', quality: 60 }); } catch (_) {}
+  } finally {
+    await page.close();
+  }
+  return result;
+}
+
+/** 이미 열려 있는 page를 분석해 result를 채움 (capturePage와 흐름 모드가 공용) */
+async function analyzeOnPage(page, site, stageKey, cfg, shotPath, result) {
+  const cap = cfg.capture || {};
+  const page_ = { stage: stageKey };
+  result.finalUrl = page.url();
     // SPA 대응: 네트워크가 잠잠해지고 본문 텍스트 길이가 안정될 때까지 (최대 settleMaxMs) 기다림
     try { await page.waitForLoadState('networkidle', { timeout: cap.networkIdleMs || 8000 }); } catch (_) {}
     await sleep(cap.waitAfterLoadMs || 3000);
@@ -343,14 +361,161 @@ async function capturePage(context, site, page_, cfg, resolvedUrl, shotPath) {
       screenshot: path.basename(shotPath),
     });
     log(`  ✔ ${site.name}/${page_.stage}  CTA ${result.ctas.length} · 추천 ${result.promo.length} · 오버레이 ${overlaysByTrigger.reduce((a, t) => a + t.overlays.length, 0)} · ${full.viewport.pageHeight}px`);
-  } catch (e) {
-    result.error = String(e && e.message || e).slice(0, 300);
-    log(`  ✖ ${site.name}/${page_.stage}  ${result.error}`);
-    try { await page.screenshot({ path: result._shotPath.replace(/\.jpg$/, '.error.jpg'), type: 'jpeg', quality: 60 }); } catch (_) {}
-  } finally {
-    await page.close();
-  }
+  // 입력 폼 분석 (신청 단계 마찰 측정용)
+  result.forms = await page.evaluate(() => {
+    const vis = el => { const r = el.getBoundingClientRect(); const cs = getComputedStyle(el); return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none'; };
+    const txt = el => (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
+    const out = [];
+    const forms = [...document.querySelectorAll('form')]; if (!forms.length) forms.push(document.body);
+    for (const f of forms) {
+      const fields = [...f.querySelectorAll('input:not([type=hidden]):not([type=submit]):not([type=button]), select, textarea')].filter(vis);
+      if (!fields.length) continue;
+      out.push({ fields: fields.length, required: fields.filter(i => i.required || i.getAttribute('aria-required') === 'true').length, types: [...new Set(fields.map(i => i.type || i.tagName.toLowerCase()))].slice(0, 8), labels: fields.map(i => i.placeholder || i.getAttribute('aria-label') || i.name || i.id || i.type).filter(Boolean).slice(0, 10), submit: txt([...f.querySelectorAll('button, input[type=submit]')].filter(vis).find(b => /신청|제출|완료|확인|다음|보내기|요청|상담|견적|가입|로그인/.test(txt(b) || b.value || '')) || {}) || null, hasPassword: fields.some(i => i.type === 'password') });
+    }
+    const stepTxt = (document.body.innerText || '').match(/(STEP|단계)\s*\d+\s*(\/|of)?\s*\d*|\b\d\s*\/\s*\d\b/i);
+    return { forms: out.slice(0, 4), stepIndicator: stepTxt ? stepTxt[0] : null, loginWall: /login|signin|sign-in|member\/|auth/i.test(location.href) || (out.some(f => f.hasPassword) && /로그인/.test(document.body.innerText || '')) };
+  }).catch(() => ({ forms: [], stepIndicator: null, loginWall: false }));
+  // 광고·마케팅 채널 신호
+  try {
+    const html = await page.content();
+    const lg = page._adlog || { hosts: new Set(), scripts: [] };
+    result.adTech = detectAdTech(lg.hosts, lg.scripts, html);
+    if (result.adTech.tags.length) log(`  ◎ 광고/마케팅 태그: ${result.adTech.tags.map(t => t.label).join(', ')}`);
+  } catch (_) {}
   return result;
+}
+
+
+/* ------------------------------------------------------------------ */
+/* 광고·마케팅 채널 신호: 페이지가 부르는 트래킹 태그·픽셀로 어떤 광고 채널을 운영하는지 추정 */
+/* ------------------------------------------------------------------ */
+const AD_TECH = [
+  { key: 'google_ads',   label: 'Google 광고 (전환태그)', channel: '구글 검색/디스플레이/유튜브', rx: /googleads\.g\.doubleclick\.net|googleadservices\.com|\/pagead\/conversion|gtag\(\s*['"]config['"]\s*,\s*['"]AW-|AW-\d{6,}/i },
+  { key: 'ga4',          label: 'Google Analytics', channel: '(분석)', rx: /google-analytics\.com|googletagmanager\.com\/gtag\/js|G-[A-Z0-9]{6,}/ },
+  { key: 'gtm',          label: 'Google Tag Manager', channel: '(태그 관리)', rx: /googletagmanager\.com\/gtm\.js|GTM-[A-Z0-9]{5,}/ },
+  { key: 'meta_pixel',   label: 'Meta 픽셀', channel: '페이스북/인스타그램 광고', rx: /connect\.facebook\.net|facebook\.com\/tr\b|fbq\(\s*['"]init['"]/i },
+  { key: 'naver_ads',    label: '네이버 광고 전환 (wcs)', channel: '네이버 검색광고/GFA', rx: /wcs\.naver\.net|wcs\.pstatic\.net|wcslog|naver\.com\/wcslog|_nasa\b/ },
+  { key: 'naver_gfa',    label: '네이버 GFA 픽셀', channel: '네이버 성과형 디스플레이', rx: /adimg\.naver|gfa\.naver|siape\.veta\.naver|veta\.naver/ },
+  { key: 'kakao_pixel',  label: '카카오 픽셀', channel: '카카오모먼트/카카오 광고', rx: /t1\.daumcdn\.net\/adfit|kakao\.com\/kp\.js|kakaoPixel\(|adfit\.kakao|t1\.daumcdn\.net\/kas/i },
+  { key: 'tiktok',       label: 'TikTok 픽셀', channel: '틱톡 광고', rx: /analytics\.tiktok\.com|ttq\.load/i },
+  { key: 'criteo',       label: 'Criteo', channel: '리타게팅 디스플레이', rx: /static\.criteo\.net|criteo\.com\/js|dis\.criteo/i },
+  { key: 'karrot',       label: '당근 광고 픽셀', channel: '당근마켓 광고', rx: /karrotmarket|daangn\.com\/pixel|karrot\.ad/i },
+  { key: 'linkedin',     label: 'LinkedIn Insight', channel: '링크드인 광고', rx: /snap\.licdn\.com|px\.ads\.linkedin/i },
+  { key: 'twitter',      label: 'X(트위터) 픽셀', channel: 'X 광고', rx: /static\.ads-twitter\.com|analytics\.twitter\.com/i },
+  { key: 'appsflyer',    label: 'AppsFlyer', channel: '앱 설치 광고 어트리뷰션', rx: /appsflyer\.com|onelink\.me/i },
+  { key: 'airbridge',    label: 'Airbridge', channel: '앱 설치 광고 어트리뷰션', rx: /airbridge\.io|abr\.ge/i },
+  { key: 'adjust',       label: 'Adjust', channel: '앱 설치 광고 어트리뷰션', rx: /adjust\.com|adj\.st/i },
+  { key: 'branch',       label: 'Branch', channel: '딥링크/앱 어트리뷰션', rx: /branch\.io|app\.link/i },
+  { key: 'amplitude',    label: 'Amplitude', channel: '(제품 분석)', rx: /amplitude\.com/i },
+  { key: 'mixpanel',     label: 'Mixpanel', channel: '(제품 분석)', rx: /mixpanel\.com/i },
+  { key: 'braze',        label: 'Braze', channel: '(CRM 푸시/메시지)', rx: /braze\.com|appboy/i },
+  { key: 'hotjar',       label: 'Hotjar', channel: '(UX 녹화)', rx: /hotjar\.com/i },
+  { key: 'clarity',      label: 'MS Clarity', channel: '(UX 녹화)', rx: /clarity\.ms/i },
+  { key: 'channeltalk',  label: '채널톡', channel: '(상담 채널)', rx: /channel\.io/i },
+  { key: 'kakao_channel',label: '카카오톡 채널 버튼', channel: '(상담 채널)', rx: /pf\.kakao\.com|kakao\.com\/channel/i },
+  { key: 'naver_talk',   label: '네이버 톡톡', channel: '(상담 채널)', rx: /talk\.naver\.com/i },
+  { key: 'youtube_embed',label: 'YouTube 임베드', channel: '(콘텐츠)', rx: /youtube\.com\/embed|youtube-nocookie/i },
+];
+function detectAdTech(hosts, scripts, html) {
+  const hay = [...hosts, ...scripts].join('\n') + '\n' + (html || '').slice(0, 400000);
+  const found = AD_TECH.filter(t => t.rx.test(hay)).map(t => ({ key: t.key, label: t.label, channel: t.channel }));
+  const adIds = {};
+  const m1 = (html || '').match(/AW-\d{6,}/g); if (m1) adIds.googleAds = [...new Set(m1)].slice(0, 3);
+  const m2 = (html || '').match(/fbq\(\s*['"]init['"]\s*,\s*['"](\d{6,})['"]/); if (m2) adIds.metaPixel = [m2[1]];
+  const m3 = (html || '').match(/GTM-[A-Z0-9]{5,}/g); if (m3) adIds.gtm = [...new Set(m3)].slice(0, 3);
+  const m4 = (html || '').match(/kakaoPixel\(\s*['"]([^'"]+)['"]/); if (m4) adIds.kakaoPixel = [m4[1]];
+  const m5 = (html || '').match(/wcs_add\s*\[\s*['"]wa['"]\s*\]\s*=\s*['"]([^'"]+)['"]/); if (m5) adIds.naverWcs = [m5[1]];
+  const paid = found.filter(f => !f.channel.startsWith('(')).map(f => f.channel);
+  return { tags: found, ids: adIds, paidChannels: [...new Set(paid)], thirdPartyHosts: [...hosts].filter(h => !/^(127\.|localhost)/.test(h)).slice(0, 60) };
+}
+function attachRequestLog(page) {
+  const hosts = new Set(), scripts = [];
+  page.on('request', req => { try { const u = new URL(req.url()); if (u.hostname !== new URL(page.url() || 'http://x/').hostname) hosts.add(u.hostname); if (req.resourceType() === 'script') scripts.push(u.href.slice(0, 200)); } catch (_) {} });
+  page._adlog = { hosts, scripts };
+}
+
+/* ------------------------------------------------------------------ */
+/* 흐름 모드: 첫 화면 → 리스트 → 상세 → 신청 을 한 브라우저에서 따라가며 각 단계 캡처 */
+/* 링크 이동과 '신청' 버튼 클릭까지만. 입력·제출은 절대 하지 않음.                 */
+/* ------------------------------------------------------------------ */
+const NEXT_RULES = {
+  list:    { text: /차량|매물|전체|보기|찾기|검색|둘러보|리스트|견적|시작|구독|렌트|리스|모델/, hrefNot: /login|signin|member|event|notice|faq|terms|privacy|#$/i },
+  detail:  { href: /detail|view|\/car[s]?\/|\/vehicle|\/model|\/product|\/item|id=|catalog|trim/i, hrefNot: /login|signin|list|search|category/i },
+  inquiry: { text: /견적|신청|상담|문의|구매|예약|계약|시작하기|받기|바로 가기|이용하기/, hrefNot: /login|signin/i },
+};
+const FIND_NEXT = ({ stage, rule: rs }) => {
+  const rule = { text: rs.text ? new RegExp(rs.text, 'i') : null, href: rs.href ? new RegExp(rs.href, 'i') : null, hrefNot: rs.hrefNot ? new RegExp(rs.hrefNot, 'i') : null };
+  const vis = el => { const r = el.getBoundingClientRect(); const cs = getComputedStyle(el); return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none' && cs.opacity !== '0'; };
+  const txt = el => (el.innerText || el.textContent || el.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+  const pageH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, 1), vh = innerHeight, vw = innerWidth;
+  const absY = el => el.getBoundingClientRect().top + scrollY;
+  const fixed = el => { for (let n = el; n && n !== document.body; n = n.parentElement) { const p = getComputedStyle(n).position; if (p === 'fixed' || p === 'sticky') return true; } return false; };
+  const sameOrigin = h => { try { return new URL(h, location.href).origin === location.origin; } catch { return false; } };
+  const cands = [];
+  const els = stage === 'detail' ? [...document.querySelectorAll('a[href]')] : [...document.querySelectorAll('a[href], button, [role=button]')];
+  for (const el of els) {
+    if (!vis(el)) continue;
+    const t = txt(el); const href = el.href || '';
+    const r = el.getBoundingClientRect();
+    if (absY(el) > pageH * 0.92 && !fixed(el)) continue;          // 푸터 제외
+    if (href && rule.hrefNot && rule.hrefNot.test(href)) continue;
+    if (href && !sameOrigin(href)) continue;
+    if (href && href.replace(/#.*$/, '') === location.href.replace(/#.*$/, '')) continue;
+    let score = 0;
+    if (stage === 'detail') { if (!href || !rule.href.test(href)) continue; if (el.querySelector('img') || el.closest('li, article, [class*=card], [class*=item]')?.querySelector('img')) score += 2; if (/원|만원|km|년/.test(txt(el.closest('li, article, [class*=card], [class*=item]') || el))) score += 1; score -= absY(el) / pageH; }
+    else { if (!t || t.length > 30 || !rule.text.test(t)) continue; if (fixed(el)) score += 3; if (r.width >= vw * 0.6) score += 2; if (el.tagName === 'BUTTON' || el.getAttribute('role') === 'button') score += 1; const bg = getComputedStyle(el).backgroundColor; if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') score += 1; if (absY(el) < vh) score += 1; if (stage === 'list' && !href) score -= 2; }
+    cands.push({ el, score, t, href, fixed: fixed(el), x: +((r.left + r.width / 2) / vw).toFixed(3), y: +((absY(el) + r.height / 2) / pageH).toFixed(3), w: Math.round(r.width), h: Math.round(r.height) });
+  }
+  cands.sort((a, b) => b.score - a.score);
+  const pick = cands[0]; if (!pick) return null;
+  document.querySelectorAll('[data-funnel-next]').forEach(n => n.removeAttribute('data-funnel-next'));
+  pick.el.setAttribute('data-funnel-next', '1');
+  const { el, ...rest } = pick;
+  return { ...rest, kind: pick.href ? 'href' : 'click', candidates: cands.length };
+};
+
+async function runFlow(context, site, startUrl, cfg, vp, outDir, base, onStep) {
+  const order = ['home', 'list', 'detail', 'inquiry'];
+  const page = await context.newPage();
+  attachRequestLog(page);
+  const steps = []; let via = null;
+  try {
+    const resp = await page.goto(startUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
+    for (let i = 0; i < order.length; i++) {
+      const stage = order[i];
+      const result = { site: site.key, siteName: site.name, stage, url: page.url(), capturedAt: nowKst(), ok: false, _shotPath: path.join(outDir, `${base}.${stage}.jpg`), httpStatus: i === 0 && resp ? resp.status() : null, flow: { step: i + 1, tapsFromHome: i, via } };
+      try { await analyzeOnPage(page, site, stage, cfg, result._shotPath, result); }
+      catch (e) { result.error = String(e.message || e).slice(0, 300); log(`  ✖ ${site.name}/${stage}  ${result.error}`); try { await page.screenshot({ path: result._shotPath.replace(/\.jpg$/, '.error.jpg'), type: 'jpeg', quality: 60 }); } catch (_) {} }
+      result.flow.loginWall = !!(result.forms && result.forms.loginWall);
+      steps.push(result);
+      await onStep(result, i);
+      if (!result.ok || result.flow.loginWall) break;
+      const next = order[i + 1]; if (!next) break;
+      const rs = NEXT_RULES[next];
+      const found = await page.evaluate(FIND_NEXT, { stage: next, rule: { text: rs.text && rs.text.source, href: rs.href && rs.href.source, hrefNot: rs.hrefNot && rs.hrefNot.source } }).catch(e => { log('  FIND_NEXT 오류: ' + e.message); return null; });
+      if (!found) { log(`  ⏹ ${stage} → ${next}: 다음 단계로 가는 링크/버튼을 찾지 못했습니다`); steps[steps.length - 1].flow.nextNotFound = next; break; }
+      via = { from: stage, text: sanitize(found.t), kind: found.kind, href: found.href || null, fixed: found.fixed, pos: { x: found.x, y: found.y, w: found.w, h: found.h }, candidates: found.candidates };
+      log(`  → ${next}: "${via.text}" (${found.kind}${found.fixed ? ', 고정' : ''})`);
+      await jitter(1200, 2500);
+      if (found.kind === 'href') { await page.goto(found.href, { waitUntil: 'domcontentloaded', timeout: 45000 }).catch(() => {}); }
+      else { await Promise.all([page.waitForLoadState('domcontentloaded', { timeout: 10000 }).catch(() => {}), page.click('[data-funnel-next]', { timeout: 10000 }).catch(() => {})]); await sleep(1500); }
+    }
+  } finally { await page.close(); }
+  // 요약
+  const last = steps[steps.length - 1];
+  const inquiry = steps.find(s => s.stage === 'inquiry');
+  const form = inquiry && inquiry.forms && inquiry.forms.forms && inquiry.forms.forms[0];
+  const summary = {
+    stagesReached: steps.filter(s => s.ok).map(s => s.stage),
+    reachedInquiry: !!(inquiry && inquiry.ok),
+    tapsToInquiry: inquiry ? inquiry.flow.tapsFromHome : null,
+    loginRequired: !!(last && last.flow.loginWall),
+    stoppedAt: last ? last.stage : null,
+    stopReason: last && last.error ? '오류: ' + last.error.slice(0, 80) : last && last.flow.loginWall ? '로그인 필요' : last && last.flow.nextNotFound ? `다음 단계(${last.flow.nextNotFound}) 진입점 미발견` : inquiry ? null : '미도달',
+    path: steps.map(s => ({ stage: s.stage, url: s.finalUrl || s.url, via: s.flow.via ? { text: s.flow.via.text, kind: s.flow.via.kind, fixed: s.flow.via.fixed } : null, overlays: s.overlays ? s.overlays.reduce((a, t) => a + t.overlays.length, 0) : 0, ctas: s.ctas ? s.ctas.length : 0, urgency: s.appeals ? s.appeals.urgency.length : 0, trust: s.appeals ? s.appeals.trust.length : 0, price: s.appeals ? s.appeals.price.length : 0 })),
+    inquiryForm: form ? { fields: form.fields, required: form.required, types: form.types, labels: form.labels, submit: form.submit, stepIndicator: inquiry.forms.stepIndicator } : null,
+  };
+  return { steps, summary };
 }
 
 async function resolveFollow(context, site, page_, prior) {
@@ -372,7 +537,7 @@ async function main() {
   let viewports = cfg.viewports || [Object.assign({ key: 'mobile', label: '모바일' }, cfg.viewport || { width: 390, height: 844, mobile: true })];
   if (ADHOC_URL) {
     // --device 모바일 | 데스크톱 | 둘다(기본)
-    const want = ADHOC_DEVICE === '모바일' ? ['mobile'] : ADHOC_DEVICE === '데스크톱' ? ['desktop'] : ['mobile', 'desktop'];
+    const want = ADHOC_DEVICE === '모바일' ? ['mobile'] : ADHOC_DEVICE === '데스크톱' ? ['desktop'] : FLOW ? ['mobile'] : ['mobile', 'desktop'];
     viewports = want.map(k => viewports.find(v => v.key === k) || (k === 'desktop' ? { key: 'desktop', label: '데스크톱', width: 1280, height: 800, mobile: false } : { key: 'mobile', label: '모바일', width: 390, height: 844, mobile: true }));
   }
   log(`퍼널 스냅샷 수집 시작 ${date}  (config: ${path.relative(ROOT, CONFIG)}, out: ${path.relative(ROOT, OUT)}, 화면: ${viewports.map(v => v.label).join('·')})`);
@@ -406,6 +571,32 @@ async function main() {
       log(`▶ ${site.name} [${vp.label}]`);
       const prior = {};
       const siteEntry = { key: site.key, name: site.name, viewport: vp.key, pages: [] };
+      if (FLOW && ADHOC_URL) {
+        const dir = path.join(OUT, 'flow'); fs.mkdirSync(dir, { recursive: true });
+        const base = `${date}_${(ADHOC_REQUEST || Date.now().toString(36)).replace(/[^\w-]/g, '')}_${site.key}${suffix}`;
+        const flowId = ADHOC_REQUEST || base;
+        const pushed = [];
+        const { steps, summary } = await runFlow(context, site, ADHOC_URL, cfg, vp, dir, base, async (res, i) => {
+          res.viewportKey = vp.key; res.device = vp.label; res.requestId = ADHOC_REQUEST || undefined; res.flow.id = flowId;
+          pushed.push(res);
+        });
+        for (const res of steps) {
+          if (res === steps[steps.length - 1]) res.flowSummary = summary;
+          const { _shotPath, _viewportB64, _shotFull, ...clean } = res;
+          if (adminOn && clean.ok) {
+            try { const stageDef = (cfg.stages || []).find(s => s.key === clean.stage); const out = await pushToAdmin(toAdminCapture(clean, cfg, stageDef, _viewportB64, _shotFull)); clean.admin = { ok: true, id: out.id }; log(`  ↑ 어드민 전송 완료 (${out.id})`); }
+            catch (e) { clean.admin = { ok: false, error: String(e.message || e).slice(0, 200) }; log(`  ↑ 어드민 전송 실패: ${clean.admin.error}`); }
+          } else if (adminOn && !clean.ok) {
+            try { const stageDef = (cfg.stages || []).find(s => s.key === clean.stage); await pushToAdmin({ id: `req-${flowId}-${clean.stage}${vp.key !== 'mobile' ? '-' + vp.key : ''}`, competitor: site.name, stage: stageDef?.adminStage || clean.stage, device: vp.label, note: '흐름 수집 실패: ' + clean.error, capturedAt: new Date(clean.capturedAt).toISOString(), screenshot: null, url: clean.url, title: '', description: '', viewport: `${vp.width}x${vp.height}`, pageHeight: 0, headlines: [], ctas: [], benefits: [], overlays: [], sections: [], prices: [], forms: [], nav: [], firstScreenText: '', source: 'funnel_collector', captureError: clean.error, flow: clean.flow, flowSummary: clean.flowSummary || null }); } catch (_) {}
+          }
+          fs.writeFileSync(path.join(dir, `${base}.${clean.stage}.json`), JSON.stringify(clean, null, 2));
+          total++; if (!clean.ok) failed++;
+        }
+        fs.writeFileSync(path.join(dir, `${base}.summary.json`), JSON.stringify(summary, null, 2));
+        log(`  ■ 흐름 요약: ${summary.stagesReached.join(' → ')}${summary.reachedInquiry ? ` · 신청까지 ${summary.tapsToInquiry}탭` : ` · 중단: ${summary.stopReason}`}${summary.inquiryForm ? ` · 폼 ${summary.inquiryForm.fields}필드(필수 ${summary.inquiryForm.required})` : ''}${summary.loginRequired ? ' · 로그인 필요' : ''}`);
+        index.sites.push({ key: site.key, name: site.name, viewport: vp.key, flow: summary });
+        continue;
+      }
       for (const p of site.pages) {
         if (ONLY_STAGE && p.stage !== ONLY_STAGE) continue;
         const dir = path.join(OUT, ADHOC_URL ? 'adhoc' : site.key, p.stage);
@@ -449,6 +640,25 @@ async function main() {
         await jitter(1500, 4000);
       }
       index.sites.push(siteEntry);
+      // 정기 수집: 신청까지 흐름 (모바일만)
+      if (!ADHOC_URL && site.flowStart && vp.key === 'mobile' && !ONLY_STAGE) {
+        const dir = path.join(OUT, site.key, 'flow'); fs.mkdirSync(dir, { recursive: true });
+        const flowId = `auto-${site.key}-${date}`;
+        try {
+          const { steps, summary } = await runFlow(context, site, site.flowStart, cfg, vp, dir, date, async (res) => { res.viewportKey = vp.key; res.device = vp.label; res.flow.id = flowId; });
+          for (const res of steps) {
+            if (res === steps[steps.length - 1]) res.flowSummary = summary;
+            const { _shotPath, _viewportB64, _shotFull, ...clean } = res;
+            if (adminOn && clean.ok) { try { const stageDef = (cfg.stages || []).find(s => s.key === clean.stage); clean.requestId = undefined; const payload = toAdminCapture(clean, cfg, stageDef, _viewportB64, _shotFull); payload.id = `${flowId}-${clean.stage}`; const out = await pushToAdmin(payload); clean.admin = { ok: true, id: out.id }; } catch (e) { clean.admin = { ok: false, error: String(e.message || e).slice(0, 200) }; } }
+            fs.writeFileSync(path.join(dir, `${date}.${clean.stage}.json`), JSON.stringify(clean, null, 2));
+          }
+          fs.writeFileSync(path.join(dir, `${date}.summary.json`), JSON.stringify(summary, null, 2));
+          fs.writeFileSync(path.join(dir, `latest.summary.json`), JSON.stringify(summary, null, 2));
+          siteEntry.flow = summary;
+          log(`  ■ 흐름 요약: ${summary.stagesReached.join(' → ')}${summary.reachedInquiry ? ` · 신청까지 ${summary.tapsToInquiry}탭` : ` · 중단: ${summary.stopReason}`}`);
+        } catch (e) { log(`  ✖ 흐름 수집 실패: ${String(e.message || e).slice(0, 200)}`); }
+        await jitter(1500, 3000);
+      }
     }
     await context.close();
   }

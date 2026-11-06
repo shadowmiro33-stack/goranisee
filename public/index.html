@@ -72,6 +72,36 @@
   .sty { display:flex; flex-wrap:wrap; gap:6px 12px; font-size:12px; margin-top:8px; padding:8px 10px; background:var(--bg); border-radius:8px; }
   .sty .k { color:var(--muted); font-size:11px; margin-right:3px; }
   .sw { display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:-2px; border:1px solid rgba(0,0,0,.15); margin-right:3px; }
+  /* 퍼널 흐름 */
+  .flow-comp { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:14px; }
+  .flow-comp h2 { font-size:15px; margin:0 0 4px; display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; }
+  .flow-comp h2 .m { font-size:12px; color:var(--muted); font-weight:400; }
+  .flow-strip { display:flex; gap:0; overflow-x:auto; padding:8px 0 4px; align-items:stretch; }
+  .flow-step { flex:0 0 190px; display:flex; flex-direction:column; gap:6px; }
+  .flow-arrow { flex:0 0 46px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--muted); font-size:11px; text-align:center; padding:0 2px; }
+  .flow-arrow b { font-size:18px; color:var(--text); }
+  .flow-arrow .via { max-width:46px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .flow-thumb { height:230px; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:#f3f4f6; position:relative; }
+  .flow-thumb img { width:100%; display:block; }
+  .flow-thumb .st { position:absolute; top:6px; left:6px; background:rgba(17,24,39,.8); color:#fff; font-size:11px; padding:2px 7px; border-radius:999px; }
+  .flow-thumb .none { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--muted); text-align:center; padding:8px; }
+  .flow-kv { font-size:12px; color:var(--muted); line-height:1.5; }
+  .flow-kv b { color:var(--text); font-weight:600; }
+  .flow-sum { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:8px; margin-top:10px; }
+  .flow-sum div { background:var(--bg); border-radius:8px; padding:8px 10px; font-size:12px; color:var(--muted); }
+  .flow-sum div b { display:block; font-size:18px; color:var(--text); }
+  .flow-stop { color:#b45309; font-size:12px; margin-top:6px; }
+  .flow-table td { font-size:12px; }
+  /* 변화 추적 */
+  .diff { margin:6px 0 10px 0; padding:8px 10px; background:var(--bg); border-radius:8px; font-size:12px; }
+  .diff .add { color:#15803d; } .diff .del { color:var(--danger); text-decoration:line-through; opacity:.8; }
+  .diff .k { color:var(--muted); font-size:11px; margin-right:4px; }
+  .diff.same { color:var(--muted); }
+  /* 광고 채널 */
+  .ads-table td.on { font-weight:600; color:#15803d; }
+  .ads-table td.off { color:var(--muted); }
+  .chip { display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; background:var(--bg); border:1px solid var(--line); margin:2px 3px 2px 0; }
+  .chip.paid { background:#ecfdf5; border-color:#a7f3d0; color:#065f46; }
   .cmp-note { font-size:12px; color:var(--muted); margin-top:10px; }
   .cap-row { display:grid; grid-template-columns:70px 1fr 110px 90px auto; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--line); font-size:13px; }
   .cap-row .t { color:var(--muted); font-size:12px; }
@@ -128,6 +158,8 @@
   <div class="tabs">
     <button class="active" data-tab="table">비교표</button>
     <button data-tab="compare">화면 비교</button>
+    <button data-tab="flow">퍼널 흐름</button>
+    <button data-tab="ads">광고 채널</button>
     <button data-tab="capture">URL로 수집</button>
     <button data-tab="timeline">수집 이력 · 변화 추적</button>
     <button data-tab="prompt">AI 분석용 프롬프트</button>
@@ -142,10 +174,12 @@
   </div>
   <section id="tab-table"></section>
   <section id="tab-compare" hidden></section>
+  <section id="tab-flow" hidden></section>
+  <section id="tab-ads" hidden></section>
   <section id="tab-capture" hidden>
     <div class="box">
       <h2>URL로 수집 (archive.org의 "Save Page Now"처럼)</h2>
-      <p>경쟁사 페이지 주소를 넣으면 GitHub Actions 러너가 그 페이지를 모바일 화면으로 열어 CTA·추천 영역·팝업·소구점과 전체 스크린샷을 수집해 여기로 보냅니다. 회사 IP는 남지 않습니다. 보통 1~2분 걸립니다. 로그인이 필요한 페이지는 수집되지 않으니 확장·즐겨찾기로 직접 캡처하세요.</p>
+      <p>경쟁사 페이지 주소를 넣으면 GitHub Actions 러너가 그 페이지를 모바일 화면으로 열어 CTA·추천 영역·팝업·소구점과 전체 스크린샷을 수집해 여기로 보냅니다. 회사 IP는 남지 않습니다. 보통 1~2분 걸립니다. <b>신청까지 흐름 따라가기</b>를 켜면 첫 화면에서 시작해 리스트 → 상세 → 신청 버튼까지 실제로 따라가며 단계별로 캡처하고 신청까지의 탭 수·입력 폼·로그인 필요 여부를 측정합니다(입력·제출은 하지 않음, 모바일 화면, 3~4분). 로그인이 필요한 페이지는 수집되지 않으니 확장·즐겨찾기로 직접 캡처하세요.</p>
       <form id="cap-form" style="display:grid;grid-template-columns:1fr;gap:8px;max-width:720px">
         <input type="url" id="cap-url" placeholder="https://m.encar.com/ ..." required>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -153,6 +187,7 @@
           <datalist id="cap-comp-list"></datalist>
           <select id="cap-stage"><option>첫 화면(랜딩)</option><option>카테고리/상품 목록</option><option>상품 상세</option><option>장바구니</option><option>결제</option><option>회원가입/로그인</option><option>이벤트/기획전</option><option>기타</option></select>
           <select id="cap-device"><option>둘 다</option><option>모바일</option><option>데스크톱</option></select>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;white-space:nowrap"><input type="checkbox" id="cap-flow"> 신청까지 흐름 따라가기</label>
           <button class="primary" type="submit" id="cap-go">수집 시작</button>
         </div>
       </form>

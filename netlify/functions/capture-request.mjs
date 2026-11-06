@@ -23,6 +23,7 @@ export default async (req) => {
     stage: STAGE_KEYS[b.stage] || (/^(home|list|detail|inquiry|done)$/.test(b.stage) ? b.stage : "home"),
     device: b.device === "데스크톱" ? "데스크톱" : b.device === "모바일" ? "모바일" : "둘다",
     request_id,
+    flow: b.flow === true || b.flow === 'true' ? 'true' : 'false',
   };
   const r = await fetch(`https://api.github.com/repos/${repo}/dispatches`, {
     method: "POST",
