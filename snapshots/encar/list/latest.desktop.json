@@ -3,7 +3,7 @@
   "siteName": "엔카",
   "stage": "list",
   "url": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor",
-  "capturedAt": "2026-11-07T10:02:04.353+09:00",
+  "capturedAt": "2026-11-08T09:48:28.275+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor",
@@ -94,7 +94,7 @@
     },
     "fixedViewportShare": 0
   },
-  "screenshot": "2026-11-07.desktop.jpg",
+  "screenshot": "2026-11-08.desktop.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": null,
@@ -109,15 +109,14 @@
       "www.google.com",
       "static.encar.com",
       "www.gstatic.com",
-      "fonts.gstatic.com",
-      "csp.withgoogle.com"
+      "fonts.gstatic.com"
     ]
   },
   "viewportKey": "desktop",
   "device": "데스크톱",
   "admin": {
     "ok": true,
-    "id": "auto-encar-list-desktop-2026-11-07",
+    "id": "auto-encar-list-desktop-2026-11-08",
     "url": "https://goranisee.netlify.app"
   }
 }

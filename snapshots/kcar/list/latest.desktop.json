@@ -3,29 +3,29 @@
   "siteName": "케이카",
   "stage": "list",
   "url": "https://www.kcar.com/bc/search",
-  "capturedAt": "2026-11-07T10:03:00.593+09:00",
+  "capturedAt": "2026-11-08T09:49:21.359+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://www.kcar.com/bc/search",
-  "settledMs": 1406,
+  "settledMs": 1408,
   "expandedScroll": 1,
   "viewport": {
     "w": 1280,
     "h": 800,
-    "pageHeight": 15217
+    "pageHeight": 10662
   },
   "title": "중고차 검색 목록 | K Car(케이카)",
   "hero": [
     {
       "text": "대한민국 No.1 직영중고차 KCar",
       "fontSize": 34,
-      "y": 0.003,
+      "y": 0.005,
       "appeal": []
     },
     {
       "text": "로그인 회원가입",
       "fontSize": 16,
-      "y": 0.004,
+      "y": 0.006,
       "appeal": [
         "trust",
         "price"
@@ -34,7 +34,7 @@
     {
       "text": "로그인 회원가입",
       "fontSize": 16,
-      "y": 0.004,
+      "y": 0.006,
       "appeal": [
         "trust",
         "price"
@@ -47,7 +47,7 @@
       "label": "(배너)",
       "pos": {
         "x": 0.5,
-        "y": 0.016,
+        "y": 0.023,
         "w": 1220,
         "h": 101
       },
@@ -66,7 +66,7 @@
           "text": "더보기",
           "pos": {
             "x": 1.016,
-            "y": 0.113,
+            "y": 0.114,
             "w": 48,
             "h": 112
           },
@@ -102,6 +102,7 @@
       "회원가입",
       "직영차직거래",
       "#보증연장",
+      "보증연장",
       "보증서비스",
       "상호명 : 케이지모빌리티플랫폼 주식회사 / 케이지모빌리티플랫폼 주식회사 직거래마켓 지점",
       "사업자등록번호 : 787-87-00729 / 565-85-00765 (직거래마켓 지점)",
@@ -113,25 +114,25 @@
       "#세제혜택",
       "무료배송",
       "지금사면 무료배송",
-      "7,200만원",
-      "할부 월 117만원",
-      "3,770만원",
-      "할부 월 61만원",
-      "3,650만원",
-      "할부 월 59만원",
-      "6,450만원"
+      "2,820만원",
+      "할부 월 46만원",
+      "2,920만원",
+      "할부 월 48만원",
+      "4,850만원",
+      "할부 월 79만원",
+      "3,550만원"
     ]
   },
   "counts": {
-    "links": 263,
-    "images": 299,
-    "buttons": 401
+    "links": 185,
+    "images": 233,
+    "buttons": 277
   },
   "style": {
     "palette": [
       {
         "color": "#ffffff",
-        "share": 0.48,
+        "share": 0.536,
         "saturation": 0
       },
       {
@@ -141,12 +142,12 @@
       },
       {
         "color": "#fdeeef",
-        "share": 0.227,
+        "share": 0.169,
         "saturation": 0.06
       },
       {
         "color": "#f6f8fa",
-        "share": 0.012,
+        "share": 0.013,
         "saturation": 0.02
       },
       {
@@ -163,19 +164,19 @@
     "brand": [
       {
         "color": "#f01d29",
-        "share": 0.647,
+        "share": 0.637,
         "saturation": 0.88,
         "by": "count"
       },
       {
         "color": "#b70f28",
-        "share": 0.343,
+        "share": 0.347,
         "saturation": 0.92,
         "by": "count"
       },
       {
         "color": "#f5bc00",
-        "share": 0.006,
+        "share": 0.009,
         "saturation": 1,
         "by": "count"
       }
@@ -201,7 +202,7 @@
     },
     "fixedViewportShare": 0.01
   },
-  "screenshot": "2026-11-07.desktop.jpg",
+  "screenshot": "2026-11-08.desktop.jpg",
   "forms": {
     "forms": [
       {
@@ -295,7 +296,7 @@
         "GTM-PNJHWKC"
       ],
       "kakaoPixel": [
-        "8101473052006960319"
+        "2937709192550527363"
       ]
     },
     "paidChannels": [
@@ -325,35 +326,35 @@
       "trc.taboola.com",
       "analytics.google.com",
       "googleads.g.doubleclick.net",
+      "adapi.feeldmc.com",
+      "img.kcar.com",
+      "wcs.naver.net",
       "karrot-pixel.business.daangn.com",
       "cdn-aitg.widerplanet.com",
       "static.criteo.net",
       "connect.facebook.net",
-      "adapi.feeldmc.com",
       "tags.creativecdn.com",
-      "wcs.naver.net",
-      "img.kcar.com",
-      "pixelfnt-us.dsp-api.moloco.com",
-      "astg.widerplanet.com",
       "api.kcar.com",
       "gau.groobee.io",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
-      "ams.creativecdn.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
+      "pixelfnt-us.dsp-api.moloco.com",
+      "astg.widerplanet.com",
+      "ams.creativecdn.com",
       "bzrcdn.openai.com",
       "cdnjs.cloudflare.com",
-      "gum.criteo.com",
       "t1.kakaocdn.net",
-      "collect.daangn.com",
+      "gum.criteo.com",
       "fundingchoicesmessages.google.com",
-      "match.adsrvr.org",
+      "collect.daangn.com",
+      "bc.ds.kakao.com",
       "cm.g.doubleclick.net",
       "cm.creativecdn.com",
-      "sslwidget.criteo.com",
-      "bc.ds.kakao.com",
+      "match.adsrvr.org",
       "static.ads-twitter.com",
+      "sslwidget.criteo.com",
       "widget.as.criteo.com",
       "market-api.kcar.com",
       "api2.amplitude.com",
@@ -373,7 +374,7 @@
   "device": "데스크톱",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-list-desktop-2026-11-07",
+    "id": "auto-kcar-list-desktop-2026-11-08",
     "url": "https://goranisee.netlify.app"
   }
 }

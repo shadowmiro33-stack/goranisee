@@ -1,6 +1,6 @@
 {
-  "date": "2026-11-07",
-  "capturedAt": "2026-11-07T09:58:43.599+09:00",
+  "date": "2026-11-08",
+  "capturedAt": "2026-11-08T09:45:19.328+09:00",
   "stages": [
     {
       "key": "home",
@@ -64,7 +64,45 @@
           "promo": 0,
           "overlays": 0
         }
-      ]
+      ],
+      "flow": {
+        "stagesReached": [
+          "home",
+          "list"
+        ],
+        "reachedInquiry": false,
+        "tapsToInquiry": null,
+        "loginRequired": false,
+        "stoppedAt": "list",
+        "stopReason": "다음 단계(detail) 진입점 미발견",
+        "path": [
+          {
+            "stage": "home",
+            "url": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st",
+            "via": null,
+            "overlays": 8,
+            "ctas": 30,
+            "urgency": 0,
+            "trust": 7,
+            "price": 8
+          },
+          {
+            "stage": "list",
+            "url": "https://car.encar.com/car-report/guide",
+            "via": {
+              "text": "엔카 차량리포트",
+              "kind": "href",
+              "fixed": true
+            },
+            "overlays": 0,
+            "ctas": 5,
+            "urgency": 0,
+            "trust": 0,
+            "price": 0
+          }
+        ],
+        "inquiryForm": null
+      }
     },
     {
       "key": "kcar",
@@ -122,7 +160,7 @@
             "stage": "list",
             "url": "https://m.kcar.com/",
             "via": {
-              "text": "차량검색 8,933대",
+              "text": "차량검색 8,752대",
               "kind": "click",
               "fixed": true
             },
