@@ -3,11 +3,11 @@
   "siteName": "엔카",
   "stage": "list",
   "url": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor",
-  "capturedAt": "2026-11-08T09:48:28.275+09:00",
+  "capturedAt": "2026-11-09T10:03:06.996+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor",
-  "settledMs": 1406,
+  "settledMs": 1407,
   "warning": "본문 텍스트가 거의 없습니다. 로그인이 필요하거나 화면이 늦게 그려지는 페이지일 수 있습니다.",
   "viewport": {
     "w": 1280,
@@ -94,7 +94,7 @@
     },
     "fixedViewportShare": 0
   },
-  "screenshot": "2026-11-08.desktop.jpg",
+  "screenshot": "2026-11-09.desktop.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": null,
@@ -116,7 +116,7 @@
   "device": "데스크톱",
   "admin": {
     "ok": true,
-    "id": "auto-encar-list-desktop-2026-11-08",
+    "id": "auto-encar-list-desktop-2026-11-09",
     "url": "https://goranisee.netlify.app"
   }
 }

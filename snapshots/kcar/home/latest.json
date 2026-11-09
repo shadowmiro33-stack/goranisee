@@ -3,11 +3,11 @@
   "siteName": "케이카",
   "stage": "home",
   "url": "https://m.kcar.com/",
-  "capturedAt": "2026-11-08T09:46:23.976+09:00",
+  "capturedAt": "2026-11-09T10:01:03.684+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://m.kcar.com/",
-  "settledMs": 1410,
+  "settledMs": 1407,
   "viewport": {
     "w": 390,
     "h": 844,
@@ -36,7 +36,7 @@
   ],
   "ctas": [
     {
-      "text": "차량검색 8,752대",
+      "text": "차량검색 8,704대",
       "pos": {
         "x": 0.5,
         "y": 0.04,
@@ -203,7 +203,7 @@
         {
           "kind": "floating",
           "purpose": "search",
-          "text": "차량검색 8,752대",
+          "text": "차량검색 8,704대",
           "pos": {
             "x": 0.5,
             "y": 0.04,
@@ -276,7 +276,7 @@
           "viewportArea": 0.07
         },
         {
-          "text": "차량검색 8,752대",
+          "text": "차량검색 8,704대",
           "position": "top",
           "viewportArea": 0.05
         }
@@ -310,17 +310,17 @@
       "KW3 무료 기획전",
       "KW6 무료 기획전",
       "지금사면 무료배송",
-      "4,850만원",
-      "할부 월 79만원",
-      "4,590만원",
-      "할부 월 75만원",
-      "3,830만원",
-      "할부 월 62만원"
+      "5,480만원",
+      "할부 월 89만원",
+      "6,290만원",
+      "할부 월 102만원",
+      "3,920만원",
+      "할부 월 64만원"
     ]
   },
   "counts": {
     "links": 92,
-    "images": 83,
+    "images": 86,
     "buttons": 84
   },
   "style": {
@@ -382,7 +382,7 @@
     },
     "cta": {
       "primary": {
-        "text": "차량검색 8,752대",
+        "text": "차량검색 8,704대",
         "bg": "#ffffff",
         "color": "#d6d6d8",
         "contrast": 1.45,
@@ -404,7 +404,7 @@
     },
     "fixedViewportShare": 1
   },
-  "screenshot": "2026-11-08.jpg",
+  "screenshot": "2026-11-09.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": "6 / 7",
@@ -520,10 +520,6 @@
       "bzrcdn.openai.com",
       "marketm-api.kcar.com",
       "sr-client-cfg.amplitude.com",
-      "fundingchoicesmessages.google.com",
-      "sdk.iad-03.braze.com",
-      "banner.appsflyersdk.com",
-      "cdnjs.cloudflare.com",
       "www.google-analytics.com",
       "cdn.taboola.com",
       "static.criteo.net",
@@ -533,14 +529,20 @@
       "cdn-aitg.widerplanet.com",
       "www.google.com",
       "ad.doubleclick.net",
-      "bc.ds.kakao.com",
-      "static.ads-twitter.com",
-      "img.kcar.com",
+      "banner.appsflyersdk.com",
+      "cdnjs.cloudflare.com",
+      "fundingchoicesmessages.google.com",
+      "sdk.iad-03.braze.com",
       "adapi.feeldmc.com",
+      "img.kcar.com",
+      "bc.ds.kakao.com",
       "dsp.dmcmedia.co.kr",
-      "trc.taboola.com",
+      "static.ads-twitter.com",
       "stats.g.doubleclick.net",
+      "trc.taboola.com",
       "analytics.google.com",
+      "cdn.megadata.co.kr",
+      "cdn.datamanager.co.kr",
       "ams.creativecdn.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
@@ -554,20 +556,18 @@
       "pixel.rubiconproject.com",
       "simage2.pubmatic.com",
       "sync.taboola.com",
-      "nam.veta.naver.com",
       "collect.daangn.com",
-      "cdn.megadata.co.kr",
-      "cdn.datamanager.co.kr",
-      "pips.taboola.com",
+      "nam.veta.naver.com",
       "lpipua.kcar.com",
-      "cds.taboola.com"
+      "pips.taboola.com",
+      "cm.mman.kr"
     ]
   },
   "viewportKey": "mobile",
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-home-mobile-2026-11-08",
+    "id": "auto-kcar-home-mobile-2026-11-09",
     "url": "https://goranisee.netlify.app"
   }
 }

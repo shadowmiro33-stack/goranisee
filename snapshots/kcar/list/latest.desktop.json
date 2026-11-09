@@ -3,7 +3,7 @@
   "siteName": "케이카",
   "stage": "list",
   "url": "https://www.kcar.com/bc/search",
-  "capturedAt": "2026-11-08T09:49:21.359+09:00",
+  "capturedAt": "2026-11-09T10:04:00.850+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://www.kcar.com/bc/search",
@@ -12,7 +12,7 @@
   "viewport": {
     "w": 1280,
     "h": 800,
-    "pageHeight": 10662
+    "pageHeight": 10823
   },
   "title": "중고차 검색 목록 | K Car(케이카)",
   "hero": [
@@ -66,7 +66,7 @@
           "text": "더보기",
           "pos": {
             "x": 1.016,
-            "y": 0.114,
+            "y": 0.113,
             "w": 48,
             "h": 112
           },
@@ -102,7 +102,6 @@
       "회원가입",
       "직영차직거래",
       "#보증연장",
-      "보증연장",
       "보증서비스",
       "상호명 : 케이지모빌리티플랫폼 주식회사 / 케이지모빌리티플랫폼 주식회사 직거래마켓 지점",
       "사업자등록번호 : 787-87-00729 / 565-85-00765 (직거래마켓 지점)",
@@ -114,35 +113,35 @@
       "#세제혜택",
       "무료배송",
       "지금사면 무료배송",
-      "2,820만원",
-      "할부 월 46만원",
-      "2,920만원",
-      "할부 월 48만원",
-      "4,850만원",
-      "할부 월 79만원",
-      "3,550만원"
+      "2,130만원",
+      "할부 월 35만원",
+      "2,350만원",
+      "할부 월 38만원",
+      "1,830만원",
+      "할부 월 30만원",
+      "3,630만원"
     ]
   },
   "counts": {
     "links": 185,
-    "images": 233,
-    "buttons": 277
+    "images": 226,
+    "buttons": 274
   },
   "style": {
     "palette": [
       {
         "color": "#ffffff",
-        "share": 0.536,
+        "share": 0.538,
         "saturation": 0
       },
       {
         "color": "#f9fafb",
-        "share": 0.279,
+        "share": 0.278,
         "saturation": 0.01
       },
       {
         "color": "#fdeeef",
-        "share": 0.169,
+        "share": 0.17,
         "saturation": 0.06
       },
       {
@@ -202,7 +201,7 @@
     },
     "fixedViewportShare": 0.01
   },
-  "screenshot": "2026-11-08.desktop.jpg",
+  "screenshot": "2026-11-09.desktop.jpg",
   "forms": {
     "forms": [
       {
@@ -296,7 +295,7 @@
         "GTM-PNJHWKC"
       ],
       "kakaoPixel": [
-        "2937709192550527363"
+        "8101473052006960319"
       ]
     },
     "paidChannels": [
@@ -326,38 +325,38 @@
       "trc.taboola.com",
       "analytics.google.com",
       "googleads.g.doubleclick.net",
-      "adapi.feeldmc.com",
-      "img.kcar.com",
-      "wcs.naver.net",
-      "karrot-pixel.business.daangn.com",
-      "cdn-aitg.widerplanet.com",
       "static.criteo.net",
       "connect.facebook.net",
       "tags.creativecdn.com",
+      "wcs.naver.net",
+      "karrot-pixel.business.daangn.com",
+      "cdn-aitg.widerplanet.com",
+      "adapi.feeldmc.com",
+      "img.kcar.com",
       "api.kcar.com",
       "gau.groobee.io",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
+      "gum.criteo.com",
+      "bzrcdn.openai.com",
+      "ams.creativecdn.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
       "pixelfnt-us.dsp-api.moloco.com",
       "astg.widerplanet.com",
-      "ams.creativecdn.com",
-      "bzrcdn.openai.com",
+      "fundingchoicesmessages.google.com",
       "cdnjs.cloudflare.com",
       "t1.kakaocdn.net",
-      "gum.criteo.com",
-      "fundingchoicesmessages.google.com",
       "collect.daangn.com",
-      "bc.ds.kakao.com",
+      "sslwidget.criteo.com",
       "cm.g.doubleclick.net",
       "cm.creativecdn.com",
       "match.adsrvr.org",
-      "static.ads-twitter.com",
-      "sslwidget.criteo.com",
       "widget.as.criteo.com",
-      "market-api.kcar.com",
+      "static.ads-twitter.com",
+      "bc.ds.kakao.com",
       "api2.amplitude.com",
+      "market-api.kcar.com",
       "kcar.gitple.biz",
       "ep1.adtrafficquality.google",
       "code.jquery.com",
@@ -365,16 +364,16 @@
       "dynamic.criteo.com",
       "ep2.adtrafficquality.google",
       "api.camver100.selper.co.kr",
-      "gw.tune720.com",
       "sdk.iad-03.braze.com",
-      "trc-events.taboola.com"
+      "trc-events.taboola.com",
+      "gw.tune720.com"
     ]
   },
   "viewportKey": "desktop",
   "device": "데스크톱",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-list-desktop-2026-11-08",
+    "id": "auto-kcar-list-desktop-2026-11-09",
     "url": "https://goranisee.netlify.app"
   }
 }

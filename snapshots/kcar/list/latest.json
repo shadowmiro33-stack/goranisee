@@ -3,7 +3,7 @@
   "siteName": "케이카",
   "stage": "list",
   "url": "https://m.kcar.com/bc/search",
-  "capturedAt": "2026-11-08T09:46:50.112+09:00",
+  "capturedAt": "2026-11-09T10:01:27.371+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://m.kcar.com/bc/search",
@@ -69,7 +69,7 @@
       "text": "차종 중복선택가능 모두포함",
       "pos": {
         "x": 0.5,
-        "y": 0.316,
+        "y": 0.317,
         "w": 390,
         "h": 68
       },
@@ -216,7 +216,7 @@
       "appeal": []
     },
     {
-      "text": "차량 보기(8,752대)",
+      "text": "차량 보기(8,704대)",
       "pos": {
         "x": 0.572,
         "y": 0.646,
@@ -252,7 +252,7 @@
         {
           "kind": "bottom-bar",
           "purpose": "other",
-          "text": "새로고침 차량 보기(8,752대)",
+          "text": "새로고침 차량 보기(8,704대)",
           "pos": {
             "x": 0.5,
             "y": 0.646,
@@ -342,7 +342,7 @@
     },
     "cta": {
       "primary": {
-        "text": "차량 보기(8,752대)",
+        "text": "차량 보기(8,704대)",
         "bg": "#b70f28",
         "color": "#ffffff",
         "contrast": 6.75,
@@ -364,7 +364,7 @@
     },
     "fixedViewportShare": 0.23
   },
-  "screenshot": "2026-11-08.jpg",
+  "screenshot": "2026-11-09.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": null,
@@ -472,7 +472,6 @@
       "www.google-analytics.com",
       "cdn.taboola.com",
       "www.google.com",
-      "analytics.google.com",
       "googleads.g.doubleclick.net",
       "adapi.feeldmc.com",
       "static.criteo.net",
@@ -481,47 +480,48 @@
       "wcs.naver.net",
       "karrot-pixel.business.daangn.com",
       "cdn-aitg.widerplanet.com",
+      "analytics.google.com",
       "mapi.kcar.com",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
-      "trc.taboola.com",
       "bzrcdn.openai.com",
       "banner.appsflyersdk.com",
+      "trc.taboola.com",
       "cdnjs.cloudflare.com",
+      "fundingchoicesmessages.google.com",
+      "img.kcar.com",
       "sslwidget.criteo.com",
       "ams.creativecdn.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
       "pixelfnt-us.dsp-api.moloco.com",
       "astg.widerplanet.com",
-      "fundingchoicesmessages.google.com",
       "tk.mediacategory.com",
       "api.mediacategory.com",
-      "gum.criteo.com",
-      "img.kcar.com",
       "bc.ds.kakao.com",
-      "widget.as.criteo.com",
-      "i.liadm.com",
-      "gw.tune720.com",
+      "gum.criteo.com",
       "marketm-api.kcar.com",
+      "widget.as.criteo.com",
+      "gw.tune720.com",
+      "i.liadm.com",
       "static.ads-twitter.com",
       "collect.daangn.com",
       "i6.liadm.com",
-      "www.facebook.com",
       "lpipua.kcar.com",
+      "api2.amplitude.com",
       "cm.g.doubleclick.net",
       "match.adsrvr.org",
-      "pips.taboola.com",
       "cm.creativecdn.com",
-      "cds.taboola.com",
-      "main.ctolabperfstats.com"
+      "www.facebook.com",
+      "pips.taboola.com",
+      "cds.taboola.com"
     ]
   },
   "viewportKey": "mobile",
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-list-mobile-2026-11-08",
+    "id": "auto-kcar-list-mobile-2026-11-09",
     "url": "https://goranisee.netlify.app"
   }
 }

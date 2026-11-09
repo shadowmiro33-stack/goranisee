@@ -1,0 +1,38 @@
+{
+  "stagesReached": [
+    "home",
+    "list"
+  ],
+  "reachedInquiry": false,
+  "tapsToInquiry": null,
+  "loginRequired": false,
+  "stoppedAt": "list",
+  "stopReason": "다음 단계(detail) 진입점 미발견",
+  "path": [
+    {
+      "stage": "home",
+      "url": "https://m.kcar.com/",
+      "via": null,
+      "overlays": 8,
+      "ctas": 7,
+      "urgency": 1,
+      "trust": 6,
+      "price": 12
+    },
+    {
+      "stage": "list",
+      "url": "https://m.kcar.com/",
+      "via": {
+        "text": "차량검색 8,704대",
+        "kind": "click",
+        "fixed": true
+      },
+      "overlays": 8,
+      "ctas": 7,
+      "urgency": 1,
+      "trust": 6,
+      "price": 12
+    }
+  ],
+  "inquiryForm": null
+}

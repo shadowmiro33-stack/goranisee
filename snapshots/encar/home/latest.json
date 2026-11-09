@@ -3,7 +3,7 @@
   "siteName": "엔카",
   "stage": "home",
   "url": "https://m.encar.com/",
-  "capturedAt": "2026-11-08T09:45:19.376+09:00",
+  "capturedAt": "2026-11-09T09:59:05.265+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st",
@@ -23,13 +23,13 @@
       "appeal": []
     },
     {
-      "text": "기아 더 뉴 모하비 디젤 3.0 4WD 프레지던트",
+      "text": "기아 더 K9 3.8 GDI AWD 그랜드 플래티넘",
       "fontSize": 16,
       "y": 0.496,
       "appeal": []
     },
     {
-      "text": "KG모빌리티(쌍용) 더 뉴 렉스턴 스포츠 디젤 2.2 2WD 와일드",
+      "text": "현대 스타리아 카고 5인승 모던",
       "fontSize": 16,
       "y": 0.496,
       "appeal": []
@@ -227,7 +227,7 @@
       "color": "rgb(24, 24, 24)",
       "fontSize": 15,
       "appeal": [],
-      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/1919344208/Top3/encar2/dbdirect_m_insur_LNB_2611/dbdirect_m_insur_LNB_2611.html/4e4a7146454772767869554143653067"
+      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/2136770064/Top3/encar2/samsungfire_m_insur_LNB_2611/samsungfire_m_insur_LNB_2611.html/682b6a4a386d72784775414143666134"
     },
     {
       "text": "엔카미디어",
@@ -534,7 +534,7 @@
         "w": 1,
         "h": 1
       },
-      "items": 70,
+      "items": 71,
       "images": 46,
       "kind": "reco"
     },
@@ -575,7 +575,7 @@
       "kind": "banner"
     },
     {
-      "label": "배터리 진단 완료 중고렌트리스 전기차 리스 특가전 신차시승 개인직거래 내차 시세조회 6개월 무이자 자동차보험료 확인 엔카믿고 진단++ 우수등급",
+      "label": "배터리 진단 완료 중고렌트리스 전기차 리스 특가전 신차시승 개인직거래 내차 시세조회 6개월 무이자 운전자보험료 확인 엔카믿고 진단++ 우수등급",
       "pos": {
         "x": 0.961,
         "y": 0.338,
@@ -589,7 +589,7 @@
     {
       "label": "이미지",
       "pos": {
-        "x": -7.746,
+        "x": -6.715,
         "y": 0.143,
         "w": 390,
         "h": 260
@@ -717,6 +717,7 @@
       "배터리 진단 완료",
       "개인직거래",
       "진단++ 우수등급",
+      "엔카진단+",
       "엔카진단++"
     ],
     "price": [
@@ -724,10 +725,10 @@
       "전기차 리스 특가전",
       "6개월 무이자",
       "SK렌터카 신차특가",
-      "1,080만원",
-      "1,000만원",
-      "1,530만원",
-      "1,780만원"
+      "1,740만원",
+      "1,540만원",
+      "899만원",
+      "850만원"
     ]
   },
   "counts": {
@@ -783,7 +784,7 @@
       "heading": "Pretendard",
       "baseSize": 14,
       "headingSize": 28,
-      "boldShare": 0.55
+      "boldShare": 0.54
     },
     "cta": {
       "primary": {
@@ -812,7 +813,7 @@
     },
     "fixedViewportShare": 1
   },
-  "screenshot": "2026-11-08.jpg",
+  "screenshot": "2026-11-09.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": "1\n/\n1",
@@ -906,15 +907,15 @@
       "analytics.google.com",
       "stats.g.doubleclick.net",
       "wa.onelink.me",
-      "cognito-identity.ap-northeast-2.amazonaws.com",
-      "www.googleadservices.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
-      "wa.appsflyersdk.com",
+      "www.googleadservices.com",
       "mpc2-prod-24-is5qnl632q-uw.a.run.app",
       "www.facebook.com",
-      "nam.veta.naver.com",
+      "cognito-identity.ap-northeast-2.amazonaws.com",
+      "wa.appsflyersdk.com",
       "t1.kakaocdn.net",
+      "nam.veta.naver.com",
       "bc.ds.kakao.com",
       "firehose.ap-northeast-2.amazonaws.com",
       "o298382.ingest.sentry.io"
@@ -924,7 +925,7 @@
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-encar-home-mobile-2026-11-08",
+    "id": "auto-encar-home-mobile-2026-11-09",
     "url": "https://goranisee.netlify.app"
   }
 }
