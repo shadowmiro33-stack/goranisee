@@ -3,7 +3,7 @@
   "siteName": "케이카",
   "stage": "list",
   "url": "https://www.kcar.com/bc/search",
-  "capturedAt": "2026-11-09T10:04:00.850+09:00",
+  "capturedAt": "2026-11-10T12:43:25.556+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://www.kcar.com/bc/search",
@@ -12,7 +12,7 @@
   "viewport": {
     "w": 1280,
     "h": 800,
-    "pageHeight": 10823
+    "pageHeight": 10787
   },
   "title": "중고차 검색 목록 | K Car(케이카)",
   "hero": [
@@ -113,30 +113,30 @@
       "#세제혜택",
       "무료배송",
       "지금사면 무료배송",
-      "2,130만원",
-      "할부 월 35만원",
-      "2,350만원",
-      "할부 월 38만원",
-      "1,830만원",
-      "할부 월 30만원",
-      "3,630만원"
+      "2,270만원",
+      "할부 월 37만원",
+      "2,040만원",
+      "할부 월 33만원",
+      "3,910만원",
+      "할부 월 64만원",
+      "1,770만원"
     ]
   },
   "counts": {
     "links": 185,
-    "images": 226,
-    "buttons": 274
+    "images": 225,
+    "buttons": 270
   },
   "style": {
     "palette": [
       {
         "color": "#ffffff",
-        "share": 0.538,
+        "share": 0.539,
         "saturation": 0
       },
       {
         "color": "#f9fafb",
-        "share": 0.278,
+        "share": 0.275,
         "saturation": 0.01
       },
       {
@@ -201,7 +201,7 @@
     },
     "fixedViewportShare": 0.01
   },
-  "screenshot": "2026-11-09.desktop.jpg",
+  "screenshot": "2026-11-10.desktop.jpg",
   "forms": {
     "forms": [
       {
@@ -295,7 +295,7 @@
         "GTM-PNJHWKC"
       ],
       "kakaoPixel": [
-        "8101473052006960319"
+        "2937709192550527363"
       ]
     },
     "paidChannels": [
@@ -325,38 +325,37 @@
       "trc.taboola.com",
       "analytics.google.com",
       "googleads.g.doubleclick.net",
-      "static.criteo.net",
-      "connect.facebook.net",
-      "tags.creativecdn.com",
+      "adapi.feeldmc.com",
+      "img.kcar.com",
       "wcs.naver.net",
       "karrot-pixel.business.daangn.com",
       "cdn-aitg.widerplanet.com",
-      "adapi.feeldmc.com",
-      "img.kcar.com",
+      "static.criteo.net",
+      "connect.facebook.net",
+      "tags.creativecdn.com",
       "api.kcar.com",
       "gau.groobee.io",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
-      "gum.criteo.com",
       "bzrcdn.openai.com",
-      "ams.creativecdn.com",
+      "fundingchoicesmessages.google.com",
+      "cdnjs.cloudflare.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
       "pixelfnt-us.dsp-api.moloco.com",
       "astg.widerplanet.com",
-      "fundingchoicesmessages.google.com",
-      "cdnjs.cloudflare.com",
+      "ams.creativecdn.com",
       "t1.kakaocdn.net",
+      "gum.criteo.com",
       "collect.daangn.com",
-      "sslwidget.criteo.com",
-      "cm.g.doubleclick.net",
-      "cm.creativecdn.com",
       "match.adsrvr.org",
-      "widget.as.criteo.com",
       "static.ads-twitter.com",
       "bc.ds.kakao.com",
-      "api2.amplitude.com",
+      "rt.udmserve.net",
+      "sslwidget.criteo.com",
       "market-api.kcar.com",
+      "api2.amplitude.com",
+      "widget.as.criteo.com",
       "kcar.gitple.biz",
       "ep1.adtrafficquality.google",
       "code.jquery.com",
@@ -364,16 +363,16 @@
       "dynamic.criteo.com",
       "ep2.adtrafficquality.google",
       "api.camver100.selper.co.kr",
+      "gw.tune720.com",
       "sdk.iad-03.braze.com",
-      "trc-events.taboola.com",
-      "gw.tune720.com"
+      "trc-events.taboola.com"
     ]
   },
   "viewportKey": "desktop",
   "device": "데스크톱",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-list-desktop-2026-11-09",
+    "id": "auto-kcar-list-desktop-2026-11-10",
     "url": "https://goranisee.netlify.app"
   }
 }

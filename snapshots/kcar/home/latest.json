@@ -3,15 +3,15 @@
   "siteName": "케이카",
   "stage": "home",
   "url": "https://m.kcar.com/",
-  "capturedAt": "2026-11-09T10:01:03.684+09:00",
+  "capturedAt": "2026-11-10T12:40:37.236+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://m.kcar.com/",
-  "settledMs": 1407,
+  "settledMs": 1406,
   "viewport": {
     "w": 390,
     "h": 844,
-    "pageHeight": 3065
+    "pageHeight": 3064
   },
   "title": "K Car(케이카) | 대한민국 No.1 직영 중고차플랫폼",
   "hero": [
@@ -28,15 +28,15 @@
       "appeal": []
     },
     {
-      "text": "차량번호 입력하고 내 차 견적 받기",
-      "fontSize": 18,
-      "y": 0.168,
+      "text": "'마이카'가 알려드릴게요. 🙌",
+      "fontSize": 20,
+      "y": 0.102,
       "appeal": []
     }
   ],
   "ctas": [
     {
-      "text": "차량검색 8,704대",
+      "text": "차량검색 8,736대",
       "pos": {
         "x": 0.5,
         "y": 0.04,
@@ -143,13 +143,43 @@
       "appeal": [
         "price"
       ]
+    },
+    {
+      "text": "내 차가 없어요.",
+      "pos": {
+        "x": 0.295,
+        "y": 0.197,
+        "w": 150,
+        "h": 44
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(201, 199, 200)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "마이카 바로가기 ▶",
+      "pos": {
+        "x": 0.705,
+        "y": 0.197,
+        "w": 150,
+        "h": 44
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(0, 0, 0)",
+      "color": "rgb(94, 252, 89)",
+      "fontSize": 14,
+      "appeal": []
     }
   ],
   "promo": [
     {
       "label": "(배너)",
       "pos": {
-        "x": -1.295,
+        "x": -2.192,
         "y": 0.131,
         "w": 350,
         "h": 417
@@ -176,7 +206,7 @@
         "x": 0.5,
         "y": 0.736,
         "w": 350,
-        "h": 105
+        "h": 104
       },
       "items": 1,
       "images": 1,
@@ -203,7 +233,7 @@
         {
           "kind": "floating",
           "purpose": "search",
-          "text": "차량검색 8,704대",
+          "text": "차량검색 8,736대",
           "pos": {
             "x": 0.5,
             "y": 0.04,
@@ -264,6 +294,19 @@
           },
           "viewportArea": 1,
           "position": "top"
+        },
+        {
+          "kind": "popup",
+          "purpose": "other",
+          "text": "'마이카'가 알려드릴게요. 🙌 AI가 알려주는 현재, 6개월, 1년, 2년 후 예상 시세📉 마이카에 차량번호만 입력하면 ☝️1분 안에 확인 가능! 궁금했던 '내 차' 시세 지금 바로 확인 해보세요. (와이프 차, 아빠 차, 친구 차도 알려드림) 내 차가 없어요. 마이카 바로가기 ▶",
+          "pos": {
+            "x": 0.5,
+            "y": 0.138,
+            "w": 390,
+            "h": 844
+          },
+          "viewportArea": 1,
+          "position": "top"
         }
       ]
     },
@@ -276,7 +319,7 @@
           "viewportArea": 0.07
         },
         {
-          "text": "차량검색 8,704대",
+          "text": "차량검색 8,736대",
           "position": "top",
           "viewportArea": 0.05
         }
@@ -293,7 +336,8 @@
   ],
   "appeals": {
     "urgency": [
-      "지금사면 무료배송"
+      "지금사면 무료배송",
+      "지금 바로 확인 해보세요."
     ],
     "trust": [
       "최대 2년 보증",
@@ -310,79 +354,86 @@
       "KW3 무료 기획전",
       "KW6 무료 기획전",
       "지금사면 무료배송",
-      "5,480만원",
-      "할부 월 89만원",
-      "6,290만원",
-      "할부 월 102만원",
-      "3,920만원",
-      "할부 월 64만원"
+      "2,330만원",
+      "할부 월 38만원",
+      "2,430만원",
+      "할부 월 40만원",
+      "3,170만원",
+      "할부 월 52만원"
     ]
   },
   "counts": {
     "links": 92,
-    "images": 86,
-    "buttons": 84
+    "images": 82,
+    "buttons": 87
   },
   "style": {
     "palette": [
       {
         "color": "#ffffff",
-        "share": 0.385,
+        "share": 0.362,
         "saturation": 0
       },
       {
         "color": "#f9fafb",
-        "share": 0.209,
+        "share": 0.197,
         "saturation": 0.01
       },
       {
         "color": "#f2f2f2",
-        "share": 0.174,
+        "share": 0.163,
         "saturation": 0
       },
       {
         "color": "#000000",
-        "share": 0.115,
+        "share": 0.11,
         "saturation": 0
       },
       {
         "color": "#f6f8fa",
-        "share": 0.064,
+        "share": 0.06,
         "saturation": 0.02
       },
       {
-        "color": "#f2f3f5",
-        "share": 0.03,
-        "saturation": 0.01
+        "color": "#f5fdf6",
+        "share": 0.055,
+        "saturation": 0.03
       }
     ],
     "brand": [
       {
         "color": "#b70f28",
-        "share": 0.535,
+        "share": 0.529,
         "saturation": 0.92,
         "by": "count"
       },
       {
         "color": "#f01d29",
-        "share": 0.465,
+        "share": 0.46,
         "saturation": 0.88,
+        "by": "count"
+      },
+      {
+        "color": "#5efc59",
+        "share": 0.011,
+        "saturation": 0.65,
         "by": "count"
       }
     ],
     "fonts": {
       "body": "Spoqa Han Sans Neo",
       "top": [
-        "Spoqa Han Sans Neo"
+        "Spoqa Han Sans Neo",
+        "Helvetica Neue Light"
       ],
       "heading": "Spoqa Han Sans Neo",
       "baseSize": 16,
       "headingSize": 24,
-      "boldShare": 0.2
+      "boldShare": 0.23
     },
     "cta": {
       "primary": {
-        "text": "차량검색 8,704대",
+        "text": "차량검색 8,736대",
         "bg": "#ffffff",
         "color": "#d6d6d8",
         "contrast": 1.45,
@@ -392,22 +443,24 @@
         "fontSize": 16,
         "saturated": false
       },
-      "count": 7,
-      "fixedCount": 3,
+      "count": 9,
+      "fixedCount": 5,
       "fullWidthCount": 3,
       "saturatedCount": 0,
       "avgHeight": 43,
       "colors": [
         "#ffffff",
-        "#f6f8fa"
+        "#f6f8fa",
+        "#c9c7c8",
+        "#000000"
       ]
     },
     "fixedViewportShare": 1
   },
-  "screenshot": "2026-11-09.jpg",
+  "screenshot": "2026-11-10.jpg",
   "forms": {
     "forms": [],
-    "stepIndicator": "6 / 7",
+    "stepIndicator": "5 / 7",
     "loginWall": false
   },
   "adTech": {
@@ -519,7 +572,9 @@
       "connect.facebook.net",
       "bzrcdn.openai.com",
       "marketm-api.kcar.com",
-      "sr-client-cfg.amplitude.com",
+      "sdk.iad-03.braze.com",
+      "banner.appsflyersdk.com",
+      "cdnjs.cloudflare.com",
       "www.google-analytics.com",
       "cdn.taboola.com",
       "static.criteo.net",
@@ -529,45 +584,43 @@
       "cdn-aitg.widerplanet.com",
       "www.google.com",
       "ad.doubleclick.net",
-      "banner.appsflyersdk.com",
-      "cdnjs.cloudflare.com",
       "fundingchoicesmessages.google.com",
-      "sdk.iad-03.braze.com",
-      "adapi.feeldmc.com",
-      "img.kcar.com",
+      "sr-client-cfg.amplitude.com",
       "bc.ds.kakao.com",
+      "img.kcar.com",
+      "adapi.feeldmc.com",
       "dsp.dmcmedia.co.kr",
       "static.ads-twitter.com",
       "stats.g.doubleclick.net",
       "trc.taboola.com",
       "analytics.google.com",
+      "ams.creativecdn.com",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
-      "ams.creativecdn.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
       "pixelfnt-us.dsp-api.moloco.com",
       "astg.widerplanet.com",
-      "www.facebook.com",
       "gum.criteo.com",
+      "www.facebook.com",
       "cm.g.doubleclick.net",
       "dsum-sec.casalemedia.com",
       "act.ds.kakao.com",
       "pixel.rubiconproject.com",
       "simage2.pubmatic.com",
       "sync.taboola.com",
-      "collect.daangn.com",
       "nam.veta.naver.com",
+      "collect.daangn.com",
       "lpipua.kcar.com",
       "pips.taboola.com",
-      "cm.mman.kr"
+      "cds.taboola.com"
     ]
   },
   "viewportKey": "mobile",
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-home-mobile-2026-11-09",
+    "id": "auto-kcar-home-mobile-2026-11-10",
     "url": "https://goranisee.netlify.app"
   }
 }

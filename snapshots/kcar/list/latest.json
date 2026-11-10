@@ -3,11 +3,11 @@
   "siteName": "케이카",
   "stage": "list",
   "url": "https://m.kcar.com/bc/search",
-  "capturedAt": "2026-11-09T10:01:27.371+09:00",
+  "capturedAt": "2026-11-10T12:41:00.442+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://m.kcar.com/bc/search",
-  "settledMs": 1408,
+  "settledMs": 1405,
   "viewport": {
     "w": 390,
     "h": 844,
@@ -30,7 +30,7 @@
     {
       "text": "검색 조건 최근 검색조건",
       "fontSize": 16,
-      "y": 0.083,
+      "y": 0.084,
       "appeal": []
     }
   ],
@@ -39,7 +39,7 @@
       "text": "국산·수입 제조사/모델 중복선택가능",
       "pos": {
         "x": 0.5,
-        "y": 0.166,
+        "y": 0.167,
         "w": 390,
         "h": 68
       },
@@ -189,7 +189,7 @@
       "text": "인승 중복선택가능 모두포함",
       "pos": {
         "x": 0.5,
-        "y": 0.805,
+        "y": 0.806,
         "w": 390,
         "h": 68
       },
@@ -204,7 +204,7 @@
       "text": "구동방식 중복선택가능 모두포함",
       "pos": {
         "x": 0.5,
-        "y": 0.866,
+        "y": 0.867,
         "w": 390,
         "h": 68
       },
@@ -216,7 +216,7 @@
       "appeal": []
     },
     {
-      "text": "차량 보기(8,704대)",
+      "text": "차량 보기(8,736대)",
       "pos": {
         "x": 0.572,
         "y": 0.646,
@@ -252,7 +252,7 @@
         {
           "kind": "bottom-bar",
           "purpose": "other",
-          "text": "새로고침 차량 보기(8,704대)",
+          "text": "새로고침 차량 보기(8,736대)",
           "pos": {
             "x": 0.5,
             "y": 0.646,
@@ -342,7 +342,7 @@
     },
     "cta": {
       "primary": {
-        "text": "차량 보기(8,704대)",
+        "text": "차량 보기(8,736대)",
         "bg": "#b70f28",
         "color": "#ffffff",
         "contrast": 6.75,
@@ -364,7 +364,7 @@
     },
     "fixedViewportShare": 0.23
   },
-  "screenshot": "2026-11-09.jpg",
+  "screenshot": "2026-11-10.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": null,
@@ -430,8 +430,8 @@
     ],
     "ids": {
       "googleAds": [
-        "AW-11200307604",
-        "AW-938190343"
+        "AW-938190343",
+        "AW-11200307604"
       ],
       "metaPixel": [
         "591716708761190"
@@ -473,55 +473,55 @@
       "cdn.taboola.com",
       "www.google.com",
       "googleads.g.doubleclick.net",
-      "adapi.feeldmc.com",
       "static.criteo.net",
       "connect.facebook.net",
       "tags.creativecdn.com",
       "wcs.naver.net",
       "karrot-pixel.business.daangn.com",
       "cdn-aitg.widerplanet.com",
-      "analytics.google.com",
+      "adapi.feeldmc.com",
       "mapi.kcar.com",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
       "bzrcdn.openai.com",
       "banner.appsflyersdk.com",
-      "trc.taboola.com",
       "cdnjs.cloudflare.com",
-      "fundingchoicesmessages.google.com",
-      "img.kcar.com",
+      "analytics.google.com",
       "sslwidget.criteo.com",
+      "trc.taboola.com",
       "ams.creativecdn.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
       "pixelfnt-us.dsp-api.moloco.com",
       "astg.widerplanet.com",
+      "fundingchoicesmessages.google.com",
+      "gum.criteo.com",
+      "img.kcar.com",
       "tk.mediacategory.com",
       "api.mediacategory.com",
-      "bc.ds.kakao.com",
-      "gum.criteo.com",
-      "marketm-api.kcar.com",
       "widget.as.criteo.com",
+      "bc.ds.kakao.com",
+      "marketm-api.kcar.com",
+      "collect.daangn.com",
       "gw.tune720.com",
       "i.liadm.com",
       "static.ads-twitter.com",
-      "collect.daangn.com",
-      "i6.liadm.com",
-      "lpipua.kcar.com",
-      "api2.amplitude.com",
       "cm.g.doubleclick.net",
       "match.adsrvr.org",
       "cm.creativecdn.com",
+      "lpipua.kcar.com",
       "www.facebook.com",
       "pips.taboola.com",
-      "cds.taboola.com"
+      "cds.taboola.com",
+      "api2.amplitude.com",
+      "i6.liadm.com"
     ]
   },
   "viewportKey": "mobile",
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-list-mobile-2026-11-09",
+    "id": "auto-kcar-list-mobile-2026-11-10",
     "url": "https://goranisee.netlify.app"
   }
 }

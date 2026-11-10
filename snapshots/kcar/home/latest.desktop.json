@@ -3,11 +3,11 @@
   "siteName": "케이카",
   "stage": "home",
   "url": "https://www.kcar.com/",
-  "capturedAt": "2026-11-09T10:03:24.633+09:00",
+  "capturedAt": "2026-11-10T12:42:54.145+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://www.kcar.com/",
-  "settledMs": 1411,
+  "settledMs": 1408,
   "viewport": {
     "w": 1280,
     "h": 800,
@@ -94,7 +94,7 @@
         "w": 1220,
         "h": 42
       },
-      "items": 116,
+      "items": 115,
       "images": 18,
       "kind": "reco"
     },
@@ -147,7 +147,7 @@
       "kind": "banner"
     },
     {
-      "label": "홈서비스 메가센터 보유차량 272대 지점위치 경기도 이천시 마장면 중부대로644번길 293 (표교리) 영업시간 월~토요일 09:00~18:00",
+      "label": "홈서비스 메가센터 보유차량 266대 지점위치 경기도 이천시 마장면 중부대로644번길 293 (표교리) 영업시간 월~토요일 09:00~18:00",
       "pos": {
         "x": 0.5,
         "y": 0.826,
@@ -223,13 +223,13 @@
       "렌트 특가",
       "원하는 차가 있어요예산이 정해져 있어요차종별로 찾고 있어요",
       "지금사면 무료배송",
-      "2,550만원",
-      "할부 월42만원"
+      "3,390만원",
+      "할부 월55만원"
     ]
   },
   "counts": {
     "links": 219,
-    "images": 146,
+    "images": 147,
     "buttons": 219
   },
   "style": {
@@ -285,7 +285,7 @@
       "heading": "Spoqa Han Sans Neo",
       "baseSize": 16,
       "headingSize": 34,
-      "boldShare": 0.33
+      "boldShare": 0.32
     },
     "cta": {
       "primary": {
@@ -308,9 +308,9 @@
         "#b70f28"
       ]
     },
-    "fixedViewportShare": 0.01
+    "fixedViewportShare": 0
   },
-  "screenshot": "2026-11-09.desktop.jpg",
+  "screenshot": "2026-11-10.desktop.jpg",
   "forms": {
     "forms": [
       {
@@ -397,8 +397,8 @@
     ],
     "ids": {
       "googleAds": [
-        "AW-938190343",
-        "AW-11200307604"
+        "AW-11200307604",
+        "AW-938190343"
       ],
       "metaPixel": [
         "771045850193577"
@@ -435,25 +435,24 @@
       "cdn.amplitude.com",
       "googleads.g.doubleclick.net",
       "adapi.feeldmc.com",
-      "connect.facebook.net",
-      "bzrcdn.openai.com",
       "sdk.iad-03.braze.com",
       "sr-client-cfg.amplitude.com",
-      "fundingchoicesmessages.google.com",
       "www.google-analytics.com",
       "cdn.taboola.com",
       "static.criteo.net",
+      "connect.facebook.net",
       "tags.creativecdn.com",
       "wcs.naver.net",
       "karrot-pixel.business.daangn.com",
       "cdn-aitg.widerplanet.com",
       "www.google.com",
       "ad.doubleclick.net",
-      "static.ads-twitter.com",
+      "fundingchoicesmessages.google.com",
       "stats.g.doubleclick.net",
       "trc.taboola.com",
-      "analytics.google.com",
       "ams.creativecdn.com",
+      "analytics.google.com",
+      "bzrcdn.openai.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
       "pixelfnt-us.dsp-api.moloco.com",
@@ -466,13 +465,14 @@
       "pixel.rubiconproject.com",
       "simage2.pubmatic.com",
       "sync.taboola.com",
-      "collect.daangn.com",
+      "static.ads-twitter.com",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
-      "sslwidget.criteo.com",
-      "api2.amplitude.com",
-      "nam.veta.naver.com",
+      "collect.daangn.com",
       "bc.ds.kakao.com",
+      "api2.amplitude.com",
+      "sslwidget.criteo.com",
+      "nam.veta.naver.com",
       "cm.mman.kr",
       "cm-exchange.toast.com",
       "sbm.nate.com",
@@ -488,7 +488,7 @@
   "device": "데스크톱",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-home-desktop-2026-11-09",
+    "id": "auto-kcar-home-desktop-2026-11-10",
     "url": "https://goranisee.netlify.app"
   }
 }
