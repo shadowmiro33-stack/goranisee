@@ -1,0 +1,27 @@
+name: Main PR Source
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  require-dev-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require dev or hotfix/docs branch
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          # Regular releases flow dev -> main. hotfix/* and docs/* are the
+          # sanctioned fast lanes for fixes that cannot wait for a release
+          # and must not drag unfinished work from dev into main.
+          case "$HEAD_REF" in
+            dev|hotfix/*|docs/*)
+              echo "Allowed source branch: $HEAD_REF"
+              ;;
+            *)
+              echo "Pull requests into main must come from dev, hotfix/*, or docs/*."
+              exit 1
+              ;;
+          esac
