@@ -1,0 +1,11 @@
+{
+  "site": "encar",
+  "siteName": "엔카",
+  "stage": "list",
+  "url": "https://m.encar.com/car/list?sort=ModifiedDate",
+  "capturedAt": "2026-11-11T10:18:16.712+09:00",
+  "ok": false,
+  "error": "page.goto: Timeout 45000ms exceeded.\nCall log:\n  - navigating to \"https://m.encar.com/car/list?sort=ModifiedDate\", waiting until \"domcontentloaded\"\n",
+  "viewportKey": "mobile",
+  "device": "모바일"
+}

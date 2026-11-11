@@ -3,16 +3,16 @@
   "siteName": "케이카",
   "stage": "list",
   "url": "https://www.kcar.com/bc/search",
-  "capturedAt": "2026-11-10T12:43:25.556+09:00",
+  "capturedAt": "2026-11-11T10:23:11.175+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://www.kcar.com/bc/search",
-  "settledMs": 1408,
+  "settledMs": 1407,
   "expandedScroll": 1,
   "viewport": {
     "w": 1280,
     "h": 800,
-    "pageHeight": 10787
+    "pageHeight": 10851
   },
   "title": "중고차 검색 목록 | K Car(케이카)",
   "hero": [
@@ -113,19 +113,19 @@
       "#세제혜택",
       "무료배송",
       "지금사면 무료배송",
-      "2,270만원",
-      "할부 월 37만원",
-      "2,040만원",
-      "할부 월 33만원",
-      "3,910만원",
-      "할부 월 64만원",
-      "1,770만원"
+      "3,050만원",
+      "할부 월 50만원",
+      "2,750만원",
+      "할부 월 45만원",
+      "2,640만원",
+      "할부 월 43만원",
+      "3,280만원"
     ]
   },
   "counts": {
-    "links": 185,
-    "images": 225,
-    "buttons": 270
+    "links": 186,
+    "images": 232,
+    "buttons": 271
   },
   "style": {
     "palette": [
@@ -136,7 +136,7 @@
       },
       {
         "color": "#f9fafb",
-        "share": 0.275,
+        "share": 0.277,
         "saturation": 0.01
       },
       {
@@ -163,13 +163,13 @@
     "brand": [
       {
         "color": "#f01d29",
-        "share": 0.637,
+        "share": 0.63,
         "saturation": 0.88,
         "by": "count"
       },
       {
         "color": "#b70f28",
-        "share": 0.347,
+        "share": 0.355,
         "saturation": 0.92,
         "by": "count"
       },
@@ -188,7 +188,7 @@
       "heading": "Spoqa Han Sans Neo",
       "baseSize": 16,
       "headingSize": 34,
-      "boldShare": 0.17
+      "boldShare": 0.16
     },
     "cta": {
       "primary": null,
@@ -201,7 +201,7 @@
     },
     "fixedViewportShare": 0.01
   },
-  "screenshot": "2026-11-10.desktop.jpg",
+  "screenshot": "2026-11-11.desktop.jpg",
   "forms": {
     "forms": [
       {
@@ -295,7 +295,7 @@
         "GTM-PNJHWKC"
       ],
       "kakaoPixel": [
-        "2937709192550527363"
+        "8101473052006960319"
       ]
     },
     "paidChannels": [
@@ -325,37 +325,39 @@
       "trc.taboola.com",
       "analytics.google.com",
       "googleads.g.doubleclick.net",
-      "adapi.feeldmc.com",
-      "img.kcar.com",
-      "wcs.naver.net",
       "karrot-pixel.business.daangn.com",
       "cdn-aitg.widerplanet.com",
       "static.criteo.net",
       "connect.facebook.net",
       "tags.creativecdn.com",
+      "wcs.naver.net",
+      "adapi.feeldmc.com",
+      "pixelfnt-us.dsp-api.moloco.com",
+      "astg.widerplanet.com",
+      "ams.creativecdn.com",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "gum.criteo.com",
+      "t1.kakaocdn.net",
+      "img.kcar.com",
       "api.kcar.com",
       "gau.groobee.io",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
       "bzrcdn.openai.com",
-      "fundingchoicesmessages.google.com",
-      "cdnjs.cloudflare.com",
-      "ssl.pstatic.net",
-      "wcs.naver.com",
-      "pixelfnt-us.dsp-api.moloco.com",
-      "astg.widerplanet.com",
-      "ams.creativecdn.com",
-      "t1.kakaocdn.net",
-      "gum.criteo.com",
-      "collect.daangn.com",
-      "match.adsrvr.org",
-      "static.ads-twitter.com",
       "bc.ds.kakao.com",
-      "rt.udmserve.net",
+      "cdnjs.cloudflare.com",
+      "collect.daangn.com",
       "sslwidget.criteo.com",
+      "cm.g.doubleclick.net",
+      "fundingchoicesmessages.google.com",
+      "match.adsrvr.org",
+      "cm.creativecdn.com",
+      "www.facebook.com",
+      "widget.as.criteo.com",
+      "static.ads-twitter.com",
       "market-api.kcar.com",
       "api2.amplitude.com",
-      "widget.as.criteo.com",
       "kcar.gitple.biz",
       "ep1.adtrafficquality.google",
       "code.jquery.com",
@@ -364,15 +366,14 @@
       "ep2.adtrafficquality.google",
       "api.camver100.selper.co.kr",
       "gw.tune720.com",
-      "sdk.iad-03.braze.com",
-      "trc-events.taboola.com"
+      "sdk.iad-03.braze.com"
     ]
   },
   "viewportKey": "desktop",
   "device": "데스크톱",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-list-desktop-2026-11-10",
+    "id": "auto-kcar-list-desktop-2026-11-11",
     "url": "https://goranisee.netlify.app"
   }
 }

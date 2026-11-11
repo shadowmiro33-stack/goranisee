@@ -1,6 +1,6 @@
 {
-  "date": "2026-11-10",
-  "capturedAt": "2026-11-10T12:39:13.661+09:00",
+  "date": "2026-11-11",
+  "capturedAt": "2026-11-11T10:17:52.150+09:00",
   "stages": [
     {
       "key": "home",
@@ -50,7 +50,7 @@
           "stage": "list",
           "ok": false,
           "url": "https://m.encar.com/car/list?sort=ModifiedDate",
-          "error": "접근 차단 또는 오류 응답 (HTTP 404, \"엔카 - 대한민국 No.1 중고차 플랫폼\") — 이 사이트는 자동 수집을 막고 있습니다. 확장 프로그램이나 즐겨찾기 버튼으로 직접 캡처하세요.",
+          "error": "page.goto: Timeout 45000ms exceeded.\nCall log:\n  - navigating to \"https://m.encar.com/car/list?sort=ModifiedDate\", waiting until \"domcontentloaded\"\n",
           "ctas": 0,
           "promo": 0,
           "overlays": 0
@@ -122,7 +122,7 @@
             "stage": "list",
             "url": "https://m.kcar.com/",
             "via": {
-              "text": "차량검색 8,736대",
+              "text": "차량검색 8,801대",
               "kind": "click",
               "fixed": true
             },

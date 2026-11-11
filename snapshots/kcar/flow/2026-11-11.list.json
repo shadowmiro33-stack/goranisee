@@ -1,0 +1,625 @@
+{
+  "site": "kcar",
+  "siteName": "케이카",
+  "stage": "list",
+  "url": "https://m.kcar.com/",
+  "capturedAt": "2026-11-11T10:21:48.104+09:00",
+  "ok": true,
+  "httpStatus": null,
+  "flow": {
+    "step": 2,
+    "tapsFromHome": 1,
+    "via": {
+      "from": "home",
+      "text": "차량검색 8,801대",
+      "kind": "click",
+      "href": null,
+      "fixed": true,
+      "pos": {
+        "x": 0.5,
+        "y": 0.04,
+        "w": 350,
+        "h": 48
+      },
+      "candidates": 5
+    },
+    "loginWall": false,
+    "id": "auto-kcar-2026-11-11",
+    "nextNotFound": "detail"
+  },
+  "finalUrl": "https://m.kcar.com/",
+  "settledMs": 1405,
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "pageHeight": 3064
+  },
+  "title": "K Car(케이카) | 대한민국 No.1 직영 중고차플랫폼",
+  "hero": [
+    {
+      "text": "내 차를 사고 싶어요",
+      "fontSize": 22,
+      "y": 0.224,
+      "appeal": []
+    },
+    {
+      "text": "사고 싶어요",
+      "fontSize": 22,
+      "y": 0.223,
+      "appeal": []
+    },
+    {
+      "text": "차량번호 입력하고 내 차 견적 받기",
+      "fontSize": 18,
+      "y": 0.168,
+      "appeal": []
+    }
+  ],
+  "ctas": [
+    {
+      "text": "차량검색 8,801대",
+      "pos": {
+        "x": 0.5,
+        "y": 0.04,
+        "w": 350,
+        "h": 48
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(214, 214, 216)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "오늘 하루 보지 않기",
+      "pos": {
+        "x": 0.319,
+        "y": 0.206,
+        "w": 209,
+        "h": 40
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "닫기",
+      "pos": {
+        "x": 0.771,
+        "y": 0.206,
+        "w": 139,
+        "h": 40
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "전기차 · 하이브리드 기획전",
+      "pos": {
+        "x": 1.569,
+        "y": 0.144,
+        "w": 226,
+        "h": 38
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(22, 23, 29)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "하이브리드 차량 더보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.392,
+        "w": 350,
+        "h": 44
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(84, 85, 90)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "구매후기 이유 있는 추천! 고객 생생후기",
+      "pos": {
+        "x": 0.75,
+        "y": 0.501,
+        "w": 155,
+        "h": 44
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(246, 248, 250)",
+      "color": "rgb(0, 0, 0)",
+      "fontSize": 16,
+      "appeal": [
+        "trust"
+      ]
+    },
+    {
+      "text": "렌트특가 더보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.692,
+        "w": 350,
+        "h": 44
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(84, 85, 90)",
+      "fontSize": 14,
+      "appeal": [
+        "price"
+      ]
+    }
+  ],
+  "promo": [
+    {
+      "label": "(배너)",
+      "pos": {
+        "x": -2.192,
+        "y": 0.131,
+        "w": 350,
+        "h": 417
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    },
+    {
+      "label": "5 / 7",
+      "pos": {
+        "x": 0.5,
+        "y": 0.089,
+        "w": 390,
+        "h": 152
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    },
+    {
+      "label": "(배너)",
+      "pos": {
+        "x": 0.5,
+        "y": 0.736,
+        "w": 350,
+        "h": 104
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "floating",
+          "purpose": "other",
+          "text": "알림 메뉴열기/닫기",
+          "pos": {
+            "x": 0.5,
+            "y": 0.022,
+            "w": 390,
+            "h": 56
+          },
+          "viewportArea": 0.07,
+          "position": "middle"
+        },
+        {
+          "kind": "floating",
+          "purpose": "search",
+          "text": "차량검색 8,801대",
+          "pos": {
+            "x": 0.5,
+            "y": 0.04,
+            "w": 390,
+            "h": 56
+          },
+          "viewportArea": 0.07,
+          "position": "middle"
+        },
+        {
+          "kind": "popup",
+          "purpose": "other",
+          "text": "오늘 하루 보지 않기 닫기",
+          "pos": {
+            "x": 0.5,
+            "y": 0.138,
+            "w": 390,
+            "h": 844
+          },
+          "viewportArea": 1,
+          "position": "top"
+        },
+        {
+          "kind": "floating",
+          "purpose": "other",
+          "text": "더보기",
+          "pos": {
+            "x": 0.913,
+            "y": 0.24,
+            "w": 48,
+            "h": 48
+          },
+          "viewportArea": 0.01,
+          "position": "middle"
+        },
+        {
+          "kind": "bottom-bar",
+          "purpose": "search",
+          "text": "홈 직영점 차량검색 렌트 마이페이지",
+          "pos": {
+            "x": 0.5,
+            "y": 0.265,
+            "w": 390,
+            "h": 64
+          },
+          "viewportArea": 0.08,
+          "position": "bottom"
+        },
+        {
+          "kind": "popup",
+          "purpose": "other",
+          "text": "",
+          "pos": {
+            "x": 0.5,
+            "y": 0.138,
+            "w": 390,
+            "h": 844
+          },
+          "viewportArea": 1,
+          "position": "top"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": [
+        {
+          "text": "알림 메뉴열기/닫기",
+          "position": "top",
+          "viewportArea": 0.07
+        },
+        {
+          "text": "차량검색 8,801대",
+          "position": "top",
+          "viewportArea": 0.05
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [
+      "지금사면 무료배송"
+    ],
+    "trust": [
+      "최대 2년 보증",
+      "구매후기",
+      "고객 생생후기",
+      "국가고객만족도(NCSI)",
+      "케이지모빌리티플랫폼 주식회사 케이지모빌리티플랫폼 주식회사 직거래마켓 지점",
+      "787-87-00729 565-85-00765 (직거래마켓 지점)"
+    ],
+    "price": [
+      "무료배송",
+      "위클리 특가",
+      "렌트 특가",
+      "KW3 무료 기획전",
+      "KW6 무료 기획전",
+      "지금사면 무료배송",
+      "2,640만원",
+      "할부 월 43만원",
+      "1,480만원",
+      "할부 월 24만원",
+      "2,960만원",
+      "할부 월 48만원"
+    ]
+  },
+  "counts": {
+    "links": 92,
+    "images": 80,
+    "buttons": 84
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.385,
+        "saturation": 0
+      },
+      {
+        "color": "#f9fafb",
+        "share": 0.209,
+        "saturation": 0.01
+      },
+      {
+        "color": "#f2f2f2",
+        "share": 0.174,
+        "saturation": 0
+      },
+      {
+        "color": "#000000",
+        "share": 0.115,
+        "saturation": 0
+      },
+      {
+        "color": "#f6f8fa",
+        "share": 0.064,
+        "saturation": 0.02
+      },
+      {
+        "color": "#f2f3f5",
+        "share": 0.03,
+        "saturation": 0.01
+      }
+    ],
+    "brand": [
+      {
+        "color": "#b70f28",
+        "share": 0.535,
+        "saturation": 0.92,
+        "by": "count"
+      },
+      {
+        "color": "#f01d29",
+        "share": 0.465,
+        "saturation": 0.88,
+        "by": "count"
+      }
+    ],
+    "fonts": {
+      "body": "Spoqa Han Sans Neo",
+      "top": [
+        "Spoqa Han Sans Neo"
+      ],
+      "heading": "Spoqa Han Sans Neo",
+      "baseSize": 16,
+      "headingSize": 24,
+      "boldShare": 0.2
+    },
+    "cta": {
+      "primary": {
+        "text": "차량검색 8,801대",
+        "bg": "#ffffff",
+        "color": "#d6d6d8",
+        "contrast": 1.45,
+        "height": 48,
+        "widthRatio": 0.9,
+        "fixed": true,
+        "fontSize": 16,
+        "saturated": false
+      },
+      "count": 7,
+      "fixedCount": 3,
+      "fullWidthCount": 3,
+      "saturatedCount": 0,
+      "avgHeight": 43,
+      "colors": [
+        "#ffffff",
+        "#f6f8fa"
+      ]
+    },
+    "fixedViewportShare": 1
+  },
+  "screenshot": "2026-11-11.list.jpg",
+  "forms": {
+    "forms": [],
+    "stepIndicator": "5 / 7",
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [
+      {
+        "key": "google_ads",
+        "label": "Google 광고 (전환태그)",
+        "channel": "구글 검색/디스플레이/유튜브"
+      },
+      {
+        "key": "ga4",
+        "label": "Google Analytics",
+        "channel": "(분석)"
+      },
+      {
+        "key": "gtm",
+        "label": "Google Tag Manager",
+        "channel": "(태그 관리)"
+      },
+      {
+        "key": "meta_pixel",
+        "label": "Meta 픽셀",
+        "channel": "페이스북/인스타그램 광고"
+      },
+      {
+        "key": "naver_ads",
+        "label": "네이버 광고 전환 (wcs)",
+        "channel": "네이버 검색광고/GFA"
+      },
+      {
+        "key": "kakao_pixel",
+        "label": "카카오 픽셀",
+        "channel": "카카오모먼트/카카오 광고"
+      },
+      {
+        "key": "criteo",
+        "label": "Criteo",
+        "channel": "리타게팅 디스플레이"
+      },
+      {
+        "key": "twitter",
+        "label": "X(트위터) 픽셀",
+        "channel": "X 광고"
+      },
+      {
+        "key": "appsflyer",
+        "label": "AppsFlyer",
+        "channel": "앱 설치 광고 어트리뷰션"
+      },
+      {
+        "key": "amplitude",
+        "label": "Amplitude",
+        "channel": "(제품 분석)"
+      },
+      {
+        "key": "braze",
+        "label": "Braze",
+        "channel": "(CRM 푸시/메시지)"
+      }
+    ],
+    "ids": {
+      "googleAds": [
+        "AW-938190343",
+        "AW-11200307604"
+      ],
+      "metaPixel": [
+        "591716708761190"
+      ],
+      "gtm": [
+        "GTM-MCN3M83",
+        "GTM-T27TQRM",
+        "GTM-PNJHWKC"
+      ],
+      "kakaoPixel": [
+        "8045188018590797726"
+      ]
+    },
+    "paidChannels": [
+      "구글 검색/디스플레이/유튜브",
+      "페이스북/인스타그램 광고",
+      "네이버 검색광고/GFA",
+      "카카오모먼트/카카오 광고",
+      "리타게팅 디스플레이",
+      "X 광고",
+      "앱 설치 광고 어트리뷰션"
+    ],
+    "thirdPartyHosts": [
+      "m.kcar.com",
+      "t1.daumcdn.net",
+      "pagead2.googlesyndication.com",
+      "www.googletagmanager.com",
+      "tsn.dmcmedia.co.kr",
+      "cdn.onetag.co.kr",
+      "t1.kakaocdn.net",
+      "static.groobee.io",
+      "rum.beusable.net",
+      "websdk.appsflyer.com",
+      "js.appboycdn.com",
+      "cdn.amplitude.com",
+      "mapi.kcar.com",
+      "gau.groobee.io",
+      "connect.facebook.net",
+      "bzrcdn.openai.com",
+      "marketm-api.kcar.com",
+      "googleads.g.doubleclick.net",
+      "cdnjs.cloudflare.com",
+      "sdk.iad-03.braze.com",
+      "sr-client-cfg.amplitude.com",
+      "banner.appsflyersdk.com",
+      "www.google-analytics.com",
+      "cdn.taboola.com",
+      "static.criteo.net",
+      "tags.creativecdn.com",
+      "wcs.naver.net",
+      "karrot-pixel.business.daangn.com",
+      "cdn-aitg.widerplanet.com",
+      "www.google.com",
+      "img.kcar.com",
+      "adapi.feeldmc.com",
+      "cdn.megadata.co.kr",
+      "cdn.datamanager.co.kr",
+      "bc.ds.kakao.com",
+      "fundingchoicesmessages.google.com",
+      "static.ads-twitter.com",
+      "dsp.dmcmedia.co.kr",
+      "trc.taboola.com",
+      "sslwidget.criteo.com",
+      "ams.creativecdn.com",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "pixelfnt-us.dsp-api.moloco.com",
+      "astg.widerplanet.com",
+      "tk.mediacategory.com",
+      "api.mediacategory.com",
+      "analytics.google.com",
+      "gum.criteo.com",
+      "widget.as.criteo.com",
+      "gw.tune720.com",
+      "www.facebook.com",
+      "collect.daangn.com",
+      "lpipua.kcar.com",
+      "pixel.rubiconproject.com",
+      "cm.g.doubleclick.net",
+      "act.ds.kakao.com",
+      "main.ctolabperfstats.com",
+      "pips.taboola.com",
+      "cds.taboola.com"
+    ]
+  },
+  "viewportKey": "mobile",
+  "device": "모바일",
+  "flowSummary": {
+    "stagesReached": [
+      "home",
+      "list"
+    ],
+    "reachedInquiry": false,
+    "tapsToInquiry": null,
+    "loginRequired": false,
+    "stoppedAt": "list",
+    "stopReason": "다음 단계(detail) 진입점 미발견",
+    "path": [
+      {
+        "stage": "home",
+        "url": "https://m.kcar.com/",
+        "via": null,
+        "overlays": 8,
+        "ctas": 7,
+        "urgency": 1,
+        "trust": 6,
+        "price": 12
+      },
+      {
+        "stage": "list",
+        "url": "https://m.kcar.com/",
+        "via": {
+          "text": "차량검색 8,801대",
+          "kind": "click",
+          "fixed": true
+        },
+        "overlays": 8,
+        "ctas": 7,
+        "urgency": 1,
+        "trust": 6,
+        "price": 12
+      }
+    ],
+    "inquiryForm": null
+  },
+  "admin": {
+    "ok": true,
+    "id": "auto-kcar-2026-11-11-list"
+  }
+}
