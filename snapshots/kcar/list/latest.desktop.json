@@ -3,16 +3,16 @@
   "siteName": "케이카",
   "stage": "list",
   "url": "https://www.kcar.com/bc/search",
-  "capturedAt": "2026-11-11T10:23:11.175+09:00",
+  "capturedAt": "2026-11-12T11:23:44.227+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://www.kcar.com/bc/search",
-  "settledMs": 1407,
+  "settledMs": 1410,
   "expandedScroll": 1,
   "viewport": {
     "w": 1280,
     "h": 800,
-    "pageHeight": 10851
+    "pageHeight": 10779
   },
   "title": "중고차 검색 목록 | K Car(케이카)",
   "hero": [
@@ -113,19 +113,19 @@
       "#세제혜택",
       "무료배송",
       "지금사면 무료배송",
-      "3,050만원",
-      "할부 월 50만원",
-      "2,750만원",
-      "할부 월 45만원",
-      "2,640만원",
-      "할부 월 43만원",
-      "3,280만원"
+      "5,990만원",
+      "할부 월 98만원",
+      "1,060만원",
+      "할부 월 17만원",
+      "수원신갈",
+      "610만원",
+      "할부 월 10만원"
     ]
   },
   "counts": {
     "links": 186,
     "images": 232,
-    "buttons": 271
+    "buttons": 268
   },
   "style": {
     "palette": [
@@ -136,7 +136,7 @@
       },
       {
         "color": "#f9fafb",
-        "share": 0.277,
+        "share": 0.275,
         "saturation": 0.01
       },
       {
@@ -201,7 +201,7 @@
     },
     "fixedViewportShare": 0.01
   },
-  "screenshot": "2026-11-11.desktop.jpg",
+  "screenshot": "2026-11-12.desktop.jpg",
   "forms": {
     "forms": [
       {
@@ -322,38 +322,38 @@
       "www.google-analytics.com",
       "cdn.taboola.com",
       "www.google.com",
-      "trc.taboola.com",
       "analytics.google.com",
+      "trc.taboola.com",
       "googleads.g.doubleclick.net",
+      "trc-events.taboola.com",
+      "adapi.feeldmc.com",
+      "img.kcar.com",
+      "tags.creativecdn.com",
+      "wcs.naver.net",
       "karrot-pixel.business.daangn.com",
       "cdn-aitg.widerplanet.com",
       "static.criteo.net",
       "connect.facebook.net",
-      "tags.creativecdn.com",
-      "wcs.naver.net",
-      "adapi.feeldmc.com",
-      "pixelfnt-us.dsp-api.moloco.com",
-      "astg.widerplanet.com",
       "ams.creativecdn.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
-      "gum.criteo.com",
+      "pixelfnt-us.dsp-api.moloco.com",
+      "astg.widerplanet.com",
       "t1.kakaocdn.net",
-      "img.kcar.com",
+      "gum.criteo.com",
       "api.kcar.com",
       "gau.groobee.io",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
+      "collect.daangn.com",
       "bzrcdn.openai.com",
       "bc.ds.kakao.com",
       "cdnjs.cloudflare.com",
-      "collect.daangn.com",
-      "sslwidget.criteo.com",
-      "cm.g.doubleclick.net",
       "fundingchoicesmessages.google.com",
-      "match.adsrvr.org",
+      "cm.g.doubleclick.net",
       "cm.creativecdn.com",
-      "www.facebook.com",
+      "sslwidget.criteo.com",
+      "match.adsrvr.org",
       "widget.as.criteo.com",
       "static.ads-twitter.com",
       "market-api.kcar.com",
@@ -373,7 +373,7 @@
   "device": "데스크톱",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-list-desktop-2026-11-11",
+    "id": "auto-kcar-list-desktop-2026-11-12",
     "url": "https://goranisee.netlify.app"
   }
 }

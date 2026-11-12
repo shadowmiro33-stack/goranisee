@@ -3,11 +3,11 @@
   "siteName": "케이카",
   "stage": "home",
   "url": "https://m.kcar.com/",
-  "capturedAt": "2026-11-11T10:20:24.828+09:00",
+  "capturedAt": "2026-11-12T11:21:00.663+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://m.kcar.com/",
-  "settledMs": 1405,
+  "settledMs": 1413,
   "viewport": {
     "w": 390,
     "h": 844,
@@ -36,7 +36,7 @@
   ],
   "ctas": [
     {
-      "text": "차량검색 8,802대",
+      "text": "차량검색 8,880대",
       "pos": {
         "x": 0.5,
         "y": 0.04,
@@ -179,7 +179,7 @@
     {
       "label": "(배너)",
       "pos": {
-        "x": -1.295,
+        "x": -2.192,
         "y": 0.131,
         "w": 350,
         "h": 417
@@ -233,7 +233,7 @@
         {
           "kind": "floating",
           "purpose": "search",
-          "text": "차량검색 8,802대",
+          "text": "차량검색 8,880대",
           "pos": {
             "x": 0.5,
             "y": 0.04,
@@ -285,7 +285,7 @@
         {
           "kind": "popup",
           "purpose": "other",
-          "text": "",
+          "text": "'마이카'가 알려드릴게요. 🙌 AI가 알려주는 현재, 6개월, 1년, 2년 후 예상 시세📉 마이카에 차량번호만 입력하면 ☝️1분 안에 확인 가능! 궁금했던 '내 차' 시세 지금 바로 확인 해보세요. (와이프 차, 아빠 차, 친구 차도 알려드림) 내 차가 없어요. 마이카 바로가기 ▶",
           "pos": {
             "x": 0.5,
             "y": 0.138,
@@ -298,7 +298,7 @@
         {
           "kind": "popup",
           "purpose": "other",
-          "text": "'마이카'가 알려드릴게요. 🙌 AI가 알려주는 현재, 6개월, 1년, 2년 후 예상 시세📉 마이카에 차량번호만 입력하면 ☝️1분 안에 확인 가능! 궁금했던 '내 차' 시세 지금 바로 확인 해보세요. (와이프 차, 아빠 차, 친구 차도 알려드림) 내 차가 없어요. 마이카 바로가기 ▶",
+          "text": "",
           "pos": {
             "x": 0.5,
             "y": 0.138,
@@ -319,7 +319,7 @@
           "viewportArea": 0.07
         },
         {
-          "text": "차량검색 8,802대",
+          "text": "차량검색 8,880대",
           "position": "top",
           "viewportArea": 0.05
         }
@@ -354,17 +354,17 @@
       "KW3 무료 기획전",
       "KW6 무료 기획전",
       "지금사면 무료배송",
-      "2,640만원",
-      "할부 월 43만원",
-      "1,480만원",
-      "할부 월 24만원",
-      "2,960만원",
-      "할부 월 48만원"
+      "3,490만원",
+      "할부 월 57만원",
+      "2,690만원",
+      "할부 월 44만원",
+      "1,720만원",
+      "할부 월 28만원"
     ]
   },
   "counts": {
     "links": 92,
-    "images": 83,
+    "images": 85,
     "buttons": 87
   },
   "style": {
@@ -433,7 +433,7 @@
     },
     "cta": {
       "primary": {
-        "text": "차량검색 8,802대",
+        "text": "차량검색 8,880대",
         "bg": "#ffffff",
         "color": "#d6d6d8",
         "contrast": 1.45,
@@ -457,10 +457,10 @@
     },
     "fixedViewportShare": 1
   },
-  "screenshot": "2026-11-11.jpg",
+  "screenshot": "2026-11-12.jpg",
   "forms": {
     "forms": [],
-    "stepIndicator": "6 / 7",
+    "stepIndicator": "5 / 7",
     "loginWall": false
   },
   "adTech": {
@@ -572,11 +572,11 @@
       "connect.facebook.net",
       "bzrcdn.openai.com",
       "marketm-api.kcar.com",
+      "cdnjs.cloudflare.com",
+      "banner.appsflyersdk.com",
+      "fundingchoicesmessages.google.com",
       "sr-client-cfg.amplitude.com",
       "sdk.iad-03.braze.com",
-      "fundingchoicesmessages.google.com",
-      "banner.appsflyersdk.com",
-      "cdnjs.cloudflare.com",
       "www.google-analytics.com",
       "cdn.taboola.com",
       "static.criteo.net",
@@ -587,32 +587,32 @@
       "www.google.com",
       "ad.doubleclick.net",
       "bc.ds.kakao.com",
-      "stats.g.doubleclick.net",
-      "trc.taboola.com",
-      "adapi.feeldmc.com",
-      "img.kcar.com",
       "static.ads-twitter.com",
-      "analytics.google.com",
-      "ams.creativecdn.com",
       "dsp.dmcmedia.co.kr",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
-      "gum.criteo.com",
-      "cm.g.doubleclick.net",
-      "www.facebook.com",
+      "stats.g.doubleclick.net",
+      "trc.taboola.com",
+      "analytics.google.com",
+      "ams.creativecdn.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
       "pixelfnt-us.dsp-api.moloco.com",
       "astg.widerplanet.com",
-      "lpipua.kcar.com",
+      "www.facebook.com",
+      "gum.criteo.com",
+      "cm.g.doubleclick.net",
       "dsum-sec.casalemedia.com",
       "act.ds.kakao.com",
       "pixel.rubiconproject.com",
       "simage2.pubmatic.com",
       "sync.taboola.com",
       "collect.daangn.com",
-      "pips.taboola.com",
       "nam.veta.naver.com",
+      "lpipua.kcar.com",
+      "pips.taboola.com",
+      "tk.mediacategory.com",
+      "api.mediacategory.com",
       "cds.taboola.com"
     ]
   },
@@ -620,7 +620,7 @@
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-home-mobile-2026-11-11",
+    "id": "auto-kcar-home-mobile-2026-11-12",
     "url": "https://goranisee.netlify.app"
   }
 }

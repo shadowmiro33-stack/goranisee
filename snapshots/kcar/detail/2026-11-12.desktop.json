@@ -1,0 +1,11 @@
+{
+  "site": "kcar",
+  "siteName": "케이카",
+  "stage": "detail",
+  "url": null,
+  "capturedAt": "2026-11-12T11:24:31.817+09:00",
+  "ok": false,
+  "error": "linkSelector에 맞는 링크가 없습니다: a[href*='/bc/detail'], a[href*='cid=']",
+  "viewportKey": "desktop",
+  "device": "데스크톱"
+}

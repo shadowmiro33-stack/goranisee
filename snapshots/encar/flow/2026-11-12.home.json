@@ -1,0 +1,920 @@
+{
+  "site": "encar",
+  "siteName": "엔카",
+  "stage": "home",
+  "url": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st",
+  "capturedAt": "2026-11-12T11:20:31.066+09:00",
+  "ok": true,
+  "httpStatus": 200,
+  "flow": {
+    "step": 1,
+    "tapsFromHome": 0,
+    "via": null,
+    "loginWall": false,
+    "id": "auto-encar-2026-11-12"
+  },
+  "finalUrl": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st",
+  "settledMs": 1407,
+  "expandedScroll": 1,
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "pageHeight": 1757
+  },
+  "title": "내차팔기·내차사기 | 엔카",
+  "hero": [
+    {
+      "text": "금융 · 보험",
+      "fontSize": 18,
+      "y": 0.397,
+      "appeal": []
+    },
+    {
+      "text": "기아 더 뉴 모하비 디젤 3.0 4WD 프레지던트",
+      "fontSize": 16,
+      "y": 0.496,
+      "appeal": []
+    },
+    {
+      "text": "현대 더 뉴 싼타페 디젤 2.2 2WD 프레스티지",
+      "fontSize": 16,
+      "y": 0.496,
+      "appeal": []
+    }
+  ],
+  "ctas": [
+    {
+      "text": "엔카앱 다운로드",
+      "pos": {
+        "x": -0.5,
+        "y": 0.046,
+        "w": 350,
+        "h": 50
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(215, 46, 54)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": 15,
+      "appeal": []
+    },
+    {
+      "text": "찜한 차량",
+      "pos": {
+        "x": -0.798,
+        "y": 0.126,
+        "w": 116,
+        "h": 42
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 13,
+      "appeal": [],
+      "href": "https://m.encar.com/my/my_index.do?method=my_wishcar&WT.hit=mWeb_SideMenu_My_Wishcar"
+    },
+    {
+      "text": "최근 본 차량",
+      "pos": {
+        "x": -0.5,
+        "y": 0.126,
+        "w": 116,
+        "h": 42
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 13,
+      "appeal": [],
+      "href": "https://m.encar.com/my/my_index.do?method=viewRecentcar&WT.hit=mWeb_SideMenu_My_RecentCar"
+    },
+    {
+      "text": "차량 검색",
+      "pos": {
+        "x": -0.203,
+        "y": 0.126,
+        "w": 116,
+        "h": 42
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 13,
+      "appeal": [],
+      "href": "https://m.encar.com/ca/search.do?WT.hit=mWeb_SideMenu_CarSearch"
+    },
+    {
+      "text": "내차사기",
+      "pos": {
+        "x": -0.719,
+        "y": 0.175,
+        "w": 171,
+        "h": 42
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "내차팔기",
+      "pos": {
+        "x": -0.281,
+        "y": 0.175,
+        "w": 171,
+        "h": 42
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(242, 242, 242)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "엔카진단",
+      "pos": {
+        "x": -0.5,
+        "y": 0.248,
+        "w": 350,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 15,
+      "appeal": [
+        "trust"
+      ],
+      "href": "https://car.encar.com/diagnosis/intro"
+    },
+    {
+      "text": "엔카 차량리포트",
+      "pos": {
+        "x": -0.5,
+        "y": 0.279,
+        "w": 350,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://car.encar.com/car-report/guide"
+    },
+    {
+      "text": "엔카종합보증",
+      "pos": {
+        "x": -0.5,
+        "y": 0.311,
+        "w": 350,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 15,
+      "appeal": [
+        "trust"
+      ],
+      "href": "https://buy.encar.com/warranty"
+    },
+    {
+      "text": "헛걸음보상",
+      "pos": {
+        "x": -0.5,
+        "y": 0.343,
+        "w": 350,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://fem.encar.com/compensation"
+    },
+    {
+      "text": "엔카시세",
+      "pos": {
+        "x": -0.5,
+        "y": 0.433,
+        "w": 350,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://m.encar.com/pr/pricesearch.do?WT.hit=mWeb_SideMenu"
+    },
+    {
+      "text": "보험료 계산",
+      "pos": {
+        "x": -0.5,
+        "y": 0.497,
+        "w": 350,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/569179930/Top3/encar2/dbdirect_m_insur_LNB_2611/dbdirect_m_insur_LNB_2611.html/4e4b45376e32723149686f4143626b74"
+    },
+    {
+      "text": "엔카미디어",
+      "pos": {
+        "x": -0.5,
+        "y": 0.587,
+        "w": 350,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://m.encar.com/mg/index.do?WT.hit=mWeb_SideMenu_Magazine"
+    },
+    {
+      "text": "이차어때",
+      "pos": {
+        "x": -0.5,
+        "y": 0.619,
+        "w": 350,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://m.encar.com/mocha.do?WT.hit=mWeb_SideMenu_Mocha"
+    },
+    {
+      "text": "전기차 이야기",
+      "pos": {
+        "x": -0.5,
+        "y": 0.651,
+        "w": 350,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "http://www.evpost.co.kr/wp/"
+    },
+    {
+      "text": "공지사항",
+      "pos": {
+        "x": -0.724,
+        "y": 0.69,
+        "w": 175,
+        "h": 41
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://fem.encar.com/board/notice/list"
+    },
+    {
+      "text": "이벤트update",
+      "pos": {
+        "x": -0.276,
+        "y": 0.69,
+        "w": 175,
+        "h": 41
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://m.encar.com/cmm/event.do?method=main&WT.hit=mWeb_SideMenu_Event"
+    },
+    {
+      "text": "회사소개",
+      "pos": {
+        "x": -0.724,
+        "y": 0.713,
+        "w": 175,
+        "h": 41
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://encarcom.career.greetinghr.com/ko/about-encar"
+    },
+    {
+      "text": "클린엔카",
+      "pos": {
+        "x": -0.276,
+        "y": 0.713,
+        "w": 175,
+        "h": 41
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://m.encar.com/cl/cl_index_v01.html?WT.hit=mWeb_SideMenu"
+    },
+    {
+      "text": "엔카지점",
+      "pos": {
+        "x": -0.724,
+        "y": 0.736,
+        "w": 175,
+        "h": 41
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://fem.encar.com/encar-center"
+    },
+    {
+      "text": "엔카직영성능점검장",
+      "pos": {
+        "x": -0.276,
+        "y": 0.736,
+        "w": 175,
+        "h": 41
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://fem.encar.com/inspection-center"
+    },
+    {
+      "text": "내차사기",
+      "pos": {
+        "x": 0.201,
+        "y": 0.046,
+        "w": 117,
+        "h": 50
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(252, 252, 252)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "내차팔기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.046,
+        "w": 117,
+        "h": 50
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(252, 252, 252)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "GNB광고탭",
+      "pos": {
+        "x": 0.799,
+        "y": 0.046,
+        "w": 117,
+        "h": 50
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(252, 252, 252)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "엔카추천 어떤 차를 찾고 있나요?",
+      "pos": {
+        "x": 0.5,
+        "y": 0.183,
+        "w": 350,
+        "h": 50
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(252, 252, 252)",
+      "color": "rgb(160, 160, 160)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://m.encar.com/ca/search.do"
+    },
+    {
+      "text": "더보기 13",
+      "pos": {
+        "x": 0.5,
+        "y": 0.737,
+        "w": 350,
+        "h": 50
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(252, 252, 252)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 15,
+      "appeal": []
+    },
+    {
+      "text": "검색",
+      "pos": {
+        "x": 0.375,
+        "y": 0.465,
+        "w": 98,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 10,
+      "appeal": [],
+      "href": "https://m.encar.com/ca/search.do?WT.hit=mWeb_navitab"
+    },
+    {
+      "text": "구매문의",
+      "pos": {
+        "x": 0.625,
+        "y": 0.464,
+        "w": 98,
+        "h": 51
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 10,
+      "appeal": []
+    },
+    {
+      "text": "마이",
+      "pos": {
+        "x": 0.875,
+        "y": 0.465,
+        "w": 98,
+        "h": 56
+      },
+      "fixed": true,
+      "fullWidth": false,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 10,
+      "appeal": [],
+      "href": "https://m.encar.com/my/my_index.do?WT.hit=mWeb_navitab"
+    },
+    {
+      "text": "로그인",
+      "pos": {
+        "x": 0.192,
+        "y": 0.809,
+        "w": 80,
+        "h": 40
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(246, 246, 246)",
+      "color": "rgb(102, 102, 102)",
+      "fontSize": 12,
+      "appeal": [],
+      "href": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st#button"
+    }
+  ],
+  "promo": [
+    {
+      "label": "BYD코리아 10주년 이벤트",
+      "pos": {
+        "x": -0.462,
+        "y": 0.424,
+        "w": 250,
+        "h": 24
+      },
+      "items": 5,
+      "images": 1,
+      "kind": "reco"
+    },
+    {
+      "label": "엔카 추천",
+      "pos": {
+        "x": -0.001,
+        "y": 0.069,
+        "w": 1,
+        "h": 1
+      },
+      "items": 71,
+      "images": 46,
+      "kind": "reco"
+    },
+    {
+      "label": "1 / 1 오늘 다시 보지 않기 닫기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.41,
+        "w": 390,
+        "h": 246
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    },
+    {
+      "label": "(배너)",
+      "pos": {
+        "x": 0.5,
+        "y": 0.397,
+        "w": 390,
+        "h": 200
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    },
+    {
+      "label": "4 / 9",
+      "pos": {
+        "x": 0.5,
+        "y": 0.122,
+        "w": 390,
+        "h": 186
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    },
+    {
+      "label": "배터리 진단 완료 중고렌트리스 전기차 리스 특가전 신차시승 개인직거래 내차 시세조회 6개월 무이자 자동차보험료 확인 엔카믿고 진단++ 우수등급",
+      "pos": {
+        "x": 0.961,
+        "y": 0.338,
+        "w": 710,
+        "h": 152
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    },
+    {
+      "label": "이미지",
+      "pos": {
+        "x": -6.715,
+        "y": 0.143,
+        "w": 390,
+        "h": 260
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "popup",
+          "purpose": "other",
+          "text": "1 / 1 오늘 다시 보지 않기 닫기",
+          "pos": {
+            "x": 0.5,
+            "y": 0.24,
+            "w": 390,
+            "h": 844
+          },
+          "viewportArea": 1,
+          "position": "top"
+        },
+        {
+          "kind": "header",
+          "purpose": "search",
+          "text": "엔카 확장메뉴열기 찜리스트 차량검색",
+          "pos": {
+            "x": 0.5,
+            "y": 0.016,
+            "w": 390,
+            "h": 56
+          },
+          "viewportArea": 0.07,
+          "position": "top"
+        },
+        {
+          "kind": "header",
+          "purpose": "app_install",
+          "text": "확장메뉴 엔카앱 다운로드 로그인하세요 회원가입 찜한 차량 최근 본 차량 차량 검색 내차사기 내차팔기 내차사기 엔카믿고 내차 구매 처음부터 끝까지 '엔카믿고' 엔카진단 엔카 차량리포트 엔카종합보증 헛걸음보상 금융 · 보험 엔카시세 엔카금융 중고차단지 방문 전 필수 '엔카금융' 보험료 계산",
+          "pos": {
+            "x": -0.5,
+            "y": 0.24,
+            "w": 390,
+            "h": 844
+          },
+          "viewportArea": 1,
+          "position": "top"
+        },
+        {
+          "kind": "floating",
+          "purpose": "other",
+          "text": "내차사기 내차팔기 GNB광고탭",
+          "pos": {
+            "x": 0.5,
+            "y": 0.046,
+            "w": 390,
+            "h": 50
+          },
+          "viewportArea": 0.06,
+          "position": "middle"
+        },
+        {
+          "kind": "floating",
+          "purpose": "other",
+          "text": "BYD코리아 10주년 이벤트 BYD 매장에서 이벤트에 참여하세요",
+          "pos": {
+            "x": -0.5,
+            "y": 0.429,
+            "w": 350,
+            "h": 60
+          },
+          "viewportArea": 0.06,
+          "position": "middle"
+        },
+        {
+          "kind": "bottom-bar",
+          "purpose": "contact",
+          "text": "홈 검색 구매문의 마이",
+          "pos": {
+            "x": 0.5,
+            "y": 0.464,
+            "w": 390,
+            "h": 56
+          },
+          "viewportArea": 0.07,
+          "position": "bottom"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": [
+        {
+          "text": "내차사기 내차팔기 GNB광고탭",
+          "position": "top",
+          "viewportArea": 0.06
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": [
+        {
+          "text": "BYD코리아 10주년 이벤트 BYD 매장에서 이벤트에 참여하세요",
+          "position": "top",
+          "viewportArea": 0.06
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [],
+    "trust": [
+      "회원가입",
+      "엔카진단",
+      "엔카종합보증",
+      "배터리 진단 완료",
+      "개인직거래",
+      "진단++ 우수등급",
+      "엔카진단+"
+    ],
+    "price": [
+      "회원가입",
+      "전기차 리스 특가전",
+      "6개월 무이자",
+      "SK렌터카 신차특가",
+      "890만원",
+      "1,520만원",
+      "1,290만원",
+      "1,350만원"
+    ]
+  },
+  "counts": {
+    "links": 81,
+    "images": 50,
+    "buttons": 46
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#fcfcfc",
+        "share": 0.387,
+        "saturation": 0
+      },
+      {
+        "color": "#ffffff",
+        "share": 0.304,
+        "saturation": 0
+      },
+      {
+        "color": "#000000",
+        "share": 0.269,
+        "saturation": 0
+      },
+      {
+        "color": "#f6f6f6",
+        "share": 0.029,
+        "saturation": 0
+      },
+      {
+        "color": "#d72e36",
+        "share": 0.006,
+        "saturation": 0.79
+      },
+      {
+        "color": "#f2f2f2",
+        "share": 0.006,
+        "saturation": 0
+      }
+    ],
+    "brand": [
+      {
+        "color": "#d72e36",
+        "share": 0.006,
+        "saturation": 0.79
+      }
+    ],
+    "fonts": {
+      "body": "Pretendard",
+      "top": [
+        "Pretendard"
+      ],
+      "heading": "Pretendard",
+      "baseSize": 14,
+      "headingSize": 28,
+      "boldShare": 0.54
+    },
+    "cta": {
+      "primary": {
+        "text": "엔카앱 다운로드",
+        "bg": "#d72e36",
+        "color": "#ffffff",
+        "contrast": 4.85,
+        "height": 50,
+        "widthRatio": 0.9,
+        "fixed": true,
+        "fontSize": 15,
+        "saturated": true
+      },
+      "count": 30,
+      "fixedCount": 27,
+      "fullWidthCount": 12,
+      "saturatedCount": 1,
+      "avgHeight": 49,
+      "colors": [
+        "#d72e36",
+        "#ffffff",
+        "#f2f2f2",
+        "#fcfcfc",
+        "#f6f6f6"
+      ]
+    },
+    "fixedViewportShare": 1
+  },
+  "screenshot": "2026-11-12.home.jpg",
+  "forms": {
+    "forms": [],
+    "stepIndicator": "1\n/\n1",
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [
+      {
+        "key": "google_ads",
+        "label": "Google 광고 (전환태그)",
+        "channel": "구글 검색/디스플레이/유튜브"
+      },
+      {
+        "key": "ga4",
+        "label": "Google Analytics",
+        "channel": "(분석)"
+      },
+      {
+        "key": "gtm",
+        "label": "Google Tag Manager",
+        "channel": "(태그 관리)"
+      },
+      {
+        "key": "meta_pixel",
+        "label": "Meta 픽셀",
+        "channel": "페이스북/인스타그램 광고"
+      },
+      {
+        "key": "naver_ads",
+        "label": "네이버 광고 전환 (wcs)",
+        "channel": "네이버 검색광고/GFA"
+      },
+      {
+        "key": "kakao_pixel",
+        "label": "카카오 픽셀",
+        "channel": "카카오모먼트/카카오 광고"
+      },
+      {
+        "key": "channeltalk",
+        "label": "채널톡",
+        "channel": "(상담 채널)"
+      }
+    ],
+    "ids": {
+      "googleAds": [
+        "AW-699743361"
+      ],
+      "metaPixel": [
+        "2582597645321002"
+      ],
+      "gtm": [
+        "GTM-WVBT8RH"
+      ]
+    },
+    "paidChannels": [
+      "구글 검색/디스플레이/유튜브",
+      "페이스북/인스타그램 광고",
+      "네이버 검색광고/GFA",
+      "카카오모먼트/카카오 광고"
+    ],
+    "thirdPartyHosts": [
+      "m.encar.com",
+      "car.encar.com",
+      "ci.encar.com",
+      "daimg.encar.com",
+      "static.encar.com",
+      "www.googletagmanager.com",
+      "automotive.encar.com",
+      "api.encar.com",
+      "www.google.com",
+      "ad.doubleclick.net",
+      "websdk.appsflyersdk.com",
+      "sdk.amazonaws.com",
+      "wcs.naver.net",
+      "connect.facebook.net",
+      "t1.daumcdn.net",
+      "analytics.google.com",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "googleads.g.doubleclick.net",
+      "cognito-identity.ap-northeast-2.amazonaws.com",
+      "wa.appsflyersdk.com",
+      "t1.kakaocdn.net",
+      "mpc-pilot-3-s6uit34pua-ew.a.run.app",
+      "www.facebook.com",
+      "www.googleadservices.com",
+      "bc.ds.kakao.com",
+      "firehose.ap-northeast-2.amazonaws.com",
+      "www.google-analytics.com"
+    ]
+  },
+  "viewportKey": "mobile",
+  "device": "모바일",
+  "admin": {
+    "ok": true,
+    "id": "auto-encar-2026-11-12-home"
+  }
+}

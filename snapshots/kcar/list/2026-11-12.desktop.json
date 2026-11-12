@@ -1,0 +1,379 @@
+{
+  "site": "kcar",
+  "siteName": "케이카",
+  "stage": "list",
+  "url": "https://www.kcar.com/bc/search",
+  "capturedAt": "2026-11-12T11:23:44.227+09:00",
+  "ok": true,
+  "httpStatus": 200,
+  "finalUrl": "https://www.kcar.com/bc/search",
+  "settledMs": 1410,
+  "expandedScroll": 1,
+  "viewport": {
+    "w": 1280,
+    "h": 800,
+    "pageHeight": 10779
+  },
+  "title": "중고차 검색 목록 | K Car(케이카)",
+  "hero": [
+    {
+      "text": "대한민국 No.1 직영중고차 KCar",
+      "fontSize": 34,
+      "y": 0.005,
+      "appeal": []
+    },
+    {
+      "text": "로그인 회원가입",
+      "fontSize": 16,
+      "y": 0.006,
+      "appeal": [
+        "trust",
+        "price"
+      ]
+    },
+    {
+      "text": "로그인 회원가입",
+      "fontSize": 16,
+      "y": 0.006,
+      "appeal": [
+        "trust",
+        "price"
+      ]
+    }
+  ],
+  "ctas": [],
+  "promo": [
+    {
+      "label": "(배너)",
+      "pos": {
+        "x": 0.5,
+        "y": 0.023,
+        "w": 1220,
+        "h": 101
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "floating",
+          "purpose": "other",
+          "text": "더보기",
+          "pos": {
+            "x": 1.016,
+            "y": 0.113,
+            "w": 48,
+            "h": 112
+          },
+          "viewportArea": 0.01,
+          "position": "middle"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": [
+        {
+          "text": "",
+          "position": "middle",
+          "viewportArea": 0.02
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [
+      "지금사면 무료배송"
+    ],
+    "trust": [
+      "회원가입",
+      "직영차직거래",
+      "#보증연장",
+      "보증서비스",
+      "상호명 : 케이지모빌리티플랫폼 주식회사 / 케이지모빌리티플랫폼 주식회사 직거래마켓 지점",
+      "사업자등록번호 : 787-87-00729 / 565-85-00765 (직거래마켓 지점)",
+      "국가고객만족도(NCSI)"
+    ],
+    "price": [
+      "회원가입",
+      "#무이자할부",
+      "#세제혜택",
+      "무료배송",
+      "지금사면 무료배송",
+      "5,990만원",
+      "할부 월 98만원",
+      "1,060만원",
+      "할부 월 17만원",
+      "수원신갈",
+      "610만원",
+      "할부 월 10만원"
+    ]
+  },
+  "counts": {
+    "links": 186,
+    "images": 232,
+    "buttons": 268
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.539,
+        "saturation": 0
+      },
+      {
+        "color": "#f9fafb",
+        "share": 0.275,
+        "saturation": 0.01
+      },
+      {
+        "color": "#fdeeef",
+        "share": 0.17,
+        "saturation": 0.06
+      },
+      {
+        "color": "#f6f8fa",
+        "share": 0.013,
+        "saturation": 0.02
+      },
+      {
+        "color": "#54555a",
+        "share": 0.001,
+        "saturation": 0.07
+      },
+      {
+        "color": "#b70f28",
+        "share": 0,
+        "saturation": 0.92
+      }
+    ],
+    "brand": [
+      {
+        "color": "#f01d29",
+        "share": 0.63,
+        "saturation": 0.88,
+        "by": "count"
+      },
+      {
+        "color": "#b70f28",
+        "share": 0.355,
+        "saturation": 0.92,
+        "by": "count"
+      },
+      {
+        "color": "#f5bc00",
+        "share": 0.009,
+        "saturation": 1,
+        "by": "count"
+      }
+    ],
+    "fonts": {
+      "body": "Spoqa Han Sans Neo",
+      "top": [
+        "Spoqa Han Sans Neo"
+      ],
+      "heading": "Spoqa Han Sans Neo",
+      "baseSize": 16,
+      "headingSize": 34,
+      "boldShare": 0.16
+    },
+    "cta": {
+      "primary": null,
+      "count": 0,
+      "fixedCount": 0,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": null,
+      "colors": []
+    },
+    "fixedViewportShare": 0.01
+  },
+  "screenshot": "2026-11-12.desktop.jpg",
+  "forms": {
+    "forms": [
+      {
+        "fields": 9,
+        "required": 0,
+        "types": [
+          "text"
+        ],
+        "labels": [
+          "차량을 검색하세요.",
+          "최소",
+          "최대",
+          "최소",
+          "최대",
+          "0",
+          "최대",
+          "기본정렬",
+          "family site"
+        ],
+        "submit": "정비완료",
+        "hasPassword": false
+      }
+    ],
+    "stepIndicator": null,
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [
+      {
+        "key": "google_ads",
+        "label": "Google 광고 (전환태그)",
+        "channel": "구글 검색/디스플레이/유튜브"
+      },
+      {
+        "key": "ga4",
+        "label": "Google Analytics",
+        "channel": "(분석)"
+      },
+      {
+        "key": "gtm",
+        "label": "Google Tag Manager",
+        "channel": "(태그 관리)"
+      },
+      {
+        "key": "meta_pixel",
+        "label": "Meta 픽셀",
+        "channel": "페이스북/인스타그램 광고"
+      },
+      {
+        "key": "naver_ads",
+        "label": "네이버 광고 전환 (wcs)",
+        "channel": "네이버 검색광고/GFA"
+      },
+      {
+        "key": "kakao_pixel",
+        "label": "카카오 픽셀",
+        "channel": "카카오모먼트/카카오 광고"
+      },
+      {
+        "key": "criteo",
+        "label": "Criteo",
+        "channel": "리타게팅 디스플레이"
+      },
+      {
+        "key": "twitter",
+        "label": "X(트위터) 픽셀",
+        "channel": "X 광고"
+      },
+      {
+        "key": "amplitude",
+        "label": "Amplitude",
+        "channel": "(제품 분석)"
+      },
+      {
+        "key": "braze",
+        "label": "Braze",
+        "channel": "(CRM 푸시/메시지)"
+      }
+    ],
+    "ids": {
+      "googleAds": [
+        "AW-11200307604",
+        "AW-938190343"
+      ],
+      "metaPixel": [
+        "771045850193577"
+      ],
+      "gtm": [
+        "GTM-MCN3M83",
+        "GTM-T27TQRM",
+        "GTM-PNJHWKC"
+      ],
+      "kakaoPixel": [
+        "8101473052006960319"
+      ]
+    },
+    "paidChannels": [
+      "구글 검색/디스플레이/유튜브",
+      "페이스북/인스타그램 광고",
+      "네이버 검색광고/GFA",
+      "카카오모먼트/카카오 광고",
+      "리타게팅 디스플레이",
+      "X 광고"
+    ],
+    "thirdPartyHosts": [
+      "www.kcar.com",
+      "t1.daumcdn.net",
+      "pagead2.googlesyndication.com",
+      "www.googletagmanager.com",
+      "tsn.dmcmedia.co.kr",
+      "cdn.onetag.co.kr",
+      "static.groobee.io",
+      "dsp.dmcmedia.co.kr",
+      "rum.beusable.net",
+      "js.appboycdn.com",
+      "cdn.amplitude.com",
+      "sr-client-cfg.amplitude.com",
+      "www.google-analytics.com",
+      "cdn.taboola.com",
+      "www.google.com",
+      "analytics.google.com",
+      "trc.taboola.com",
+      "googleads.g.doubleclick.net",
+      "trc-events.taboola.com",
+      "adapi.feeldmc.com",
+      "img.kcar.com",
+      "tags.creativecdn.com",
+      "wcs.naver.net",
+      "karrot-pixel.business.daangn.com",
+      "cdn-aitg.widerplanet.com",
+      "static.criteo.net",
+      "connect.facebook.net",
+      "ams.creativecdn.com",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "pixelfnt-us.dsp-api.moloco.com",
+      "astg.widerplanet.com",
+      "t1.kakaocdn.net",
+      "gum.criteo.com",
+      "api.kcar.com",
+      "gau.groobee.io",
+      "cdn.megadata.co.kr",
+      "cdn.datamanager.co.kr",
+      "collect.daangn.com",
+      "bzrcdn.openai.com",
+      "bc.ds.kakao.com",
+      "cdnjs.cloudflare.com",
+      "fundingchoicesmessages.google.com",
+      "cm.g.doubleclick.net",
+      "cm.creativecdn.com",
+      "sslwidget.criteo.com",
+      "match.adsrvr.org",
+      "widget.as.criteo.com",
+      "static.ads-twitter.com",
+      "market-api.kcar.com",
+      "api2.amplitude.com",
+      "kcar.gitple.biz",
+      "ep1.adtrafficquality.google",
+      "code.jquery.com",
+      "www.googleadservices.com",
+      "dynamic.criteo.com",
+      "ep2.adtrafficquality.google",
+      "api.camver100.selper.co.kr",
+      "gw.tune720.com",
+      "sdk.iad-03.braze.com"
+    ]
+  },
+  "viewportKey": "desktop",
+  "device": "데스크톱",
+  "admin": {
+    "ok": true,
+    "id": "auto-kcar-list-desktop-2026-11-12",
+    "url": "https://goranisee.netlify.app"
+  }
+}
