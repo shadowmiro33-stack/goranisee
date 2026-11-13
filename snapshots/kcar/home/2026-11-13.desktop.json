@@ -1,0 +1,494 @@
+{
+  "site": "kcar",
+  "siteName": "케이카",
+  "stage": "home",
+  "url": "https://www.kcar.com/",
+  "capturedAt": "2026-11-13T10:58:54.944+09:00",
+  "ok": true,
+  "httpStatus": 200,
+  "finalUrl": "https://www.kcar.com/",
+  "settledMs": 1409,
+  "viewport": {
+    "w": 1280,
+    "h": 800,
+    "pageHeight": 8591
+  },
+  "title": "K Car(케이카) | 대한민국 No.1 직영 중고차플랫폼",
+  "hero": [
+    {
+      "text": "대한민국 No.1 직영중고차 KCar",
+      "fontSize": 34,
+      "y": 0.011,
+      "appeal": []
+    },
+    {
+      "text": "어떤 차를 찾으세요?",
+      "fontSize": 34,
+      "y": 0.109,
+      "appeal": []
+    },
+    {
+      "text": "240 만명이 직영중고차 K Car를 선택한 이유? 지금 확인해 보세요! 닫기",
+      "fontSize": 16,
+      "y": 0,
+      "appeal": [
+        "urgency"
+      ]
+    }
+  ],
+  "ctas": [
+    {
+      "text": "검색하기",
+      "pos": {
+        "x": 0.783,
+        "y": 0.149,
+        "w": 108,
+        "h": 56
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(183, 15, 40)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": 16,
+      "appeal": []
+    },
+    {
+      "text": "지금 바로 입력",
+      "pos": {
+        "x": 0.254,
+        "y": 0.353,
+        "w": 140,
+        "h": 48
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(183, 15, 40)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": 16,
+      "appeal": [
+        "urgency"
+      ]
+    },
+    {
+      "text": "차량 검색하기",
+      "pos": {
+        "x": 0.807,
+        "y": 0.353,
+        "w": 140,
+        "h": 48
+      },
+      "fixed": false,
+      "fullWidth": false,
+      "bg": "rgb(183, 15, 40)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": 16,
+      "appeal": []
+    }
+  ],
+  "promo": [
+    {
+      "label": "테마기획전",
+      "pos": {
+        "x": 0.5,
+        "y": 0.435,
+        "w": 1220,
+        "h": 42
+      },
+      "items": 113,
+      "images": 18,
+      "kind": "reco"
+    },
+    {
+      "label": "신차급 중고차로 더 실속있게 렌트!",
+      "pos": {
+        "x": -0.769,
+        "y": 0.452,
+        "w": 348,
+        "h": 84
+      },
+      "items": 0,
+      "images": 0,
+      "kind": "reco"
+    },
+    {
+      "label": "위클리특가",
+      "pos": {
+        "x": 0.5,
+        "y": 0.547,
+        "w": 1220,
+        "h": 69
+      },
+      "items": 0,
+      "images": 2,
+      "kind": "reco"
+    },
+    {
+      "label": "특가 종료까지",
+      "pos": {
+        "x": 0.357,
+        "y": 0.564,
+        "w": 72,
+        "h": 52
+      },
+      "items": 0,
+      "images": 2,
+      "kind": "reco"
+    },
+    {
+      "label": "(배너)",
+      "pos": {
+        "x": 0.5,
+        "y": 0.052,
+        "w": 1220,
+        "h": 405
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    },
+    {
+      "label": "홈서비스 메가센터 보유차량 281대 지점위치 경기도 이천시 마장면 중부대로644번길 293 (표교리) 영업시간 월~토요일 09:00~18:00",
+      "pos": {
+        "x": 0.5,
+        "y": 0.826,
+        "w": 1220,
+        "h": 400
+      },
+      "items": 1,
+      "images": 1,
+      "kind": "banner"
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": [
+        {
+          "kind": "floating",
+          "purpose": "other",
+          "text": "더보기",
+          "pos": {
+            "x": 1.016,
+            "y": 0.083,
+            "w": 48,
+            "h": 112
+          },
+          "viewportArea": 0.01,
+          "position": "middle"
+        }
+      ]
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [
+      "지금 확인해 보세요!",
+      "직거래 오픈기념 한정혜택",
+      "지금사면 무료배송",
+      "지금 바로 입력"
+    ],
+    "trust": [
+      "회원가입",
+      "6개월 무료보증 쏜다",
+      "직거래 오픈기념 한정혜택",
+      "위약금 없는 100% 환불까지.",
+      "3개월 보증 무료·최대 300만원 혜택",
+      "보증이여 0원하라!",
+      "180일 보증 무료",
+      "6개월 보증 무료·최대 500만원 혜택",
+      "6개월 보증 무료·최대 1,000만원 혜택",
+      "90일 보증 무료",
+      "제조사 보증이 남은 차량도, 보증이 끝난 차량도",
+      "보증기간"
+    ],
+    "price": [
+      "회원가입",
+      "6개월 무료보증 쏜다",
+      "직거래 오픈기념 한정혜택",
+      "무료배송",
+      "위클리 특가",
+      "KW3 무료 기획전",
+      "KW6 무료 기획전",
+      "렌트 특가",
+      "원하는 차가 있어요예산이 정해져 있어요차종별로 찾고 있어요",
+      "지금사면 무료배송",
+      "2,100만원",
+      "할부 월34만원"
+    ]
+  },
+  "counts": {
+    "links": 222,
+    "images": 148,
+    "buttons": 220
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.479,
+        "saturation": 0
+      },
+      {
+        "color": "#e6e6e6",
+        "share": 0.239,
+        "saturation": 0
+      },
+      {
+        "color": "#f6f8fa",
+        "share": 0.183,
+        "saturation": 0.02
+      },
+      {
+        "color": "#f2f2f2",
+        "share": 0.023,
+        "saturation": 0
+      },
+      {
+        "color": "#54555a",
+        "share": 0.018,
+        "saturation": 0.07
+      },
+      {
+        "color": "#f9fafb",
+        "share": 0.015,
+        "saturation": 0.01
+      }
+    ],
+    "brand": [
+      {
+        "color": "#5755aa",
+        "share": 0.006,
+        "saturation": 0.5
+      },
+      {
+        "color": "#4a9ca0",
+        "share": 0.006,
+        "saturation": 0.54
+      }
+    ],
+    "fonts": {
+      "body": "Spoqa Han Sans Neo",
+      "top": [
+        "Spoqa Han Sans Neo"
+      ],
+      "heading": "Spoqa Han Sans Neo",
+      "baseSize": 16,
+      "headingSize": 34,
+      "boldShare": 0.33
+    },
+    "cta": {
+      "primary": {
+        "text": "지금 바로 입력",
+        "bg": "#b70f28",
+        "color": "#ffffff",
+        "contrast": 6.75,
+        "height": 48,
+        "widthRatio": 0.11,
+        "fixed": false,
+        "fontSize": 16,
+        "saturated": true
+      },
+      "count": 3,
+      "fixedCount": 0,
+      "fullWidthCount": 0,
+      "saturatedCount": 3,
+      "avgHeight": 51,
+      "colors": [
+        "#b70f28"
+      ]
+    },
+    "fixedViewportShare": 0
+  },
+  "screenshot": "2026-11-13.desktop.jpg",
+  "forms": {
+    "forms": [
+      {
+        "fields": 9,
+        "required": 0,
+        "types": [
+          "text"
+        ],
+        "labels": [
+          "차량을 검색하세요.",
+          "모델명을 입력해주세요. 예) 아이오닉5",
+          "국산",
+          "제조사",
+          "모델",
+          "세부모델",
+          "선택",
+          "전체",
+          "family site"
+        ],
+        "submit": "다음",
+        "hasPassword": false
+      }
+    ],
+    "stepIndicator": null,
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [
+      {
+        "key": "google_ads",
+        "label": "Google 광고 (전환태그)",
+        "channel": "구글 검색/디스플레이/유튜브"
+      },
+      {
+        "key": "ga4",
+        "label": "Google Analytics",
+        "channel": "(분석)"
+      },
+      {
+        "key": "gtm",
+        "label": "Google Tag Manager",
+        "channel": "(태그 관리)"
+      },
+      {
+        "key": "meta_pixel",
+        "label": "Meta 픽셀",
+        "channel": "페이스북/인스타그램 광고"
+      },
+      {
+        "key": "naver_ads",
+        "label": "네이버 광고 전환 (wcs)",
+        "channel": "네이버 검색광고/GFA"
+      },
+      {
+        "key": "naver_gfa",
+        "label": "네이버 GFA 픽셀",
+        "channel": "네이버 성과형 디스플레이"
+      },
+      {
+        "key": "kakao_pixel",
+        "label": "카카오 픽셀",
+        "channel": "카카오모먼트/카카오 광고"
+      },
+      {
+        "key": "criteo",
+        "label": "Criteo",
+        "channel": "리타게팅 디스플레이"
+      },
+      {
+        "key": "twitter",
+        "label": "X(트위터) 픽셀",
+        "channel": "X 광고"
+      },
+      {
+        "key": "amplitude",
+        "label": "Amplitude",
+        "channel": "(제품 분석)"
+      },
+      {
+        "key": "braze",
+        "label": "Braze",
+        "channel": "(CRM 푸시/메시지)"
+      }
+    ],
+    "ids": {
+      "googleAds": [
+        "AW-938190343",
+        "AW-11200307604"
+      ],
+      "metaPixel": [
+        "771045850193577"
+      ],
+      "gtm": [
+        "GTM-MCN3M83",
+        "GTM-T27TQRM",
+        "GTM-PNJHWKC"
+      ],
+      "kakaoPixel": [
+        "8101473052006960319"
+      ]
+    },
+    "paidChannels": [
+      "구글 검색/디스플레이/유튜브",
+      "페이스북/인스타그램 광고",
+      "네이버 검색광고/GFA",
+      "네이버 성과형 디스플레이",
+      "카카오모먼트/카카오 광고",
+      "리타게팅 디스플레이",
+      "X 광고"
+    ],
+    "thirdPartyHosts": [
+      "www.kcar.com",
+      "t1.daumcdn.net",
+      "pagead2.googlesyndication.com",
+      "www.googletagmanager.com",
+      "tsn.dmcmedia.co.kr",
+      "cdn.onetag.co.kr",
+      "static.groobee.io",
+      "dsp.dmcmedia.co.kr",
+      "rum.beusable.net",
+      "js.appboycdn.com",
+      "cdn.amplitude.com",
+      "googleads.g.doubleclick.net",
+      "adapi.feeldmc.com",
+      "connect.facebook.net",
+      "bzrcdn.openai.com",
+      "www.google-analytics.com",
+      "cdn.taboola.com",
+      "static.criteo.net",
+      "tags.creativecdn.com",
+      "wcs.naver.net",
+      "karrot-pixel.business.daangn.com",
+      "cdn-aitg.widerplanet.com",
+      "www.google.com",
+      "ad.doubleclick.net",
+      "sr-client-cfg.amplitude.com",
+      "sdk.iad-03.braze.com",
+      "t1.kakaocdn.net",
+      "fundingchoicesmessages.google.com",
+      "analytics.google.com",
+      "stats.g.doubleclick.net",
+      "static.ads-twitter.com",
+      "ams.creativecdn.com",
+      "trc.taboola.com",
+      "gum.criteo.com",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "pixelfnt-us.dsp-api.moloco.com",
+      "astg.widerplanet.com",
+      "cm.g.doubleclick.net",
+      "dsum-sec.casalemedia.com",
+      "act.ds.kakao.com",
+      "pixel.rubiconproject.com",
+      "simage2.pubmatic.com",
+      "sync.taboola.com",
+      "collect.daangn.com",
+      "bc.ds.kakao.com",
+      "sslwidget.criteo.com",
+      "nam.veta.naver.com",
+      "widget.as.criteo.com",
+      "cm.mman.kr",
+      "cm-exchange.toast.com",
+      "sbm.nate.com",
+      "cm.igaw.io",
+      "mixer.mobon.net",
+      "sync.bidence.net",
+      "cookie.momento.dev",
+      "cdn.megadata.co.kr",
+      "cdn.datamanager.co.kr",
+      "ib.adnxs.com",
+      "ams46.creativecdn.com"
+    ]
+  },
+  "viewportKey": "desktop",
+  "device": "데스크톱",
+  "admin": {
+    "ok": true,
+    "id": "auto-kcar-home-desktop-2026-11-13",
+    "url": "https://goranisee.netlify.app"
+  }
+}

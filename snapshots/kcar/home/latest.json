@@ -3,11 +3,11 @@
   "siteName": "케이카",
   "stage": "home",
   "url": "https://m.kcar.com/",
-  "capturedAt": "2026-11-12T11:21:00.663+09:00",
+  "capturedAt": "2026-11-13T10:56:48.991+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://m.kcar.com/",
-  "settledMs": 1413,
+  "settledMs": 1407,
   "viewport": {
     "w": 390,
     "h": 844,
@@ -36,7 +36,7 @@
   ],
   "ctas": [
     {
-      "text": "차량검색 8,880대",
+      "text": "차량검색 8,927대",
       "pos": {
         "x": 0.5,
         "y": 0.04,
@@ -179,17 +179,17 @@
     {
       "label": "(배너)",
       "pos": {
-        "x": -2.192,
+        "x": -3.062,
         "y": 0.131,
         "w": 350,
-        "h": 417
+        "h": 418
       },
       "items": 1,
       "images": 1,
       "kind": "banner"
     },
     {
-      "label": "5 / 7",
+      "label": "6 / 8",
       "pos": {
         "x": 0.5,
         "y": 0.089,
@@ -233,7 +233,7 @@
         {
           "kind": "floating",
           "purpose": "search",
-          "text": "차량검색 8,880대",
+          "text": "차량검색 8,927대",
           "pos": {
             "x": 0.5,
             "y": 0.04,
@@ -285,7 +285,7 @@
         {
           "kind": "popup",
           "purpose": "other",
-          "text": "'마이카'가 알려드릴게요. 🙌 AI가 알려주는 현재, 6개월, 1년, 2년 후 예상 시세📉 마이카에 차량번호만 입력하면 ☝️1분 안에 확인 가능! 궁금했던 '내 차' 시세 지금 바로 확인 해보세요. (와이프 차, 아빠 차, 친구 차도 알려드림) 내 차가 없어요. 마이카 바로가기 ▶",
+          "text": "",
           "pos": {
             "x": 0.5,
             "y": 0.138,
@@ -298,7 +298,7 @@
         {
           "kind": "popup",
           "purpose": "other",
-          "text": "",
+          "text": "'마이카'가 알려드릴게요. 🙌 AI가 알려주는 현재, 6개월, 1년, 2년 후 예상 시세📉 마이카에 차량번호만 입력하면 ☝️1분 안에 확인 가능! 궁금했던 '내 차' 시세 지금 바로 확인 해보세요. (와이프 차, 아빠 차, 친구 차도 알려드림) 내 차가 없어요. 마이카 바로가기 ▶",
           "pos": {
             "x": 0.5,
             "y": 0.138,
@@ -319,7 +319,7 @@
           "viewportArea": 0.07
         },
         {
-          "text": "차량검색 8,880대",
+          "text": "차량검색 8,927대",
           "position": "top",
           "viewportArea": 0.05
         }
@@ -354,17 +354,17 @@
       "KW3 무료 기획전",
       "KW6 무료 기획전",
       "지금사면 무료배송",
-      "3,490만원",
-      "할부 월 57만원",
-      "2,690만원",
-      "할부 월 44만원",
-      "1,720만원",
-      "할부 월 28만원"
+      "3,100만원 3,200만원",
+      "할부 월 50만원",
+      "3,350만원",
+      "할부 월 55만원",
+      "3,050만원",
+      "3,520만원"
     ]
   },
   "counts": {
-    "links": 92,
-    "images": 85,
+    "links": 94,
+    "images": 87,
     "buttons": 87
   },
   "style": {
@@ -429,11 +429,11 @@
       "heading": "Spoqa Han Sans Neo",
       "baseSize": 16,
       "headingSize": 24,
-      "boldShare": 0.22
+      "boldShare": 0.21
     },
     "cta": {
       "primary": {
-        "text": "차량검색 8,880대",
+        "text": "차량검색 8,927대",
         "bg": "#ffffff",
         "color": "#d6d6d8",
         "contrast": 1.45,
@@ -457,10 +457,10 @@
     },
     "fixedViewportShare": 1
   },
-  "screenshot": "2026-11-12.jpg",
+  "screenshot": "2026-11-13.jpg",
   "forms": {
     "forms": [],
-    "stepIndicator": "5 / 7",
+    "stepIndicator": "6 / 8",
     "loginWall": false
   },
   "adTech": {
@@ -572,11 +572,11 @@
       "connect.facebook.net",
       "bzrcdn.openai.com",
       "marketm-api.kcar.com",
-      "cdnjs.cloudflare.com",
-      "banner.appsflyersdk.com",
       "fundingchoicesmessages.google.com",
       "sr-client-cfg.amplitude.com",
       "sdk.iad-03.braze.com",
+      "banner.appsflyersdk.com",
+      "cdnjs.cloudflare.com",
       "www.google-analytics.com",
       "cdn.taboola.com",
       "static.criteo.net",
@@ -587,32 +587,32 @@
       "www.google.com",
       "ad.doubleclick.net",
       "bc.ds.kakao.com",
-      "static.ads-twitter.com",
       "dsp.dmcmedia.co.kr",
-      "cdn.megadata.co.kr",
-      "cdn.datamanager.co.kr",
+      "static.ads-twitter.com",
+      "img.kcar.com",
+      "adapi.feeldmc.com",
       "stats.g.doubleclick.net",
-      "trc.taboola.com",
       "analytics.google.com",
-      "ams.creativecdn.com",
+      "trc.taboola.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
+      "ams.creativecdn.com",
+      "www.facebook.com",
       "pixelfnt-us.dsp-api.moloco.com",
       "astg.widerplanet.com",
-      "www.facebook.com",
       "gum.criteo.com",
+      "nam.veta.naver.com",
+      "collect.daangn.com",
+      "cdn.megadata.co.kr",
+      "cdn.datamanager.co.kr",
       "cm.g.doubleclick.net",
+      "lpipua.kcar.com",
       "dsum-sec.casalemedia.com",
       "act.ds.kakao.com",
       "pixel.rubiconproject.com",
       "simage2.pubmatic.com",
       "sync.taboola.com",
-      "collect.daangn.com",
-      "nam.veta.naver.com",
-      "lpipua.kcar.com",
       "pips.taboola.com",
-      "tk.mediacategory.com",
-      "api.mediacategory.com",
       "cds.taboola.com"
     ]
   },
@@ -620,7 +620,7 @@
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-home-mobile-2026-11-12",
+    "id": "auto-kcar-home-mobile-2026-11-13",
     "url": "https://goranisee.netlify.app"
   }
 }

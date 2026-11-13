@@ -1,0 +1,391 @@
+{
+  "site": "encar",
+  "siteName": "엔카",
+  "stage": "list",
+  "url": "https://car.encar.com/car-report/guide",
+  "capturedAt": "2026-11-13T10:56:34.227+09:00",
+  "ok": true,
+  "httpStatus": null,
+  "flow": {
+    "step": 2,
+    "tapsFromHome": 1,
+    "via": {
+      "from": "home",
+      "text": "엔카 차량리포트",
+      "kind": "href",
+      "href": "https://car.encar.com/car-report/guide",
+      "fixed": true,
+      "pos": {
+        "x": -0.5,
+        "y": 0.279,
+        "w": 350,
+        "h": 56
+      },
+      "candidates": 6
+    },
+    "loginWall": false,
+    "id": "auto-encar-2026-11-13",
+    "nextNotFound": "detail"
+  },
+  "finalUrl": "https://car.encar.com/car-report/guide",
+  "settledMs": 1406,
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "pageHeight": 2500
+  },
+  "title": "차량리포트 | 진단 매니저가 직접 확인한 차량 상태 | 엔카",
+  "hero": [
+    {
+      "text": "엔카 차량리포트",
+      "fontSize": 26,
+      "y": 0.042,
+      "appeal": []
+    },
+    {
+      "text": "엔카 차량리포트",
+      "fontSize": 21,
+      "y": 0,
+      "appeal": []
+    },
+    {
+      "text": "주요 제공 정보",
+      "fontSize": 18,
+      "y": 0.22,
+      "appeal": []
+    }
+  ],
+  "ctas": [
+    {
+      "text": "차량관리 상태 확인(차량 리포트)이란?",
+      "pos": {
+        "x": 0.5,
+        "y": 0.809,
+        "w": 350,
+        "h": 60
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "정차 상태에서 검사가 이루어 지나요?",
+      "pos": {
+        "x": 0.5,
+        "y": 0.858,
+        "w": 350,
+        "h": 60
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "실내 냄새나 스크래치도 확인하나요?",
+      "pos": {
+        "x": 0.5,
+        "y": 0.883,
+        "w": 350,
+        "h": 60
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "리포트에서 확인되지 않은 항목도 보상되나요?",
+      "pos": {
+        "x": 0.5,
+        "y": 0.907,
+        "w": 350,
+        "h": 60
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(24, 24, 24)",
+      "fontSize": 14,
+      "appeal": []
+    },
+    {
+      "text": "차량리포트 제공 차량 보기",
+      "pos": {
+        "x": 0.5,
+        "y": 0.963,
+        "w": 350,
+        "h": 50
+      },
+      "fixed": false,
+      "fullWidth": true,
+      "bg": "rgb(215, 46, 54)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": 15,
+      "appeal": [],
+      "href": "https://car.encar.com/list/car?page=1&search=%7B%22type%22%3A%22car%22%2C%22action%22%3A%22(And.Hidden.N._.CarType.A._.(Or.ServiceMark.EncarDiagnosisP1.))%22%2C%22toggle%22%3A%7B%7D%2C%22layer%22%3A%2"
+    }
+  ],
+  "promo": [
+    {
+      "label": "이런 분께 추천해요",
+      "pos": {
+        "x": 0.5,
+        "y": 0.428,
+        "w": 350,
+        "h": 26
+      },
+      "items": 3,
+      "images": 0,
+      "kind": "reco"
+    },
+    {
+      "label": "자주 묻는 질문",
+      "pos": {
+        "x": 0.5,
+        "y": 0.788,
+        "w": 350,
+        "h": 26
+      },
+      "items": 5,
+      "images": 0,
+      "kind": "reco"
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [],
+    "trust": [],
+    "price": []
+  },
+  "counts": {
+    "links": 3,
+    "images": 2,
+    "buttons": 12
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.738,
+        "saturation": 0
+      },
+      {
+        "color": "#f6f6f6",
+        "share": 0.229,
+        "saturation": 0
+      },
+      {
+        "color": "#d72e36",
+        "share": 0.03,
+        "saturation": 0.79
+      },
+      {
+        "color": "#181818",
+        "share": 0.002,
+        "saturation": 0
+      }
+    ],
+    "brand": [
+      {
+        "color": "#d72e36",
+        "share": 0.03,
+        "saturation": 0.79
+      }
+    ],
+    "fonts": {
+      "body": "Pretendard",
+      "top": [
+        "Pretendard"
+      ],
+      "heading": "Pretendard",
+      "baseSize": 14,
+      "headingSize": 28,
+      "boldShare": 0.32
+    },
+    "cta": {
+      "primary": {
+        "text": "차량리포트 제공 차량 보기",
+        "bg": "#d72e36",
+        "color": "#ffffff",
+        "contrast": 4.85,
+        "height": 50,
+        "widthRatio": 0.9,
+        "fixed": false,
+        "fontSize": 15,
+        "saturated": true
+      },
+      "count": 5,
+      "fixedCount": 0,
+      "fullWidthCount": 5,
+      "saturatedCount": 1,
+      "avgHeight": 58,
+      "colors": [
+        "#ffffff",
+        "#d72e36"
+      ]
+    },
+    "fixedViewportShare": 0
+  },
+  "screenshot": "2026-11-13.list.jpg",
+  "forms": {
+    "forms": [],
+    "stepIndicator": null,
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [
+      {
+        "key": "google_ads",
+        "label": "Google 광고 (전환태그)",
+        "channel": "구글 검색/디스플레이/유튜브"
+      },
+      {
+        "key": "ga4",
+        "label": "Google Analytics",
+        "channel": "(분석)"
+      },
+      {
+        "key": "gtm",
+        "label": "Google Tag Manager",
+        "channel": "(태그 관리)"
+      },
+      {
+        "key": "meta_pixel",
+        "label": "Meta 픽셀",
+        "channel": "페이스북/인스타그램 광고"
+      },
+      {
+        "key": "naver_ads",
+        "label": "네이버 광고 전환 (wcs)",
+        "channel": "네이버 검색광고/GFA"
+      },
+      {
+        "key": "kakao_pixel",
+        "label": "카카오 픽셀",
+        "channel": "카카오모먼트/카카오 광고"
+      },
+      {
+        "key": "channeltalk",
+        "label": "채널톡",
+        "channel": "(상담 채널)"
+      }
+    ],
+    "ids": {
+      "googleAds": [
+        "AW-699743361"
+      ],
+      "metaPixel": [
+        "2582597645321002"
+      ],
+      "gtm": [
+        "GTM-WVBT8RH"
+      ]
+    },
+    "paidChannels": [
+      "구글 검색/디스플레이/유튜브",
+      "페이스북/인스타그램 광고",
+      "네이버 검색광고/GFA",
+      "카카오모먼트/카카오 광고"
+    ],
+    "thirdPartyHosts": [
+      "m.encar.com",
+      "car.encar.com",
+      "ci.encar.com",
+      "daimg.encar.com",
+      "static.encar.com",
+      "www.googletagmanager.com",
+      "automotive.encar.com",
+      "api.encar.com",
+      "www.google.com",
+      "ad.doubleclick.net",
+      "websdk.appsflyersdk.com",
+      "sdk.amazonaws.com",
+      "wcs.naver.net",
+      "connect.facebook.net",
+      "t1.daumcdn.net",
+      "googleads.g.doubleclick.net",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "analytics.google.com",
+      "wa.appsflyersdk.com",
+      "t1.kakaocdn.net",
+      "cognito-identity.ap-northeast-2.amazonaws.com",
+      "mpc-pilot-3-s6uit34pua-ew.a.run.app",
+      "www.facebook.com",
+      "www.googleadservices.com",
+      "bc.ds.kakao.com",
+      "firehose.ap-northeast-2.amazonaws.com",
+      "www.google-analytics.com",
+      "o298382.ingest.sentry.io"
+    ]
+  },
+  "viewportKey": "mobile",
+  "device": "모바일",
+  "flowSummary": {
+    "stagesReached": [
+      "home",
+      "list"
+    ],
+    "reachedInquiry": false,
+    "tapsToInquiry": null,
+    "loginRequired": false,
+    "stoppedAt": "list",
+    "stopReason": "다음 단계(detail) 진입점 미발견",
+    "path": [
+      {
+        "stage": "home",
+        "url": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st",
+        "via": null,
+        "overlays": 8,
+        "ctas": 30,
+        "urgency": 0,
+        "trust": 8,
+        "price": 8
+      },
+      {
+        "stage": "list",
+        "url": "https://car.encar.com/car-report/guide",
+        "via": {
+          "text": "엔카 차량리포트",
+          "kind": "href",
+          "fixed": true
+        },
+        "overlays": 0,
+        "ctas": 5,
+        "urgency": 0,
+        "trust": 0,
+        "price": 0
+      }
+    ],
+    "inquiryForm": null
+  },
+  "admin": {
+    "ok": true,
+    "id": "auto-encar-2026-11-13-list"
+  }
+}

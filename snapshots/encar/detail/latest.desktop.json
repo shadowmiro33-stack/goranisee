@@ -3,7 +3,7 @@
   "siteName": "엔카",
   "stage": "detail",
   "url": null,
-  "capturedAt": "2026-11-12T11:23:02.308+09:00",
+  "capturedAt": "2026-11-13T10:58:53.171+09:00",
   "ok": false,
   "error": "linkSelector에 맞는 링크가 없습니다: a[href*='/car/detail'], a[href*='carid='], a[href*='/dc/dc_cardetailview']",
   "viewportKey": "desktop",

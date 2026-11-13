@@ -1,0 +1,242 @@
+{
+  "date": "2026-11-13",
+  "capturedAt": "2026-11-13T10:54:50.037+09:00",
+  "stages": [
+    {
+      "key": "home",
+      "label": "첫 화면",
+      "adminStage": "첫 화면(랜딩)"
+    },
+    {
+      "key": "list",
+      "label": "검색·리스트",
+      "adminStage": "카테고리/상품 목록"
+    },
+    {
+      "key": "detail",
+      "label": "매물 상세",
+      "adminStage": "상품 상세"
+    },
+    {
+      "key": "inquiry",
+      "label": "상담·견적 신청",
+      "adminStage": "결제"
+    },
+    {
+      "key": "done",
+      "label": "완료",
+      "adminStage": "기타"
+    }
+  ],
+  "viewports": [
+    "mobile",
+    "desktop"
+  ],
+  "sites": [
+    {
+      "key": "encar",
+      "name": "엔카",
+      "viewport": "mobile",
+      "pages": [
+        {
+          "stage": "home",
+          "ok": true,
+          "url": "https://m.encar.com/",
+          "ctas": 30,
+          "promo": 7,
+          "overlays": 8
+        },
+        {
+          "stage": "list",
+          "ok": false,
+          "url": "https://m.encar.com/car/list?sort=ModifiedDate",
+          "error": "page.goto: Timeout 45000ms exceeded.\nCall log:\n  - navigating to \"https://m.encar.com/car/list?sort=ModifiedDate\", waiting until \"domcontentloaded\"\n",
+          "ctas": 0,
+          "promo": 0,
+          "overlays": 0
+        },
+        {
+          "stage": "detail",
+          "ok": false,
+          "url": null,
+          "error": "followFrom 'list' 결과가 없습니다",
+          "ctas": 0,
+          "promo": 0,
+          "overlays": 0
+        }
+      ],
+      "flow": {
+        "stagesReached": [
+          "home",
+          "list"
+        ],
+        "reachedInquiry": false,
+        "tapsToInquiry": null,
+        "loginRequired": false,
+        "stoppedAt": "list",
+        "stopReason": "다음 단계(detail) 진입점 미발견",
+        "path": [
+          {
+            "stage": "home",
+            "url": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st",
+            "via": null,
+            "overlays": 8,
+            "ctas": 30,
+            "urgency": 0,
+            "trust": 8,
+            "price": 8
+          },
+          {
+            "stage": "list",
+            "url": "https://car.encar.com/car-report/guide",
+            "via": {
+              "text": "엔카 차량리포트",
+              "kind": "href",
+              "fixed": true
+            },
+            "overlays": 0,
+            "ctas": 5,
+            "urgency": 0,
+            "trust": 0,
+            "price": 0
+          }
+        ],
+        "inquiryForm": null
+      }
+    },
+    {
+      "key": "kcar",
+      "name": "케이카",
+      "viewport": "mobile",
+      "pages": [
+        {
+          "stage": "home",
+          "ok": true,
+          "url": "https://m.kcar.com/",
+          "ctas": 9,
+          "promo": 3,
+          "overlays": 9
+        },
+        {
+          "stage": "list",
+          "ok": true,
+          "url": "https://m.kcar.com/bc/search",
+          "ctas": 13,
+          "promo": 0,
+          "overlays": 3
+        },
+        {
+          "stage": "detail",
+          "ok": false,
+          "url": null,
+          "error": "linkSelector에 맞는 링크가 없습니다: a[href*='/bc/detail'], a[href*='cid=']",
+          "ctas": 0,
+          "promo": 0,
+          "overlays": 0
+        }
+      ],
+      "flow": {
+        "stagesReached": [
+          "home",
+          "list"
+        ],
+        "reachedInquiry": false,
+        "tapsToInquiry": null,
+        "loginRequired": false,
+        "stoppedAt": "list",
+        "stopReason": "다음 단계(detail) 진입점 미발견",
+        "path": [
+          {
+            "stage": "home",
+            "url": "https://m.kcar.com/",
+            "via": null,
+            "overlays": 8,
+            "ctas": 7,
+            "urgency": 1,
+            "trust": 6,
+            "price": 12
+          },
+          {
+            "stage": "list",
+            "url": "https://m.kcar.com/",
+            "via": {
+              "text": "차량검색 8,927대",
+              "kind": "click",
+              "fixed": true
+            },
+            "overlays": 8,
+            "ctas": 7,
+            "urgency": 1,
+            "trust": 6,
+            "price": 12
+          }
+        ],
+        "inquiryForm": null
+      }
+    },
+    {
+      "key": "encar",
+      "name": "엔카",
+      "viewport": "desktop",
+      "pages": [
+        {
+          "stage": "home",
+          "ok": true,
+          "url": "https://www.encar.com/",
+          "ctas": 0,
+          "promo": 0,
+          "overlays": 0
+        },
+        {
+          "stage": "list",
+          "ok": true,
+          "url": "https://www.encar.com/dc/dc_carsearchlist.do?carType=kor",
+          "ctas": 0,
+          "promo": 0,
+          "overlays": 0
+        },
+        {
+          "stage": "detail",
+          "ok": false,
+          "url": null,
+          "error": "linkSelector에 맞는 링크가 없습니다: a[href*='/car/detail'], a[href*='carid='], a[href*='/dc/dc_cardetailview']",
+          "ctas": 0,
+          "promo": 0,
+          "overlays": 0
+        }
+      ]
+    },
+    {
+      "key": "kcar",
+      "name": "케이카",
+      "viewport": "desktop",
+      "pages": [
+        {
+          "stage": "home",
+          "ok": true,
+          "url": "https://www.kcar.com/",
+          "ctas": 3,
+          "promo": 6,
+          "overlays": 1
+        },
+        {
+          "stage": "list",
+          "ok": true,
+          "url": "https://www.kcar.com/bc/search",
+          "ctas": 0,
+          "promo": 1,
+          "overlays": 2
+        },
+        {
+          "stage": "detail",
+          "ok": false,
+          "url": null,
+          "error": "linkSelector에 맞는 링크가 없습니다: a[href*='/bc/detail'], a[href*='cid=']",
+          "ctas": 0,
+          "promo": 0,
+          "overlays": 0
+        }
+      ]
+    }
+  ]
+}

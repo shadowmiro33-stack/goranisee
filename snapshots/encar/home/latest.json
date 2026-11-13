@@ -3,11 +3,11 @@
   "siteName": "엔카",
   "stage": "home",
   "url": "https://m.encar.com/",
-  "capturedAt": "2026-11-12T11:18:58.826+09:00",
+  "capturedAt": "2026-11-13T10:54:50.085+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st",
-  "settledMs": 1408,
+  "settledMs": 1407,
   "expandedScroll": 1,
   "viewport": {
     "w": 390,
@@ -23,13 +23,13 @@
       "appeal": []
     },
     {
-      "text": "제네시스 G90 3.8 AWD 럭셔리",
+      "text": "제네시스 G90 3.8 AWD 프리미엄 럭셔리",
       "fontSize": 16,
       "y": 0.496,
       "appeal": []
     },
     {
-      "text": "기아 더 K9 3.8 GDI AWD 플래티넘Ⅲ",
+      "text": "현대 캐스퍼 터보 밴 스마트",
       "fontSize": 16,
       "y": 0.496,
       "appeal": []
@@ -227,7 +227,7 @@
       "color": "rgb(24, 24, 24)",
       "fontSize": 15,
       "appeal": [],
-      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/2097049391/Top3/encar2/samsungfire_m_insur_LNB_2611/samsungfire_m_insur_LNB_2611.html/4e4b45376e32723149686f4143616638"
+      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/1241087427/Top3/encar2/samsungfire_m_insur_LNB_2611/samsungfire_m_insur_LNB_2611.html/46436a56396d723262664541434b566e"
     },
     {
       "text": "엔카미디어",
@@ -534,7 +534,7 @@
         "w": 1,
         "h": 1
       },
-      "items": 70,
+      "items": 72,
       "images": 46,
       "kind": "reco"
     },
@@ -717,17 +717,18 @@
       "배터리 진단 완료",
       "개인직거래",
       "진단++ 우수등급",
-      "엔카진단+"
+      "엔카진단+",
+      "엔카진단++"
     ],
     "price": [
       "회원가입",
       "전기차 리스 특가전",
       "6개월 무이자",
       "SK렌터카 신차특가",
-      "1,780만원",
-      "1,320만원",
-      "730만원",
-      "790만원"
+      "2,520만원",
+      "699만원",
+      "1,559만원",
+      "1,290만원"
     ]
   },
   "counts": {
@@ -783,7 +784,7 @@
       "heading": "Pretendard",
       "baseSize": 14,
       "headingSize": 28,
-      "boldShare": 0.54
+      "boldShare": 0.52
     },
     "cta": {
       "primary": {
@@ -812,7 +813,7 @@
     },
     "fixedViewportShare": 1
   },
-  "screenshot": "2026-11-12.jpg",
+  "screenshot": "2026-11-13.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": "1\n/\n1",
@@ -902,21 +903,21 @@
       "connect.facebook.net",
       "t1.daumcdn.net",
       "www.google-analytics.com",
-      "googleads.g.doubleclick.net",
       "analytics.google.com",
       "stats.g.doubleclick.net",
-      "wa.onelink.me",
-      "ssl.pstatic.net",
-      "wcs.naver.com",
-      "t1.kakaocdn.net",
-      "www.googleadservices.com",
+      "googleads.g.doubleclick.net",
       "cognito-identity.ap-northeast-2.amazonaws.com",
-      "wa.appsflyersdk.com",
-      "nam.veta.naver.com",
-      "bc.ds.kakao.com",
+      "wa.onelink.me",
+      "www.googleadservices.com",
       "mpc-pilot-3-s6uit34pua-ew.a.run.app",
       "www.facebook.com",
+      "wa.appsflyersdk.com",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "nam.veta.naver.com",
+      "t1.kakaocdn.net",
       "firehose.ap-northeast-2.amazonaws.com",
+      "bc.ds.kakao.com",
       "o298382.ingest.sentry.io"
     ]
   },
@@ -924,7 +925,7 @@
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-encar-home-mobile-2026-11-12",
+    "id": "auto-encar-home-mobile-2026-11-13",
     "url": "https://goranisee.netlify.app"
   }
 }

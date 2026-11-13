@@ -1,0 +1,122 @@
+{
+  "site": "encar",
+  "siteName": "엔카",
+  "stage": "home",
+  "url": "https://www.encar.com/",
+  "capturedAt": "2026-11-13T10:58:21.500+09:00",
+  "ok": true,
+  "httpStatus": 200,
+  "finalUrl": "https://www.encar.com/index.do",
+  "settledMs": 1406,
+  "warning": "본문 텍스트가 거의 없습니다. 로그인이 필요하거나 화면이 늦게 그려지는 페이지일 수 있습니다.",
+  "viewport": {
+    "w": 1280,
+    "h": 800,
+    "pageHeight": 800
+  },
+  "title": "엔카",
+  "hero": [
+    {
+      "text": "시스템에서 비정상적인 트래픽이 감지되어 현재 접속이 제한되었습니다.",
+      "fontSize": 18,
+      "y": 0.336,
+      "appeal": []
+    }
+  ],
+  "ctas": [],
+  "promo": [],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [],
+    "trust": [],
+    "price": []
+  },
+  "counts": {
+    "links": 1,
+    "images": 1,
+    "buttons": 1
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#ffffff",
+        "share": 0.823,
+        "saturation": 0
+      },
+      {
+        "color": "#ff2626",
+        "share": 0.177,
+        "saturation": 0.85
+      }
+    ],
+    "brand": [
+      {
+        "color": "#ff2626",
+        "share": 0.177,
+        "saturation": 0.85
+      }
+    ],
+    "fonts": {
+      "body": "Pretendard",
+      "top": [
+        "Pretendard"
+      ],
+      "heading": "Pretendard",
+      "baseSize": 12,
+      "headingSize": 12,
+      "boldShare": 1
+    },
+    "cta": {
+      "primary": null,
+      "count": 0,
+      "fixedCount": 0,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": null,
+      "colors": []
+    },
+    "fixedViewportShare": 0
+  },
+  "screenshot": "2026-11-13.desktop.jpg",
+  "forms": {
+    "forms": [],
+    "stepIndicator": null,
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [],
+    "ids": {},
+    "paidChannels": [],
+    "thirdPartyHosts": [
+      "www.encar.com",
+      "www.google.com",
+      "static.encar.com",
+      "www.gstatic.com",
+      "fonts.gstatic.com"
+    ]
+  },
+  "viewportKey": "desktop",
+  "device": "데스크톱",
+  "admin": {
+    "ok": true,
+    "id": "auto-encar-home-desktop-2026-11-13",
+    "url": "https://goranisee.netlify.app"
+  }
+}
