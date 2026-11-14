@@ -3,11 +3,11 @@
   "siteName": "케이카",
   "stage": "home",
   "url": "https://m.kcar.com/",
-  "capturedAt": "2026-11-13T10:56:48.991+09:00",
+  "capturedAt": "2026-11-14T10:30:17.472+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://m.kcar.com/",
-  "settledMs": 1407,
+  "settledMs": 1412,
   "viewport": {
     "w": 390,
     "h": 844,
@@ -36,7 +36,7 @@
   ],
   "ctas": [
     {
-      "text": "차량검색 8,927대",
+      "text": "차량검색 8,865대",
       "pos": {
         "x": 0.5,
         "y": 0.04,
@@ -179,10 +179,10 @@
     {
       "label": "(배너)",
       "pos": {
-        "x": -3.062,
+        "x": -1.295,
         "y": 0.131,
         "w": 350,
-        "h": 418
+        "h": 417
       },
       "items": 1,
       "images": 1,
@@ -233,7 +233,7 @@
         {
           "kind": "floating",
           "purpose": "search",
-          "text": "차량검색 8,927대",
+          "text": "차량검색 8,865대",
           "pos": {
             "x": 0.5,
             "y": 0.04,
@@ -319,7 +319,7 @@
           "viewportArea": 0.07
         },
         {
-          "text": "차량검색 8,927대",
+          "text": "차량검색 8,865대",
           "position": "top",
           "viewportArea": 0.05
         }
@@ -354,17 +354,17 @@
       "KW3 무료 기획전",
       "KW6 무료 기획전",
       "지금사면 무료배송",
-      "3,100만원 3,200만원",
-      "할부 월 50만원",
-      "3,350만원",
-      "할부 월 55만원",
-      "3,050만원",
-      "3,520만원"
+      "4,250만원",
+      "할부 월 69만원",
+      "1,890만원",
+      "할부 월 31만원",
+      "4,350만원",
+      "할부 월 71만원"
     ]
   },
   "counts": {
-    "links": 94,
-    "images": 87,
+    "links": 93,
+    "images": 83,
     "buttons": 87
   },
   "style": {
@@ -429,11 +429,11 @@
       "heading": "Spoqa Han Sans Neo",
       "baseSize": 16,
       "headingSize": 24,
-      "boldShare": 0.21
+      "boldShare": 0.22
     },
     "cta": {
       "primary": {
-        "text": "차량검색 8,927대",
+        "text": "차량검색 8,865대",
         "bg": "#ffffff",
         "color": "#d6d6d8",
         "contrast": 1.45,
@@ -457,7 +457,7 @@
     },
     "fixedViewportShare": 1
   },
-  "screenshot": "2026-11-13.jpg",
+  "screenshot": "2026-11-14.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": "6 / 8",
@@ -572,10 +572,7 @@
       "connect.facebook.net",
       "bzrcdn.openai.com",
       "marketm-api.kcar.com",
-      "fundingchoicesmessages.google.com",
-      "sr-client-cfg.amplitude.com",
       "sdk.iad-03.braze.com",
-      "banner.appsflyersdk.com",
       "cdnjs.cloudflare.com",
       "www.google-analytics.com",
       "cdn.taboola.com",
@@ -586,41 +583,44 @@
       "cdn-aitg.widerplanet.com",
       "www.google.com",
       "ad.doubleclick.net",
+      "banner.appsflyersdk.com",
+      "fundingchoicesmessages.google.com",
+      "sr-client-cfg.amplitude.com",
+      "img.kcar.com",
+      "adapi.feeldmc.com",
       "bc.ds.kakao.com",
       "dsp.dmcmedia.co.kr",
       "static.ads-twitter.com",
-      "img.kcar.com",
-      "adapi.feeldmc.com",
-      "stats.g.doubleclick.net",
-      "analytics.google.com",
-      "trc.taboola.com",
-      "ssl.pstatic.net",
-      "wcs.naver.com",
-      "ams.creativecdn.com",
-      "www.facebook.com",
-      "pixelfnt-us.dsp-api.moloco.com",
-      "astg.widerplanet.com",
-      "gum.criteo.com",
-      "nam.veta.naver.com",
-      "collect.daangn.com",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
+      "stats.g.doubleclick.net",
+      "trc.taboola.com",
+      "ams.creativecdn.com",
+      "analytics.google.com",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "pixelfnt-us.dsp-api.moloco.com",
+      "astg.widerplanet.com",
+      "www.facebook.com",
+      "gum.criteo.com",
       "cm.g.doubleclick.net",
-      "lpipua.kcar.com",
       "dsum-sec.casalemedia.com",
       "act.ds.kakao.com",
       "pixel.rubiconproject.com",
       "simage2.pubmatic.com",
       "sync.taboola.com",
-      "pips.taboola.com",
-      "cds.taboola.com"
+      "collect.daangn.com",
+      "nam.veta.naver.com",
+      "lpipua.kcar.com",
+      "tk.mediacategory.com",
+      "api.mediacategory.com"
     ]
   },
   "viewportKey": "mobile",
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-home-mobile-2026-11-13",
+    "id": "auto-kcar-home-mobile-2026-11-14",
     "url": "https://goranisee.netlify.app"
   }
 }

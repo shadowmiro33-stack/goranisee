@@ -3,11 +3,11 @@
   "siteName": "엔카",
   "stage": "home",
   "url": "https://m.encar.com/",
-  "capturedAt": "2026-11-13T10:54:50.085+09:00",
+  "capturedAt": "2026-11-14T10:29:12.831+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st",
-  "settledMs": 1407,
+  "settledMs": 1409,
   "expandedScroll": 1,
   "viewport": {
     "w": 390,
@@ -23,13 +23,13 @@
       "appeal": []
     },
     {
-      "text": "제네시스 G90 3.8 AWD 프리미엄 럭셔리",
+      "text": "현대 스타리아 카고 3인승 모던",
       "fontSize": 16,
       "y": 0.496,
       "appeal": []
     },
     {
-      "text": "현대 캐스퍼 터보 밴 스마트",
+      "text": "KG모빌리티(쌍용) G4 렉스턴 디젤 2.2 4WD 유라시아 에디션",
       "fontSize": 16,
       "y": 0.496,
       "appeal": []
@@ -227,7 +227,7 @@
       "color": "rgb(24, 24, 24)",
       "fontSize": 15,
       "appeal": [],
-      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/1241087427/Top3/encar2/samsungfire_m_insur_LNB_2611/samsungfire_m_insur_LNB_2611.html/46436a56396d723262664541434b566e"
+      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/1842207792/Top3/encar2/dbdirect_m_insur_LNB_2611/dbdirect_m_insur_LNB_2611.html/46416d74684772337557304143735038"
     },
     {
       "text": "엔카미디어",
@@ -534,7 +534,7 @@
         "w": 1,
         "h": 1
       },
-      "items": 72,
+      "items": 69,
       "images": 46,
       "kind": "reco"
     },
@@ -563,7 +563,7 @@
       "kind": "banner"
     },
     {
-      "label": "5 / 9",
+      "label": "4 / 9",
       "pos": {
         "x": 0.5,
         "y": 0.122,
@@ -575,7 +575,7 @@
       "kind": "banner"
     },
     {
-      "label": "배터리 진단 완료 중고렌트리스 전기차 리스 특가전 신차시승 개인직거래 내차 시세조회 6개월 무이자 자동차보험료 확인 엔카믿고 진단++ 우수등급",
+      "label": "배터리 진단 완료 중고렌트리스 전기차 리스 특가전 신차시승 개인직거래 내차 시세조회 6개월 무이자 운전자보험료 확인 엔카믿고 진단++ 우수등급",
       "pos": {
         "x": 0.961,
         "y": 0.338,
@@ -589,7 +589,7 @@
     {
       "label": "이미지",
       "pos": {
-        "x": -7.746,
+        "x": -6.715,
         "y": 0.143,
         "w": 390,
         "h": 260
@@ -716,19 +716,17 @@
       "엔카종합보증",
       "배터리 진단 완료",
       "개인직거래",
-      "진단++ 우수등급",
-      "엔카진단+",
-      "엔카진단++"
+      "진단++ 우수등급"
     ],
     "price": [
       "회원가입",
       "전기차 리스 특가전",
       "6개월 무이자",
       "SK렌터카 신차특가",
-      "2,520만원",
-      "699만원",
-      "1,559만원",
-      "1,290만원"
+      "1,280만원",
+      "730만원",
+      "850만원",
+      "790만원"
     ]
   },
   "counts": {
@@ -784,7 +782,7 @@
       "heading": "Pretendard",
       "baseSize": 14,
       "headingSize": 28,
-      "boldShare": 0.52
+      "boldShare": 0.54
     },
     "cta": {
       "primary": {
@@ -813,7 +811,7 @@
     },
     "fixedViewportShare": 1
   },
-  "screenshot": "2026-11-13.jpg",
+  "screenshot": "2026-11-14.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": "1\n/\n1",
@@ -903,21 +901,21 @@
       "connect.facebook.net",
       "t1.daumcdn.net",
       "www.google-analytics.com",
+      "googleads.g.doubleclick.net",
       "analytics.google.com",
       "stats.g.doubleclick.net",
-      "googleads.g.doubleclick.net",
-      "cognito-identity.ap-northeast-2.amazonaws.com",
-      "wa.onelink.me",
-      "www.googleadservices.com",
-      "mpc-pilot-3-s6uit34pua-ew.a.run.app",
-      "www.facebook.com",
-      "wa.appsflyersdk.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
-      "nam.veta.naver.com",
+      "wa.onelink.me",
       "t1.kakaocdn.net",
-      "firehose.ap-northeast-2.amazonaws.com",
+      "www.googleadservices.com",
+      "cognito-identity.ap-northeast-2.amazonaws.com",
+      "nam.veta.naver.com",
+      "wa.appsflyersdk.com",
+      "mpc-pilot-3-s6uit34pua-ew.a.run.app",
+      "www.facebook.com",
       "bc.ds.kakao.com",
+      "firehose.ap-northeast-2.amazonaws.com",
       "o298382.ingest.sentry.io"
     ]
   },
@@ -925,7 +923,7 @@
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-encar-home-mobile-2026-11-13",
+    "id": "auto-encar-home-mobile-2026-11-14",
     "url": "https://goranisee.netlify.app"
   }
 }

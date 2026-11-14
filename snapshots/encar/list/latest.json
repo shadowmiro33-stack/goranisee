@@ -3,9 +3,12 @@
   "siteName": "엔카",
   "stage": "list",
   "url": "https://m.encar.com/car/list?sort=ModifiedDate",
-  "capturedAt": "2026-11-13T10:55:13.205+09:00",
+  "capturedAt": "2026-11-14T10:29:35.499+09:00",
   "ok": false,
-  "error": "page.goto: Timeout 45000ms exceeded.\nCall log:\n  - navigating to \"https://m.encar.com/car/list?sort=ModifiedDate\", waiting until \"domcontentloaded\"\n",
+  "httpStatus": 404,
+  "finalUrl": "https://m.encar.com/car/list?sort=ModifiedDate",
+  "settledMs": 1406,
+  "error": "접근 차단 또는 오류 응답 (HTTP 404, \"엔카 - 대한민국 No.1 중고차 플랫폼\") — 이 사이트는 자동 수집을 막고 있습니다. 확장 프로그램이나 즐겨찾기 버튼으로 직접 캡처하세요.",
   "viewportKey": "mobile",
   "device": "모바일"
 }

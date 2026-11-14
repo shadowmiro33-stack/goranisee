@@ -3,7 +3,7 @@
   "siteName": "케이카",
   "stage": "detail",
   "url": null,
-  "capturedAt": "2026-11-13T10:57:39.057+09:00",
+  "capturedAt": "2026-11-14T10:31:10.028+09:00",
   "ok": false,
   "error": "linkSelector에 맞는 링크가 없습니다: a[href*='/bc/detail'], a[href*='cid=']",
   "viewportKey": "mobile",
