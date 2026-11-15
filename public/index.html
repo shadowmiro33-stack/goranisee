@@ -4,14 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>경쟁사 퍼널 비교 어드민</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
-  :root { --bg:#f6f7f9; --card:#fff; --fg:#17181c; --muted:#6b7280; --line:#e5e7eb; --accent:#2f5bea; --soft:#eef2ff; --warn:#fff4e5; --danger:#b42318; }
+  :root { --bg:#f4f6fa; --card:#fff; --fg:#161a24; --muted:#687085; --line:#dfe3ec; --accent:#2f5bea; --soft:#eaf0ff; --warn:#fff4e5; --danger:#b42318; }
   * { box-sizing:border-box; }
-  body { margin:0; font:14px/1.5 -apple-system, "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif; color:var(--fg); background:var(--bg); }
+  body { margin:0; font:14px/1.5 "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; color:var(--fg); background:var(--bg); font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased; }
   header { display:flex; align-items:center; gap:10px; padding:12px 22px; background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; flex-wrap:wrap; }
   header h1 { font-size:16px; margin:0 auto 0 0; }
   button { padding:7px 13px; border:1px solid var(--line); background:var(--card); border-radius:8px; font:inherit; cursor:pointer; color:var(--fg); }
-  button:hover { background:#f3f4f6; }
+  button:hover { background:var(--bg); }
   button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
   button.primary:hover { background:#2449c2; }
   button.danger { color:var(--danger); }
@@ -22,12 +23,12 @@
   .tabs button.active { background:var(--soft); border-color:var(--accent); color:var(--accent); font-weight:600; }
   .filters { display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap; color:var(--muted); font-size:13px; }
   .empty { padding:70px 20px; text-align:center; color:var(--muted); background:var(--card); border:1px dashed var(--line); border-radius:12px; }
-  .empty code { background:#f3f4f6; padding:2px 6px; border-radius:4px; }
+  .empty code { background:var(--bg); padding:2px 6px; border-radius:4px; }
   .scroll { overflow:auto; border:1px solid var(--line); border-radius:12px; background:var(--card); }
   table { border-collapse:separate; border-spacing:0; min-width:100%; }
   th, td { border-bottom:1px solid var(--line); border-right:1px solid var(--line); padding:10px 12px; vertical-align:top; text-align:left; min-width:250px; max-width:340px; }
-  th { background:#f3f4f6; font-weight:600; position:sticky; top:0; z-index:2; }
-  th:first-child, td:first-child { min-width:130px; max-width:130px; background:#fafafa; font-weight:600; position:sticky; left:0; z-index:1; }
+  th { background:#f1f3f8; font-weight:600; position:sticky; top:0; z-index:2; }
+  th:first-child, td:first-child { min-width:130px; max-width:130px; background:#f9fafc; font-weight:600; position:sticky; left:0; z-index:1; }
   th:first-child { z-index:3; }
   th:last-child, td:last-child { border-right:0; }
   tr:last-child td { border-bottom:0; }
@@ -243,7 +244,7 @@
       </ol>
       <div style="margin:12px 0"><input type="password" id="tool-pw" placeholder="어드민 비밀번호" style="width:260px"> <button id="btn-make" class="primary">버튼 생성</button></div>
       <div id="tool-out" hidden>
-        <a id="bm-link" href="#" style="display:inline-block;padding:10px 18px;background:var(--accent);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;cursor:grab">📌 퍼널 수집</a>
+        <a id="bm-link" href="#" style="display:inline-block;padding:10px 18px;background:var(--accent);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;cursor:grab">퍼널 수집</a>
         <span style="color:var(--muted);font-size:12px;margin-left:10px">← 이 버튼을 즐겨찾기 바로 끌어다 놓으세요</span>
         <details style="margin-top:14px;font-size:13px"><summary style="cursor:pointer">드래그가 안 될 때: 수동 추가</summary>
           <ol style="padding-left:20px;line-height:1.8"><li>즐겨찾기 바 빈 곳에서 우클릭 → <b>페이지 추가…</b></li><li>이름: <code>퍼널 수집</code></li><li>URL: 아래 <b>코드 복사</b>를 눌러 복사한 것을 붙여넣기 → 저장</li></ol>
