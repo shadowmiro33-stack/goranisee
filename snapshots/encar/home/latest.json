@@ -3,11 +3,11 @@
   "siteName": "엔카",
   "stage": "home",
   "url": "https://m.encar.com/",
-  "capturedAt": "2026-11-14T10:29:12.831+09:00",
+  "capturedAt": "2026-11-15T10:06:29.009+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st",
-  "settledMs": 1409,
+  "settledMs": 1410,
   "expandedScroll": 1,
   "viewport": {
     "w": 390,
@@ -23,13 +23,13 @@
       "appeal": []
     },
     {
-      "text": "현대 스타리아 카고 3인승 모던",
+      "text": "기아 더 K9 3.8 GDI AWD 그랜드 플래티넘",
       "fontSize": 16,
       "y": 0.496,
       "appeal": []
     },
     {
-      "text": "KG모빌리티(쌍용) G4 렉스턴 디젤 2.2 4WD 유라시아 에디션",
+      "text": "제네시스 G80 3.3 GDI 프리미엄 럭셔리",
       "fontSize": 16,
       "y": 0.496,
       "appeal": []
@@ -227,7 +227,7 @@
       "color": "rgb(24, 24, 24)",
       "fontSize": 15,
       "appeal": [],
-      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/1842207792/Top3/encar2/dbdirect_m_insur_LNB_2611/dbdirect_m_insur_LNB_2611.html/46416d74684772337557304143735038"
+      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/1658987355/Top3/encar2/dbdirect_m_insur_LNB_2611/dbdirect_m_insur_LNB_2611.html/46476f316b577235425a6f4143334372"
     },
     {
       "text": "엔카미디어",
@@ -534,7 +534,7 @@
         "w": 1,
         "h": 1
       },
-      "items": 69,
+      "items": 70,
       "images": 46,
       "kind": "reco"
     },
@@ -575,7 +575,7 @@
       "kind": "banner"
     },
     {
-      "label": "배터리 진단 완료 중고렌트리스 전기차 리스 특가전 신차시승 개인직거래 내차 시세조회 6개월 무이자 운전자보험료 확인 엔카믿고 진단++ 우수등급",
+      "label": "배터리 진단 완료 중고렌트리스 전기차 리스 특가전 신차시승 개인직거래 내차 시세조회 6개월 무이자 자동차보험료 확인 엔카믿고 진단++ 우수등급",
       "pos": {
         "x": 0.961,
         "y": 0.338,
@@ -723,10 +723,10 @@
       "전기차 리스 특가전",
       "6개월 무이자",
       "SK렌터카 신차특가",
-      "1,280만원",
-      "730만원",
-      "850만원",
-      "790만원"
+      "1,740만원",
+      "990만원",
+      "1,980만원",
+      "1,100만원"
     ]
   },
   "counts": {
@@ -782,7 +782,7 @@
       "heading": "Pretendard",
       "baseSize": 14,
       "headingSize": 28,
-      "boldShare": 0.54
+      "boldShare": 0.55
     },
     "cta": {
       "primary": {
@@ -811,7 +811,7 @@
     },
     "fixedViewportShare": 1
   },
-  "screenshot": "2026-11-14.jpg",
+  "screenshot": "2026-11-15.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": "1\n/\n1",
@@ -901,19 +901,19 @@
       "connect.facebook.net",
       "t1.daumcdn.net",
       "www.google-analytics.com",
-      "googleads.g.doubleclick.net",
-      "analytics.google.com",
-      "stats.g.doubleclick.net",
       "ssl.pstatic.net",
       "wcs.naver.com",
-      "wa.onelink.me",
-      "t1.kakaocdn.net",
-      "www.googleadservices.com",
+      "analytics.google.com",
+      "stats.g.doubleclick.net",
       "cognito-identity.ap-northeast-2.amazonaws.com",
+      "googleads.g.doubleclick.net",
+      "wa.onelink.me",
       "nam.veta.naver.com",
-      "wa.appsflyersdk.com",
       "mpc-pilot-3-s6uit34pua-ew.a.run.app",
       "www.facebook.com",
+      "www.googleadservices.com",
+      "t1.kakaocdn.net",
+      "wa.appsflyersdk.com",
       "bc.ds.kakao.com",
       "firehose.ap-northeast-2.amazonaws.com",
       "o298382.ingest.sentry.io"
@@ -923,7 +923,7 @@
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-encar-home-mobile-2026-11-14",
+    "id": "auto-encar-home-mobile-2026-11-15",
     "url": "https://goranisee.netlify.app"
   }
 }

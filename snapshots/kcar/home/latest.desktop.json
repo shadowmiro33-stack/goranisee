@@ -3,11 +3,11 @@
   "siteName": "케이카",
   "stage": "home",
   "url": "https://www.kcar.com/",
-  "capturedAt": "2026-11-14T10:32:41.898+09:00",
+  "capturedAt": "2026-11-15T10:09:49.594+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://www.kcar.com/",
-  "settledMs": 1407,
+  "settledMs": 1412,
   "viewport": {
     "w": 1280,
     "h": 800,
@@ -94,7 +94,7 @@
         "w": 1220,
         "h": 42
       },
-      "items": 111,
+      "items": 108,
       "images": 18,
       "kind": "reco"
     },
@@ -147,7 +147,7 @@
       "kind": "banner"
     },
     {
-      "label": "홈서비스 메가센터 보유차량 273대 지점위치 경기도 이천시 마장면 중부대로644번길 293 (표교리) 영업시간 월~토요일 09:00~18:00",
+      "label": "홈서비스 메가센터 보유차량 280대 지점위치 경기도 이천시 마장면 중부대로644번길 293 (표교리) 영업시간 월~토요일 09:00~18:00",
       "pos": {
         "x": 0.5,
         "y": 0.826,
@@ -203,14 +203,14 @@
       "6개월 무료보증 쏜다",
       "직거래 오픈기념 한정혜택",
       "위약금 없는 100% 환불까지.",
-      "3개월 보증 무료·최대 300만원 혜택",
       "보증이여 0원하라!",
       "180일 보증 무료",
+      "6개월 보증 무료·최대 1,000만원 혜택",
       "6개월 보증 무료·최대 500만원 혜택",
       "90일 보증 무료",
+      "3개월 보증 무료·최대 300만원 혜택",
       "제조사 보증이 남은 차량도, 보증이 끝난 차량도",
-      "보증기간",
-      "보증범위"
+      "보증기간"
     ],
     "price": [
       "회원가입",
@@ -223,12 +223,12 @@
       "렌트 특가",
       "원하는 차가 있어요예산이 정해져 있어요차종별로 찾고 있어요",
       "지금사면 무료배송",
-      "1,760만원",
-      "할부 월29만원"
+      "1,540만원",
+      "할부 월25만원"
     ]
   },
   "counts": {
-    "links": 222,
+    "links": 221,
     "images": 147,
     "buttons": 219
   },
@@ -241,7 +241,7 @@
       },
       {
         "color": "#e6e6e6",
-        "share": 0.241,
+        "share": 0.242,
         "saturation": 0
       },
       {
@@ -256,7 +256,7 @@
       },
       {
         "color": "#54555a",
-        "share": 0.018,
+        "share": 0.019,
         "saturation": 0.07
       },
       {
@@ -310,7 +310,7 @@
     },
     "fixedViewportShare": 0
   },
-  "screenshot": "2026-11-14.desktop.jpg",
+  "screenshot": "2026-11-15.desktop.jpg",
   "forms": {
     "forms": [
       {
@@ -438,6 +438,7 @@
       "connect.facebook.net",
       "bzrcdn.openai.com",
       "sdk.iad-03.braze.com",
+      "sr-client-cfg.amplitude.com",
       "www.google-analytics.com",
       "cdn.taboola.com",
       "static.criteo.net",
@@ -447,31 +448,30 @@
       "cdn-aitg.widerplanet.com",
       "www.google.com",
       "ad.doubleclick.net",
-      "sr-client-cfg.amplitude.com",
-      "fundingchoicesmessages.google.com",
-      "static.ads-twitter.com",
       "t1.kakaocdn.net",
+      "fundingchoicesmessages.google.com",
       "analytics.google.com",
       "stats.g.doubleclick.net",
+      "static.ads-twitter.com",
       "trc.taboola.com",
       "ams.creativecdn.com",
-      "gum.criteo.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
       "pixelfnt-us.dsp-api.moloco.com",
       "astg.widerplanet.com",
+      "gum.criteo.com",
       "cm.g.doubleclick.net",
       "dsum-sec.casalemedia.com",
       "act.ds.kakao.com",
       "pixel.rubiconproject.com",
       "simage2.pubmatic.com",
       "sync.taboola.com",
-      "cdn.megadata.co.kr",
-      "cdn.datamanager.co.kr",
-      "bc.ds.kakao.com",
       "collect.daangn.com",
       "nam.veta.naver.com",
+      "bc.ds.kakao.com",
       "sslwidget.criteo.com",
+      "api2.amplitude.com",
+      "widget.as.criteo.com",
       "cm.mman.kr",
       "cm-exchange.toast.com",
       "sbm.nate.com",
@@ -479,8 +479,8 @@
       "mixer.mobon.net",
       "sync.bidence.net",
       "cookie.momento.dev",
-      "widget.as.criteo.com",
-      "api2.amplitude.com",
+      "cdn.megadata.co.kr",
+      "cdn.datamanager.co.kr",
       "ib.adnxs.com"
     ]
   },
@@ -488,7 +488,7 @@
   "device": "데스크톱",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-home-desktop-2026-11-14",
+    "id": "auto-kcar-home-desktop-2026-11-15",
     "url": "https://goranisee.netlify.app"
   }
 }

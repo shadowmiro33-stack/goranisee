@@ -3,11 +3,11 @@
   "siteName": "케이카",
   "stage": "list",
   "url": "https://www.kcar.com/bc/search",
-  "capturedAt": "2026-11-14T10:33:13.569+09:00",
+  "capturedAt": "2026-11-15T10:10:24.152+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://www.kcar.com/bc/search",
-  "settledMs": 1407,
+  "settledMs": 1408,
   "expandedScroll": 1,
   "viewport": {
     "w": 1280,
@@ -113,35 +113,35 @@
       "#세제혜택",
       "무료배송",
       "지금사면 무료배송",
-      "2,420만원",
-      "할부 월 39만원",
-      "4,490만원",
-      "할부 월 73만원",
-      "3,150만원",
-      "할부 월 51만원",
-      "2,850만원"
+      "2,150만원",
+      "할부 월 35만원",
+      "1,430만원",
+      "할부 월 23만원",
+      "2,750만원",
+      "할부 월 45만원",
+      "2,320만원"
     ]
   },
   "counts": {
     "links": 185,
-    "images": 233,
-    "buttons": 253
+    "images": 231,
+    "buttons": 259
   },
   "style": {
     "palette": [
       {
         "color": "#ffffff",
-        "share": 0.543,
+        "share": 0.542,
         "saturation": 0
       },
       {
         "color": "#f9fafb",
-        "share": 0.27,
+        "share": 0.272,
         "saturation": 0.01
       },
       {
         "color": "#fdeeef",
-        "share": 0.172,
+        "share": 0.171,
         "saturation": 0.06
       },
       {
@@ -201,7 +201,7 @@
     },
     "fixedViewportShare": 0.01
   },
-  "screenshot": "2026-11-14.desktop.jpg",
+  "screenshot": "2026-11-15.desktop.jpg",
   "forms": {
     "forms": [
       {
@@ -295,7 +295,7 @@
         "GTM-PNJHWKC"
       ],
       "kakaoPixel": [
-        "2937709192550527363"
+        "8101473052006960319"
       ]
     },
     "paidChannels": [
@@ -322,41 +322,41 @@
       "www.google-analytics.com",
       "cdn.taboola.com",
       "www.google.com",
-      "trc.taboola.com",
       "analytics.google.com",
+      "trc.taboola.com",
       "googleads.g.doubleclick.net",
       "adapi.feeldmc.com",
-      "img.kcar.com",
+      "static.criteo.net",
+      "connect.facebook.net",
       "tags.creativecdn.com",
       "wcs.naver.net",
       "karrot-pixel.business.daangn.com",
       "cdn-aitg.widerplanet.com",
-      "static.criteo.net",
-      "connect.facebook.net",
+      "img.kcar.com",
       "api.kcar.com",
       "gau.groobee.io",
       "cdn.megadata.co.kr",
       "cdn.datamanager.co.kr",
       "bzrcdn.openai.com",
-      "ams.creativecdn.com",
       "cdnjs.cloudflare.com",
+      "ams.creativecdn.com",
       "ssl.pstatic.net",
       "wcs.naver.com",
       "pixelfnt-us.dsp-api.moloco.com",
       "astg.widerplanet.com",
-      "t1.kakaocdn.net",
       "gum.criteo.com",
+      "t1.kakaocdn.net",
       "fundingchoicesmessages.google.com",
       "collect.daangn.com",
-      "cm.g.doubleclick.net",
-      "match.adsrvr.org",
       "bc.ds.kakao.com",
-      "cm.creativecdn.com",
+      "cm.g.doubleclick.net",
       "static.ads-twitter.com",
-      "market-api.kcar.com",
-      "api2.amplitude.com",
+      "cm.creativecdn.com",
+      "match.adsrvr.org",
       "sslwidget.criteo.com",
       "widget.as.criteo.com",
+      "market-api.kcar.com",
+      "api2.amplitude.com",
       "kcar.gitple.biz",
       "ep1.adtrafficquality.google",
       "code.jquery.com",
@@ -373,7 +373,7 @@
   "device": "데스크톱",
   "admin": {
     "ok": true,
-    "id": "auto-kcar-list-desktop-2026-11-14",
+    "id": "auto-kcar-list-desktop-2026-11-15",
     "url": "https://goranisee.netlify.app"
   }
 }
