@@ -1,34 +1,76 @@
-// ---------- 홈 대시보드: 9개 지표 카드 (클릭하면 방문 분석의 해당 패널로) ----------
-const HOME_CARDS = [
-  { n: "01", t: "페이지뷰", en: "Pageview", ill: `<rect x="14" y="14" width="46" height="60" rx="6" class="pg"/><rect x="22" y="22" width="30" height="18" rx="3" class="ac2"/><rect x="22" y="46" width="30" height="4" rx="2" class="ln"/><rect x="22" y="54" width="20" height="4" rx="2" class="ln"/><rect x="24" y="62" width="26" height="7" rx="3.5" class="ac"/><circle cx="60" cy="14" r="8" class="ac"/><text x="60" y="17.5" class="tx">+1</text><text x="130" y="38" class="lb" text-anchor="middle">열린 횟수</text><text x="130" y="64" class="big" text-anchor="middle" id="hc-01"></text>` },
-  { n: "02", t: "체류 시간", en: "Time on page", ill: `<rect x="20" y="16" width="40" height="56" rx="6" class="pg"/><rect x="26" y="22" width="28" height="12" rx="3" class="ac2"/><rect x="26" y="40" width="28" height="3" rx="1.5" class="ln"/><rect x="26" y="47" width="18" height="3" rx="1.5" class="ln"/><rect x="38" y="8" width="26" height="12" rx="6" class="warn"/><text x="51" y="17" class="tx2">이탈</text><rect x="110" y="16" width="40" height="56" rx="6" class="pg"/><rect x="116" y="22" width="28" height="12" rx="3" class="ac2"/><rect x="116" y="40" width="28" height="3" rx="1.5" class="ln"/><rect x="116" y="47" width="22" height="3" rx="1.5" class="ln"/><rect x="118" y="58" width="24" height="7" rx="3.5" class="ac"/><text x="40" y="86" class="warnT" text-anchor="middle">0:05</text><text x="130" y="86" class="acT" text-anchor="middle" id="hc-02"></text>` },
-  { n: "03", t: "유입 경로", en: "Traffic source", ill: `<g class="src"><rect x="12" y="14" width="56" height="16" rx="5"/><text x="20" y="25.5">인스타</text><rect x="12" y="38" width="56" height="16" rx="5"/><text x="20" y="49.5">검색</text><rect x="12" y="62" width="56" height="16" rx="5"/><text x="20" y="73.5">카톡</text></g><path d="M70 22 C 95 22, 95 46, 118 46 M70 46 L118 46 M70 70 C 95 70, 95 46, 118 46" class="line"/><circle cx="118" cy="46" r="4" class="ac"/><rect x="126" y="24" width="40" height="44" rx="6" class="pg"/><rect x="132" y="30" width="28" height="14" rx="3" class="ac2"/><rect x="134" y="54" width="24" height="7" rx="3.5" class="ac"/>` },
-  { n: "04", t: "이벤트", en: "Event", ill: `<rect x="14" y="18" width="70" height="54" rx="6" class="pg"/><rect x="22" y="26" width="54" height="22" rx="4" class="ac2"/><path d="M45 32 L54 37 L45 42 Z" class="acF"/><rect x="30" y="54" width="38" height="11" rx="5.5" class="ac"/><text x="49" y="62" class="tx">구매</text><rect x="100" y="24" width="66" height="16" rx="8" class="pill"/><text x="133" y="35" class="pt" text-anchor="middle">영상 재생</text><rect x="100" y="50" width="66" height="16" rx="8" class="pill"/><text x="133" y="61" class="pt" text-anchor="middle">구매 클릭</text>` },
-  { n: "05", t: "히트맵", en: "Heatmap", ill: `<rect x="14" y="14" width="152" height="62" rx="6" class="hm"/><rect x="92" y="24" width="60" height="4" rx="2" class="ln"/><rect x="92" y="34" width="44" height="4" rx="2" class="ln"/><rect x="92" y="44" width="54" height="4" rx="2" class="ln"/><circle cx="46" cy="42" r="22" fill="url(#hot)"/><circle cx="132" cy="58" r="14" fill="url(#hot)"/><circle cx="108" cy="30" r="8" fill="url(#hot)"/>` },
-  { n: "06", t: "스크롤 깊이", en: "Scroll depth", ill: `<rect x="16" y="12" width="34" height="68" rx="5" class="pg"/><rect x="22" y="18" width="22" height="10" rx="2" class="ln"/><rect x="22" y="33" width="22" height="10" rx="2" class="ln"/><rect x="22" y="48" width="22" height="10" rx="2" class="ln"/><rect x="18" y="62" width="30" height="16" rx="4" class="acO"/><g class="sd"><text x="66" y="26">100%</text><rect x="100" y="18" width="64" height="10" rx="5" class="ac"/><text x="66" y="48">60%</text><rect x="100" y="40" width="40" height="10" rx="5" class="ac"/><text x="66" y="70">30%</text><rect x="100" y="62" width="22" height="10" rx="5" class="ac"/></g>` },
-  { n: "07", t: "세션 레코딩", en: "Session recording", ill: `<rect x="14" y="10" width="152" height="66" rx="6" class="pg"/><rect x="14" y="10" width="152" height="12" rx="6" class="bar"/><rect x="20" y="13" width="34" height="7" rx="2" class="dk"/><text x="37" y="18.5" class="tx3">▶ 다시보기</text><rect x="26" y="30" width="46" height="26" rx="3" class="ac2"/><rect x="82" y="32" width="56" height="4" rx="2" class="ln"/><rect x="82" y="42" width="40" height="4" rx="2" class="ln"/><rect x="84" y="50" width="34" height="8" rx="4" class="ac"/><path d="M30 44 C 60 26, 90 28, 110 54" class="trail"/><circle cx="110" cy="54" r="5" class="dot"/><rect x="24" y="66" width="100" height="3" rx="1.5" class="ln"/><rect x="24" y="66" width="66" height="3" rx="1.5" class="warnF"/><text x="160" y="70" class="lb" text-anchor="end">0:43 / 0:45</text>` },
-  { n: "08", t: "코호트", en: "Cohort", ill: `<g class="co"><text x="14" y="28">1주차</text><rect x="54" y="18" width="28" height="14" rx="3" class="c4"/><rect x="86" y="18" width="28" height="14" rx="3" class="c3"/><rect x="118" y="18" width="28" height="14" rx="3" class="c2"/><rect x="150" y="18" width="14" height="14" rx="3" class="c1"/><text x="14" y="52">2주차</text><rect x="54" y="42" width="28" height="14" rx="3" class="c4"/><rect x="86" y="42" width="28" height="14" rx="3" class="c3"/><rect x="118" y="42" width="28" height="14" rx="3" class="c2"/><text x="14" y="76">3주차</text><rect x="54" y="66" width="28" height="14" rx="3" class="c4"/><rect x="86" y="66" width="28" height="14" rx="3" class="c3"/></g>` },
-  { n: "09", t: "A/B 테스트", en: "A/B test", ill: `<rect x="22" y="14" width="56" height="50" rx="6" class="pg"/><rect x="30" y="22" width="40" height="16" rx="3" class="ac2"/><rect x="34" y="46" width="32" height="8" rx="4" class="ln"/><circle cx="22" cy="14" r="7" class="dk"/><text x="22" y="17" class="tx">A</text><rect x="104" y="14" width="56" height="50" rx="6" class="pgO"/><rect x="112" y="22" width="40" height="16" rx="3" class="ac2"/><rect x="116" y="46" width="32" height="8" rx="4" class="ac"/><circle cx="104" cy="14" r="7" class="dk"/><text x="104" y="17" class="tx">B</text><text x="50" y="82" class="lb" text-anchor="middle" id="hc-09a"></text><text x="132" y="82" class="acT" text-anchor="middle" id="hc-09b"></text>` },
-];
-function homeValues(d) {
-  if (!d || !d.pageview?.total) return {};
-  const topSrc = d.source.sessions[0], best = d.ab[0]?.variants?.slice().sort((a, b) => b.rate - a.rate);
-  return {
-    "01": `${d.pageview.total.toLocaleString()}회`, "02": secs(d.time.avg_s), "03": topSrc ? `${topSrc.k} ${topSrc.v}` : "—",
-    "04": `${d.events.total}건 · 전환 ${d.source.conversions}`, "05": `클릭 ${d.heatmap.total.toLocaleString()}`, "06": `50% 도달 ${d.scroll.pct["50%"]}%`,
-    "07": `세션 ${d.pageview.sessions.toLocaleString()}`, "08": d.cohort.weeks.length ? `${d.cohort.weeks.length}주차 · 2주 재방문 ${d.cohort.weeks.at(-2)?.row?.[1] ?? "—"}%` : "—",
-    "09": best?.length ? `${best[0].variant} ${best[0].rate}%` : "—", "09a": d.ab[0]?.variants?.[0] ? `${d.ab[0].variants[0].variant} 전환 ${d.ab[0].variants[0].conv}` : "구매 —", "09b": d.ab[0]?.variants?.[1] ? `${d.ab[0].variants[1].variant} 전환 ${d.ab[0].variants[1].conv}` : "구매 —",
-  };
+// ---------- 홈: 경쟁사 퍼널 비교 어드민의 핵심 지표 9개 (우리 데이터로 계산, 클릭하면 해당 탭으로) ----------
+const H_ROWS = () => ALL.filter((c) => c.stage !== "광고데이터");
+const H_OK = () => H_ROWS().filter((c) => !c.data?.captureError);
+const H_COMPS = () => [...new Set(H_ROWS().map((c) => c.competitor))].sort();
+const hLatest = (comp, pred = () => true) => H_OK().filter((c) => c.competitor === comp && pred(c)).sort((a, b) => new Date(b.captured_at) - new Date(a.captured_at))[0];
+const hDays = (iso) => Math.floor((Date.now() - new Date(iso)) / 86400e3);
+const hRel = (iso) => { const d = hDays(iso); return d <= 0 ? "오늘" : d === 1 ? "어제" : `${d}일 전`; };
+const hList = (items) => items.length ? `<ul class="hl">${items.map((s) => `<li>${s}</li>`).join("")}</ul>` : `<div class="none">아직 없음</div>`;
+
+function homeCards() {
+  const comps = H_COMPS(), rows = H_ROWS(), ok = H_OK();
+  const weekAgo = Date.now() - 7 * 86400e3;
+
+  // 01 수집 현황
+  const recent = ok.filter((c) => new Date(c.captured_at) > weekAgo).length;
+  const byComp = comps.map((c) => { const l = hLatest(c); return { c, n: ok.filter((x) => x.competitor === c).length, last: l?.captured_at }; });
+  const c01 = { tab: "table", t: "수집 현황", en: "Captures", big: `${comps.length}<small>개 사</small>`, sub: `캡처 ${ok.length}건 · 최근 7일 ${recent}건`, body: hList(byComp.map((o) => `<b>${esc(o.c)}</b> ${o.n}건 · <span class="m">${o.last ? hRel(o.last) : "—"}</span>`)) };
+
+  // 02 이번 주 변화 (같은 경쟁사·단계·화면의 직전 캡처 대비)
+  const changes = [];
+  for (const c of ok.filter((c) => new Date(c.captured_at) > weekAgo)) {
+    const prev = ok.find((x) => x !== c && x.competitor === c.competitor && x.stage === c.stage && x.device === c.device && new Date(x.captured_at) < new Date(c.captured_at));
+    const d = typeof diffCapture === "function" ? diffCapture(c, prev) : null;
+    if (d?.length) changes.push({ comp: c.competitor, stage: c.stage, d, at: c.captured_at });
+  }
+  const chBy = {}; changes.forEach((x) => (chBy[x.comp] = (chBy[x.comp] || 0) + x.d.length));
+  const c02 = { tab: "timeline", t: "이번 주 변화", en: "What changed", big: `${changes.reduce((a, x) => a + x.d.length, 0)}<small>건</small>`, sub: changes.length ? `${Object.keys(chBy).length}개 사에서 감지` : "직전 캡처와 비교할 변화 없음", body: hList(changes.slice(0, 4).map((x) => `<b>${esc(x.comp)}</b> ${esc(x.stage)} · ${x.d.map((k) => `${esc(k.label)}${k.add.length ? ` +${k.add.length}` : ""}${k.del.length ? ` −${k.del.length}` : ""}`).join(", ")}`)) };
+
+  // 03 신청까지 흐름 (탭 수)
+  const flows = comps.map((c) => { const l = hLatest(c, (x) => x.data?.flowSummary); return l ? { c, s: l.data.flowSummary } : null; }).filter(Boolean);
+  const best = flows.filter((f) => f.s.tapsToInquiry != null).sort((a, b) => a.s.tapsToInquiry - b.s.tapsToInquiry)[0];
+  const c03 = { tab: "flow", t: "신청까지 흐름", en: "Taps to inquiry", big: best ? `${best.s.tapsToInquiry}<small>탭 · ${esc(best.c)}</small>` : "—", sub: best ? "가장 짧은 경쟁사" : "흐름 수집을 아직 안 했음", body: hList(flows.map((f) => `<b>${esc(f.c)}</b> ${f.s.reachedInquiry ? `${f.s.tapsToInquiry}탭 · 폼 ${f.s.inquiryForm?.fields ?? "?"}칸${f.s.loginRequired ? " · 로그인 필요" : ""}` : `<span class="m">${esc(f.s.stopReason || "미도달")}</span>`}`)) };
+
+  // 04 첫 화면 CTA (경쟁사별 첫 화면의 대표 CTA)
+  const ctas = comps.map((c) => { const l = hLatest(c, (x) => /첫 화면|랜딩/.test(x.stage) && x.data?.ctas?.length); const p = l?.data.ctas.find((k) => k.primary || k.fixed) || l?.data.ctas[0]; return p ? { c, t: p.text, fixed: p.fixed } : null; }).filter(Boolean);
+  const c04 = { tab: "cmp", t: "첫 화면 CTA", en: "Primary CTA", big: `${ctas.length}<small>개 사</small>`, sub: `하단 고정 CTA ${ctas.filter((x) => x.fixed).length}개 사`, body: hList(ctas.map((x) => `<b>${esc(x.c)}</b> “${esc(String(x.t).slice(0, 22))}”${x.fixed ? ' <span class="chip">고정</span>' : ""}`)) };
+
+  // 05 팝업·배너 (최신 첫 화면 기준)
+  const ovs = comps.map((c) => { const l = hLatest(c, (x) => /첫 화면|랜딩/.test(x.stage)); const o = l?.data?.overlays || []; return { c, n: o.length, kinds: [...new Set(o.map((v) => String(v.text || "").match(/^\[([^\]]*)\]/)?.[1]).filter(Boolean))] }; });
+  const c05 = { tab: "table", t: "팝업·배너", en: "Overlays", big: `${ovs.reduce((a, o) => a + o.n, 0)}<small>개</small>`, sub: `첫 화면 기준 · ${ovs.filter((o) => o.n).length}개 사 사용`, body: hList(ovs.map((o) => `<b>${esc(o.c)}</b> ${o.n ? `${o.n}개${o.kinds.length ? ` · ${o.kinds.slice(0, 3).map(esc).join(", ")}` : ""}` : '<span class="m">없음</span>'}`)) };
+
+  // 06 광고 채널
+  const ads = comps.map((c) => { const l = hLatest(c, (x) => x.data?.adTech); const ch = l?.data.adTech?.paidChannels || []; return { c, ch }; });
+  const allCh = {}; ads.forEach((a) => a.ch.forEach((k) => (allCh[k] = (allCh[k] || 0) + 1)));
+  const c06 = { tab: "ads", t: "광고 채널", en: "Paid channels", big: `${Object.keys(allCh).length}<small>개 채널</small>`, sub: Object.entries(allCh).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([k, v]) => `${k} ${v}`).join(" · ") || "태그 감지 없음", body: hList(ads.map((a) => `<b>${esc(a.c)}</b> ${a.ch.length ? a.ch.map((k) => `<span class="chip paid">${esc(k)}</span>`).join("") : '<span class="m">감지 안 됨</span>'}`)) };
+
+  // 07 광고비 추정 (월, 중간값)
+  let spend = [];
+  try { if (typeof estimate === "function" && typeof assumptions === "function" && typeof adCompetitors === "function") { const A = assumptions(); spend = adCompetitors().map((c) => ({ c, e: estimate(c, A) })).filter((x) => x.e?.total?.mid > 0).sort((a, b) => b.e.total.mid - a.e.total.mid); } } catch {}
+  const c07 = { tab: "adspend", t: "광고비 추정", en: "Est. ad spend / month", big: spend.length ? `${KRW(spend[0].e.total.mid)}<small>${esc(spend[0].c)}</small>` : "—", sub: spend.length ? "관측 건수 × 공식 단가 · 중간값" : "광고 관측값을 입력하면 계산됨", body: hList(spend.slice(0, 4).map((x) => `<b>${esc(x.c)}</b> ${KRW(x.e.total.low)}~${KRW(x.e.total.high)} <span class="m">노출 ${NUM(x.e.impressions.mid)}</span>`)) };
+
+  // 08 AI UX 점수
+  const scores = comps.map((c) => { const l = hLatest(c, (x) => x.data?.aiScore?.total != null); return l ? { c, s: l.data.aiScore } : null; }).filter(Boolean).sort((a, b) => b.s.total - a.s.total);
+  const c08 = { tab: "cmp", t: "AI UX 점수", en: "UX review", big: scores.length ? `${scores[0].s.total}<small>점 · ${esc(scores[0].c)}</small>` : "—", sub: scores.length ? `${scores.length}개 사 검토됨` : "경쟁사 비교 점수 탭에서 검토 실행", body: hList(scores.map((x) => `<b>${esc(x.c)}</b> <span style="color:${scoreColor(x.s.total / 10)}">${x.s.total}점</span> <span class="m">${esc((x.s.issues?.[0]?.issue || x.s.summary || "").slice(0, 40))}</span>`)) };
+
+  // 09 할 일 (재수집 필요·진행 중·대기)
+  const bad = rows.filter((c) => c.data?.captureError || /사이트 오류 창이 남아|접근 차단/.test(c.data?.warning || ""));
+  const need = bad.filter((c) => !ok.some((x) => x.competitor === c.competitor && x.url === c.url && !/사이트 오류 창이 남아/.test(x.data?.warning || "") && new Date(x.captured_at) > new Date(c.captured_at)));
+  const running = (typeof CAP_Q !== "undefined" ? CAP_Q : []).filter((q) => !q.error && !ALL.find((c) => c.id === q.id || c.id.startsWith(q.id + "-")) && Date.now() - q.at < 600000);
+  const stale = byComp.filter((o) => o.last && hDays(o.last) >= 14);
+  const todo = [...need.slice(0, 3).map((c) => `휴대폰 재수집 · <b>${esc(c.competitor)}</b> ${esc(c.stage)}`), ...running.map((q) => `진행 중 · <b>${esc(q.competitor || "")}</b> ${esc(q.url).slice(0, 36)}`), ...stale.map((o) => `14일 이상 미수집 · <b>${esc(o.c)}</b> (${hRel(o.last)})`)];
+  const c09 = { tab: "capture", t: "할 일", en: "To do", big: `${need.length + running.length + stale.length}<small>건</small>`, sub: `재수집 ${need.length} · 진행 중 ${running.length} · 오래됨 ${stale.length}`, body: hList(todo.slice(0, 4)) };
+
+  return [c01, c02, c03, c04, c05, c06, c07, c08, c09];
 }
+
 function renderHome() {
   const el = $("#tab-home"); if (!el) return;
-  const d = AN.data, v = homeValues(d), comps = [...new Set(ALL.filter((c) => c.stage !== "광고데이터").map((c) => c.competitor))];
-  const sub = d && d.pageview?.total ? `${esc(AN.site)} · 최근 ${AN.days}일 · 이벤트 ${d.rowsRead.toLocaleString()}건` : `아직 우리 사이트 데이터가 없습니다 — <a data-home-go="an">방문 분석</a>에서 설치 한 줄을 넣으면 채워집니다`;
-  el.innerHTML = `<div class="home-head"><div><h2>우리 사이트 한눈에</h2><div class="t">${sub}</div></div><div class="home-side"><b>${ALL.filter((c) => c.stage !== "광고데이터").length}</b> 경쟁사 캡처 · <b>${comps.length}</b>개 사 <a data-home-go="table">비교표 →</a></div></div>
-  <svg width="0" height="0" style="position:absolute"><defs><radialGradient id="hot"><stop offset="0" stop-color="#ef4444"/><stop offset=".35" stop-color="#f59e0b"/><stop offset=".7" stop-color="#22c55e" stop-opacity=".7"/><stop offset="1" stop-color="#3b82f6" stop-opacity="0"/></radialGradient></defs></svg>
-  <div class="home-grid">${HOME_CARDS.map((c) => `<a class="home-card" data-home-panel="${c.n}"><div class="ill"><svg viewBox="0 0 180 92">${c.ill}</svg></div><div class="cap"><span class="n">${c.n}</span><b>${c.t}</b><span class="en">${c.en}</span></div><div class="val">${esc(v[c.n] || "—")}</div></a>`).join("")}</div>`;
-  const set = (id, s) => { const t = el.querySelector("#" + id); if (t) t.textContent = s; };
-  set("hc-01", d?.pageview?.total ? d.pageview.total.toLocaleString() + "회" : "1,200회"); set("hc-02", d?.time?.avg_s ? secs(d.time.avg_s) : "2:29"); set("hc-09a", v["09a"] || "구매 12"); set("hc-09b", v["09b"] || "구매 20");
-  el.querySelectorAll("[data-home-panel]").forEach((a) => a.addEventListener("click", () => { document.querySelector('.tabs button[data-tab="an"]').click(); const go = () => { const p = document.getElementById("an-p" + a.dataset.homePanel); if (p) { p.scrollIntoView({ behavior: "smooth", block: "start" }); p.classList.add("flash"); setTimeout(() => p.classList.remove("flash"), 1600); } }; if (AN.data) go(); else setTimeout(go, 900); }));
+  if (!ALL.length) { el.innerHTML = `<div class="empty">아직 수집한 경쟁사가 없습니다. <a data-home-go="capture" style="color:var(--accent);cursor:pointer">URL로 수집</a>에서 시작하세요.</div>`; el.querySelector("[data-home-go]")?.addEventListener("click", (e) => document.querySelector(`.tabs button[data-tab="${e.target.dataset.homeGo}"]`).click()); return; }
+  const cards = homeCards();
+  const d = typeof AN !== "undefined" ? AN.data : null;
+  const ours = d?.pageview?.total ? `<a class="home-ours" data-home-go="an">우리 사이트 최근 ${AN.days}일 · 방문자 <b>${d.pageview.visitors.toLocaleString()}</b> · 세션 <b>${d.pageview.sessions.toLocaleString()}</b> · 전환 <b>${d.source.conversions}</b> · 1위 유입 <b>${esc(d.source.sessions[0]?.k || "—")}</b> →</a>` : `<a class="home-ours dim" data-home-go="an">우리 사이트 방문 데이터는 아직 없음 · 설치 한 줄로 시작 →</a>`;
+  el.innerHTML = `<div class="home-head"><div><h2>경쟁사 퍼널 한눈에</h2><div class="t">모바일 캡처 기준 · 경쟁사별 최신 수집으로 계산 · 카드를 누르면 상세 탭으로</div></div>${ours}</div>
+  <div class="home-grid">${cards.map((c, i) => `<a class="home-card" data-home-go="${c.tab}"><div class="cap"><span class="n">${String(i + 1).padStart(2, "0")}</span><b>${c.t}</b><span class="en">${c.en}</span></div><div class="big">${c.big}</div><div class="sub">${c.sub}</div>${c.body}</a>`).join("")}</div>`;
   el.querySelectorAll("[data-home-go]").forEach((a) => a.addEventListener("click", () => document.querySelector(`.tabs button[data-tab="${a.dataset.homeGo}"]`).click()));
 }
