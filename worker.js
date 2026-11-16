@@ -2,13 +2,18 @@
 import login from "./netlify/functions/login.mjs";
 import captures from "./netlify/functions/captures.mjs";
 import captureRequest from "./netlify/functions/capture-request.mjs";
+import { setRuntimeEnv } from "./lib/core.js";
 
 const ROUTES = { "/api/login": login, "/api/captures": captures, "/api/capture-request": captureRequest };
 
 export default {
   async fetch(request, env, ctx) {
-    // Netlify 핸들러는 process.env 를 읽으므로 Workers 바인딩을 복사 (nodejs_compat)
-    try { for (const [k, v] of Object.entries(env)) if (typeof v === "string") process.env[k] = v; } catch (_) {}
+    // Workers 바인딩(env)을 공용 로직에 전달 (process.env 에 의존하지 않음)
+    setRuntimeEnv(env);
+    if (new URL(request.url).pathname === "/api/env-check") {
+      const names = ["SUPABASE_URL", "SUPABASE_SERVICE_KEY", "ADMIN_PASSWORD", "GH_DISPATCH_TOKEN"];
+      return new Response(JSON.stringify(Object.fromEntries(names.map((n) => [n, typeof env[n] === "string" && env[n].length > 0 ? "설정됨" : "없음"]))), { headers: { "Content-Type": "application/json" } });
+    }
     const url = new URL(request.url);
     const handler = ROUTES[url.pathname.replace(/\/+$/, "")];
     if (handler) {

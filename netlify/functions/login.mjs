@@ -1,4 +1,4 @@
-import { checkPassword, isAuthed, loginCookie, logoutCookie } from "../../lib/core.js";
+import { checkPassword, isAuthed, loginCookie, logoutCookie, getEnv } from "../../lib/core.js";
 const json = (status, body, headers = {}) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", ...headers } });
 export default async (req) => {
   const h = { authorization: req.headers.get("authorization") || "", cookie: req.headers.get("cookie") || "" };
@@ -6,7 +6,7 @@ export default async (req) => {
   if (req.method === "DELETE") return json(200, { ok: true }, { "Set-Cookie": logoutCookie() });
   if (req.method !== "POST") return json(405, { error: "지원하지 않는 메서드" });
   const body = await req.json().catch(() => ({}));
-  if (!(process.env.ADMIN_PASSWORD || "").trim()) return json(500, { error: "서버에 ADMIN_PASSWORD 환경변수가 없습니다. 호스팅(Cloudflare Workers → Settings → Variables and Secrets)에 추가하고 재배포하세요." });
+  if (!(getEnv("ADMIN_PASSWORD") || "").trim()) return json(500, { error: "서버에 ADMIN_PASSWORD 환경변수가 없습니다. 호스팅(Cloudflare Workers → Settings → Variables and Secrets)에 추가하고 재배포하세요." });
   if (!checkPassword(body.password)) return json(401, { error: "비밀번호가 틀렸습니다." });
   return json(200, { ok: true }, { "Set-Cookie": loginCookie() });
 };

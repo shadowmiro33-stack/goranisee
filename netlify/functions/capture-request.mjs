@@ -1,7 +1,7 @@
 // "URL로 수집": 이 저장소의 GitHub Actions(funnel_capture_request.yml)를 repository_dispatch로 실행합니다.
 // 수집은 GitHub 러너에서 일어나므로 회사 IP가 경쟁사에 남지 않습니다. 결과는 Actions가 /api/captures 로 보내옵니다.
 // 환경변수: GH_DISPATCH_TOKEN (이 저장소 Contents: Read and write 권한의 fine-grained PAT), GH_DISPATCH_REPO (기본 shadowmiro33-stack/goranisee)
-import { isAuthed, CORS } from "../../lib/core.js";
+import { isAuthed, CORS, getEnv } from "../../lib/core.js";
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", ...CORS } });
 const STAGE_KEYS = { "첫 화면(랜딩)": "home", "카테고리/상품 목록": "list", "상품 상세": "detail", "장바구니": "inquiry", "결제": "inquiry", "회원가입/로그인": "done", "이벤트/기획전": "home", "기타": "done" };
 
@@ -10,9 +10,9 @@ export default async (req) => {
   const h = { authorization: req.headers.get("authorization") || "", cookie: req.headers.get("cookie") || "" };
   if (!isAuthed(h)) return json(401, { error: "인증이 필요합니다." });
   if (req.method !== "POST") return json(405, { error: "지원하지 않는 메서드" });
-  const token = (process.env.GH_DISPATCH_TOKEN || "").trim();
-  const repo = (process.env.GH_DISPATCH_REPO || "shadowmiro33-stack/goranisee").trim();
-  if (!token) return json(500, { error: "Netlify 환경변수 GH_DISPATCH_TOKEN 이 없습니다. 이 저장소(goranisee)에 Contents 쓰기 권한이 있는 GitHub 토큰을 넣고 재배포하세요." });
+  const token = (getEnv("GH_DISPATCH_TOKEN") || "").trim();
+  const repo = (getEnv("GH_DISPATCH_REPO") || "shadowmiro33-stack/goranisee").trim();
+  if (!token) return json(500, { error: "호스팅 환경변수 GH_DISPATCH_TOKEN 이 없습니다. 이 저장소(goranisee)에 Contents 쓰기 권한이 있는 GitHub 토큰을 넣고 재배포하세요." });
 
   const b = await req.json().catch(() => ({}));
   // AI UX 채점 요청: { score: "<capture id>" } 또는 { score_competitor: "<이름>" }
