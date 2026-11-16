@@ -1,0 +1,5 @@
+# Cloudflare Pages 설정 (Netlify 크레딧 소진으로 이전). 함수는 functions/api/* 가 netlify/functions/* 를 감싸서 재사용.
+name = "goranisee"
+pages_build_output_dir = "public"
+compatibility_date = "2025-06-01"
+compatibility_flags = ["nodejs_compat"]

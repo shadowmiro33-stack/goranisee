@@ -68,6 +68,17 @@
 
 그 사이트가 띄운 오류 창입니다. 수집기는 GitHub 러너(해외 IP)에서 접속하므로 일부 한국 서비스의 API가 해외 요청을 거부하거나 연속 요청을 제한하면 화면이 그 상태로 찍힙니다. 수집기가 이런 창을 감지하면 "다시 시도"를 누르거나 새로고침 후 다시 기다리고(최대 2회), 그래도 남으면 캡처 메모에 경고를 답니다. 자주 생기는 사이트는 한국 네트워크에서 확장/즐겨찾기로 직접 캡처하거나, 한국 리전의 자체 러너(self-hosted runner)를 쓰는 방법이 있습니다.
 
+## 호스팅: Cloudflare Pages (Netlify에서 이전)
+
+Netlify 무료 크레딧이 소진되어 Cloudflare Pages로 옮깁니다. 화면·함수 코드는 그대로이고 `functions/api/*`가 Netlify 함수를 감싸서 재사용합니다.
+
+1. Cloudflare 대시보드 → **Workers & Pages → Create → Pages → Connect to Git** → `goranisee` 선택
+2. Build settings: Framework preset **None**, Build command `npm install`, Build output directory `public`
+3. **Settings → Environment variables** (Production): `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `ADMIN_PASSWORD`, `GH_DISPATCH_TOKEN` (Netlify에 있던 값 그대로)
+4. Settings → Functions → Compatibility flags에 `nodejs_compat`가 없으면 추가 (wrangler.toml에 선언돼 있어 보통 자동)
+5. 배포된 주소(`https://goranisee.pages.dev` 또는 사용자 도메인)를 수집기 기본 주소로 반영: `.github/workflows/*.yml`의 `FUNNEL_ADMIN_URL` 기본값, 또는 저장소 Secret `FUNNEL_ADMIN_URL`에 새 주소 등록
+6. 어드민 "수동 수집(즐겨찾기)"에서 버튼을 다시 만들어 교체 (버튼 안에 주소가 들어 있음)
+
 ## 2-I. AI UX 리뷰 (점수 + 의견)
 
 캡처 상세의 **AI 리뷰 요청** 또는 경쟁사 비교 탭의 **AI 리뷰 요청**(그 경쟁사의 단계별 최신 캡처 전부)을 누르면 GitHub Actions(`funnel_ai_score.yml`)가 Claude에 스크린샷과 추출 데이터를 보내 UX 리뷰를 받아 캡처에 저장합니다(1~3분).
