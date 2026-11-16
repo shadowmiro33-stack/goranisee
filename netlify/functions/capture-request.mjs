@@ -35,7 +35,7 @@ export default async (req) => {
     url: url.href,
     competitor: String(b.competitor || "").trim().slice(0, 80),
     stage: STAGE_KEYS[b.stage] || (/^(home|list|detail|inquiry|done)$/.test(b.stage) ? b.stage : "home"),
-    device: b.device === "데스크톱" ? "데스크톱" : b.device === "모바일" ? "모바일" : "둘다",
+    device: b.device === "데스크톱" ? "데스크톱" : "모바일",
     request_id,
     flow: b.flow === true || b.flow === 'true' ? 'true' : 'false',
     crawl: b.crawl === true || b.crawl === 'true' ? 'true' : 'false',

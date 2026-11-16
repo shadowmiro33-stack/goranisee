@@ -7,13 +7,6 @@
       "width": 390,
       "height": 844,
       "mobile": true
-    },
-    {
-      "key": "desktop",
-      "label": "데스크톱",
-      "width": 1280,
-      "height": 800,
-      "mobile": false
     }
   ],
   "stages": [

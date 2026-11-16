@@ -43,7 +43,7 @@ jobs:
           [ -n "$P_URL" ] || { echo "client_payload.url 이 없습니다"; exit 1; }
           FLOW=""; [ "$P_FLOW" = "true" ] && FLOW="--flow"
           [ "$P_CRAWL" = "true" ] && FLOW="--crawl --max-pages ${P_MAX:-30}"
-          node collector/funnel_collector.cjs --url "$P_URL" --competitor "${P_COMP:-}" --stage "${P_STAGE:-home}" --device "${P_DEVICE:-둘다}" --request-id "${P_REQ:-}" $FLOW
+          node collector/funnel_collector.cjs --url "$P_URL" --competitor "${P_COMP:-}" --stage "${P_STAGE:-home}" --device "${P_DEVICE:-모바일}" --request-id "${P_REQ:-}" $FLOW
 
       - name: Upload run artifacts
         if: always()

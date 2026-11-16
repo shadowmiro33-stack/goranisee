@@ -638,7 +638,7 @@ async function main() {
   let viewports = cfg.viewports || [Object.assign({ key: 'mobile', label: '모바일' }, cfg.viewport || { width: 390, height: 844, mobile: true })];
   if (ADHOC_URL) {
     // --device 모바일 | 데스크톱 | 둘다(기본)
-    const want = ADHOC_DEVICE === '모바일' ? ['mobile'] : ADHOC_DEVICE === '데스크톱' ? ['desktop'] : (FLOW || CRAWL) ? ['mobile'] : ['mobile', 'desktop'];
+    const want = ADHOC_DEVICE === '모바일' ? ['mobile'] : ADHOC_DEVICE === '데스크톱' ? ['desktop'] : ['mobile']; // 기본 모바일만 (데스크톱은 --device 데스크톱 명시 시에만)
     viewports = want.map(k => viewports.find(v => v.key === k) || (k === 'desktop' ? { key: 'desktop', label: '데스크톱', width: 1280, height: 800, mobile: false } : { key: 'mobile', label: '모바일', width: 390, height: 844, mobile: true }));
   }
   log(`퍼널 스냅샷 수집 시작 ${date}  (config: ${path.relative(ROOT, CONFIG)}, out: ${path.relative(ROOT, OUT)}, 화면: ${viewports.map(v => v.label).join('·')})`);

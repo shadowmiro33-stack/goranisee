@@ -439,10 +439,11 @@ function renderTimeline() {
   const dev = $("#f-device").value, comps0 = [...$("#f-comp").selectedOptions].map((o) => o.value);
   const rows = ALL.filter((c) => c.stage !== "광고데이터" && (!dev || c.device === dev) && (!comps0.length || comps0.includes(c.competitor)));
   const el = $("#tab-timeline");
-  if (!rows.length) { el.innerHTML = `<div class="empty">수집 이력이 없습니다.</div>`; return; }
+  const bulk = `<div class="bulk"><b>한 번에 정리</b><button class="sm danger" data-del-auto="1" ${ALL.filter((c) => c.id.startsWith("auto-")).length ? "" : "disabled"}>자동(스케줄) 수집 ${ALL.filter((c) => c.id.startsWith("auto-")).length}건 삭제</button><button class="sm danger" data-del-device="데스크톱" ${ALL.filter((c) => c.device === "데스크톱").length ? "" : "disabled"}>데스크톱 캡처 ${ALL.filter((c) => c.device === "데스크톱").length}건 삭제</button><span class="t">자동 스케줄은 꺼져 있고, 수집은 모바일 화면만 합니다.</span></div>`;
+  if (!rows.length) { el.innerHTML = bulk + `<div class="empty">수집 이력이 없습니다.</div>`; return; }
   const comps = [...new Set(rows.map((c) => c.competitor))].sort();
   const changedOnly = window.__tlChanged || false;
-  el.innerHTML = `<div class="cmp-note" style="margin:0 0 8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">같은 경쟁사·단계·화면의 직전 수집과 비교해 바뀐 문구·CTA·팝업·가격·광고 태그를 표시합니다. 매일 06:23에 자동 수집되므로 일 단위 변화가 쌓입니다. <label style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="tl-changed" ${changedOnly ? "checked" : ""}> 변화 있는 것만</label></div>` + comps.map((comp) => {
+  el.innerHTML = bulk + `<div class="cmp-note" style="margin:0 0 8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">같은 경쟁사·단계·화면의 직전 수집과 비교해 바뀐 문구·CTA·팝업·가격·광고 태그를 표시합니다. 매일 06:23에 자동 수집되므로 일 단위 변화가 쌓입니다. <label style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="tl-changed" ${changedOnly ? "checked" : ""}> 변화 있는 것만</label></div>` + comps.map((comp) => {
     const list = rows.filter((r) => r.competitor === comp).sort((a, b) => new Date(b.captured_at) - new Date(a.captured_at));
     const items = list.map((c) => {
       const prev = list.find((x) => x !== c && x.stage === c.stage && x.device === c.device && !x.data?.captureError && new Date(x.captured_at) < new Date(c.captured_at));
@@ -575,6 +576,8 @@ function render() {
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
   ["table", "cmp", "compare", "site", "flow", "ads", "adspend", "an", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  document.querySelector(".filters").hidden = ["an", "capture", "tool", "adspend"].includes(b.dataset.tab);
+  try { localStorage.setItem("fa_tab", b.dataset.tab); } catch {}
   if (b.dataset.tab === "an" && typeof loadAnalytics === "function" && !AN.data) loadAnalytics();
 }));
 $("#f-device").addEventListener("change", render);
@@ -584,10 +587,13 @@ document.body.addEventListener("click", async (e) => {
   const t = e.target;
   if (t.dataset.id) return openDetail(t.dataset.id);
   if (t.dataset.del && confirm("이 캡처를 삭제할까요?")) { await api("/api/captures?id=" + t.dataset.del, { method: "DELETE" }); toast("삭제됨"); load(); }
+  if (t.dataset.delAuto && confirm("스케줄로 자동 수집된 캡처(auto-…)를 모두 삭제할까요?")) { await api("/api/captures?auto=1", { method: "DELETE" }); toast("자동 수집 삭제됨"); load(); }
+  if (t.dataset.delDevice && confirm(`${t.dataset.delDevice} 캡처를 모두 삭제할까요?`)) { await api("/api/captures?device=" + encodeURIComponent(t.dataset.delDevice), { method: "DELETE" }); toast("삭제됨"); load(); }
   if (t.dataset.delComp && confirm(`'${t.dataset.delComp}'의 모든 캡처를 삭제할까요?`)) { await api("/api/captures?competitor=" + encodeURIComponent(t.dataset.delComp), { method: "DELETE" }); toast("삭제됨"); load(); }
 });
 
 (async () => {
   const { authed } = await fetch("/api/login").then((r) => r.json()).catch(() => ({ authed: false }));
   if (!authed) $("#login").classList.add("on"); else load();
+  try { const t = localStorage.getItem("fa_tab"); const b = t && document.querySelector(`.tabs button[data-tab="${t}"]`); (b || document.querySelector(".tabs button.active")).click(); } catch {}
 })();
