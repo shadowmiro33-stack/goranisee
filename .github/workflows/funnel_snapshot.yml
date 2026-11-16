@@ -1,11 +1,11 @@
 name: Competitor Funnel Snapshot
 
 # 경쟁사 퍼널 스냅샷 수집 (GitHub Actions 러너에서 실행 → 사내 IP 노출 없음)
-# - 매일 06:23 KST (전날 21:23 UTC) 자동 실행 → 일간 변화 추적
-# - 수동 실행 시 사이트/단계 지정 가능
+# - 기본은 수동 실행만 (Actions → Run workflow). 자동 수집은 꺼 둠.
+# - 일간 변화 추적을 켜려면 아래 schedule 두 줄의 주석(#)을 지우면 매일 06:23 KST 실행
 on:
-  schedule:
-    - cron: '23 21 * * *'
+  # schedule:
+  #   - cron: '23 21 * * *'
   workflow_dispatch:
     inputs:
       site:
