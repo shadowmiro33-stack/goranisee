@@ -3,11 +3,11 @@
   "siteName": "엔카",
   "stage": "home",
   "url": "https://m.encar.com/",
-  "capturedAt": "2026-11-15T10:06:29.009+09:00",
+  "capturedAt": "2026-11-16T10:06:51.733+09:00",
   "ok": true,
   "httpStatus": 200,
   "finalUrl": "https://car.encar.com/?firstFg=Y&WT.hit=index_mobile_1st",
-  "settledMs": 1410,
+  "settledMs": 1409,
   "expandedScroll": 1,
   "viewport": {
     "w": 390,
@@ -23,13 +23,13 @@
       "appeal": []
     },
     {
-      "text": "기아 더 K9 3.8 GDI AWD 그랜드 플래티넘",
+      "text": "제네시스 G80 3.3 GDI 프리미엄 럭셔리",
       "fontSize": 16,
       "y": 0.496,
       "appeal": []
     },
     {
-      "text": "제네시스 G80 3.3 GDI 프리미엄 럭셔리",
+      "text": "미니 쿠퍼 컨버터블 기본형 3세대",
       "fontSize": 16,
       "y": 0.496,
       "appeal": []
@@ -227,7 +227,7 @@
       "color": "rgb(24, 24, 24)",
       "fontSize": 15,
       "appeal": [],
-      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/1658987355/Top3/encar2/dbdirect_m_insur_LNB_2611/dbdirect_m_insur_LNB_2611.html/46476f316b577235425a6f4143334372"
+      "href": "https://automotive.encar.com/RealMedia/ads/click_lx.ads/m.encar.com/all/L15/568156845/Top3/encar2/samsungfire_m_insur_LNB_2611/samsungfire_m_insur_LNB_2611.html/724b746e6c6d7236567a4d4143367033"
     },
     {
       "text": "엔카미디어",
@@ -534,7 +534,7 @@
         "w": 1,
         "h": 1
       },
-      "items": 70,
+      "items": 71,
       "images": 46,
       "kind": "reco"
     },
@@ -563,7 +563,7 @@
       "kind": "banner"
     },
     {
-      "label": "4 / 9",
+      "label": "5 / 9",
       "pos": {
         "x": 0.5,
         "y": 0.122,
@@ -589,7 +589,7 @@
     {
       "label": "이미지",
       "pos": {
-        "x": -6.715,
+        "x": -7.729,
         "y": 0.143,
         "w": 390,
         "h": 260
@@ -716,17 +716,17 @@
       "엔카종합보증",
       "배터리 진단 완료",
       "개인직거래",
-      "진단++ 우수등급"
+      "진단++ 우수등급",
+      "엔카진단+"
     ],
     "price": [
       "회원가입",
       "전기차 리스 특가전",
       "6개월 무이자",
       "SK렌터카 신차특가",
-      "1,740만원",
       "990만원",
-      "1,980만원",
-      "1,100만원"
+      "850만원",
+      "499만원"
     ]
   },
   "counts": {
@@ -782,7 +782,7 @@
       "heading": "Pretendard",
       "baseSize": 14,
       "headingSize": 28,
-      "boldShare": 0.55
+      "boldShare": 0.53
     },
     "cta": {
       "primary": {
@@ -811,7 +811,7 @@
     },
     "fixedViewportShare": 1
   },
-  "screenshot": "2026-11-15.jpg",
+  "screenshot": "2026-11-16.jpg",
   "forms": {
     "forms": [],
     "stepIndicator": "1\n/\n1",
@@ -901,19 +901,19 @@
       "connect.facebook.net",
       "t1.daumcdn.net",
       "www.google-analytics.com",
-      "ssl.pstatic.net",
-      "wcs.naver.com",
+      "googleads.g.doubleclick.net",
       "analytics.google.com",
       "stats.g.doubleclick.net",
-      "cognito-identity.ap-northeast-2.amazonaws.com",
-      "googleads.g.doubleclick.net",
       "wa.onelink.me",
+      "ssl.pstatic.net",
+      "wcs.naver.com",
+      "www.googleadservices.com",
+      "wa.appsflyersdk.com",
       "nam.veta.naver.com",
+      "cognito-identity.ap-northeast-2.amazonaws.com",
+      "t1.kakaocdn.net",
       "mpc-pilot-3-s6uit34pua-ew.a.run.app",
       "www.facebook.com",
-      "www.googleadservices.com",
-      "t1.kakaocdn.net",
-      "wa.appsflyersdk.com",
       "bc.ds.kakao.com",
       "firehose.ap-northeast-2.amazonaws.com",
       "o298382.ingest.sentry.io"
@@ -923,7 +923,7 @@
   "device": "모바일",
   "admin": {
     "ok": true,
-    "id": "auto-encar-home-mobile-2026-11-15",
+    "id": "auto-encar-home-mobile-2026-11-16",
     "url": "https://goranisee.netlify.app"
   }
 }
