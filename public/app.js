@@ -570,13 +570,14 @@ $("#btn-csv").addEventListener("click", () => {
 function render() {
   const rows = filtered();
   $("#stat").textContent = `${rows.length}건 / 전체 ${ALL.length}건`;
-  renderTable(); renderCompare(); renderSite(); renderFlow(); renderAds(); if (typeof renderAdspend === "function") renderAdspend(); if (typeof renderCompareCard === "function") renderCompareCard(); renderCaptureQueue(); renderTimeline(); $("#prompt").value = buildPrompt();
+  renderTable(); renderCompare(); renderSite(); renderFlow(); renderAds(); if (typeof renderAdspend === "function") renderAdspend(); if (typeof renderCompareCard === "function") renderCompareCard(); renderCaptureQueue(); renderTimeline(); if (typeof renderHome === "function") renderHome(); $("#prompt").value = buildPrompt();
   if (CAP_Q.some((q) => !q.error && !ALL.find((c) => c.id === q.id || c.id.startsWith(q.id + "-")) && Date.now() - q.at < 600000)) startCapPoll();
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
-  ["table", "cmp", "compare", "site", "flow", "ads", "adspend", "an", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
-  document.querySelector(".filters").hidden = ["an", "capture", "tool", "adspend"].includes(b.dataset.tab);
+  ["home", "table", "cmp", "compare", "site", "flow", "ads", "adspend", "an", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  document.querySelector(".filters").hidden = ["home", "an", "capture", "tool", "adspend"].includes(b.dataset.tab);
+  if (b.dataset.tab === "home" && typeof renderHome === "function") { renderHome(); if (typeof loadAnalytics === "function" && !AN.data) loadAnalytics().then(renderHome).catch(() => {}); }
   try { localStorage.setItem("fa_tab", b.dataset.tab); } catch {}
   if (b.dataset.tab === "an" && typeof loadAnalytics === "function" && !AN.data) loadAnalytics();
 }));

@@ -121,6 +121,24 @@
   .sc { display:flex; flex-direction:column; gap:4px; } .sc-row { display:grid; grid-template-columns:90px 1fr 28px minmax(0,2fr); gap:8px; align-items:center; font-size:12px; }
   .sc-k { color:var(--muted); } .sc-bar { height:8px; background:var(--line); border-radius:4px; overflow:hidden; } .sc-bar i { display:block; height:100%; } .sc-why { color:var(--muted); font-size:11px; }
   @media (max-width:760px) { .sc-row { grid-template-columns:80px 1fr 28px; } .sc-why { grid-column:1/-1; } }
+  /* 홈 */
+  .home-head { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+  .home-head h2 { margin:0 0 2px; font-size:18px; } .home-head .t { font-size:12px; color:var(--muted); } .home-head a, .home-side a { color:var(--accent); cursor:pointer; }
+  .home-side { font-size:13px; color:var(--muted); background:var(--card); border:1px solid var(--line); border-radius:10px; padding:8px 12px; } .home-side b { color:var(--fg); }
+  .home-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+  @media (max-width:900px) { .home-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } } @media (max-width:560px) { .home-grid { grid-template-columns:1fr; } }
+  .home-card { display:block; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; cursor:pointer; transition:transform .12s, box-shadow .12s; text-decoration:none; color:inherit; }
+  .home-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(22,26,36,.08); border-color:#c9d3f0; }
+  .home-card .ill { background:var(--bg); border-radius:12px; padding:10px; } .home-card .ill svg { width:100%; height:auto; display:block; }
+  .home-card .cap { display:flex; align-items:baseline; gap:6px; margin:12px 2px 0; } .home-card .cap .n { color:var(--accent); font-size:12px; font-weight:700; } .home-card .cap b { font-size:17px; } .home-card .cap .en { color:var(--muted); font-size:11px; margin-left:auto; }
+  .home-card .val { margin:4px 2px 0; font-size:13px; color:var(--muted); } 
+  .ill .pg { fill:#fff; stroke:var(--line); } .ill .pgO { fill:#fff; stroke:var(--accent); stroke-width:2; } .ill .ac { fill:var(--accent); } .ill .acF { fill:var(--accent); } .ill .ac2 { fill:#dbe4ff; } .ill .acO { fill:none; stroke:var(--accent); stroke-width:2; } .ill .ln { fill:#e3e7f0; } .ill .dk { fill:#161a24; }
+  .ill .tx { fill:#fff; font-size:8px; font-weight:700; text-anchor:middle; } .ill .tx2 { fill:#fff; font-size:7px; font-weight:700; text-anchor:middle; } .ill .tx3 { fill:#fff; font-size:5.5px; text-anchor:middle; }
+  .ill .lb { fill:var(--muted); font-size:8px; } .ill .big { fill:var(--accent); font-size:18px; font-weight:800; } .ill .acT { fill:var(--accent); font-size:11px; font-weight:700; } .ill .warn { fill:#f97316; } .ill .warnF { fill:#f97316; } .ill .warnT { fill:#f97316; font-size:11px; font-weight:700; }
+  .ill .src rect { fill:#fff; stroke:var(--line); } .ill .src text { font-size:8px; fill:var(--fg); } .ill .line { fill:none; stroke:#b7c4ea; stroke-width:1.5; } .ill .pill { fill:#fff; stroke:var(--line); } .ill .pt { font-size:8px; fill:var(--fg); }
+  .ill .hm { fill:#dbe4ff; } .ill .sd text { font-size:9px; fill:var(--fg); font-weight:600; } .ill .bar { fill:#e3e7f0; } .ill .trail { fill:none; stroke:#f97316; stroke-width:2; stroke-linecap:round; } .ill .dot { fill:#161a24; opacity:.5; }
+  .ill .co text { font-size:8px; fill:var(--fg); } .ill .c4 { fill:var(--accent); } .ill .c3 { fill:#6b8af0; } .ill .c2 { fill:#a9bbf5; } .ill .c1 { fill:#dbe4ff; }
+  .an-panel.flash { outline:2px solid var(--accent); outline-offset:2px; }
   /* 우리 사이트 분석 */
   .an-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:14px; }
   @media (max-width:900px) { .an-grid { grid-template-columns:1fr; } }
@@ -198,9 +216,12 @@
 </header>
 <div class="layout">
 <nav class="side">
+  <div class="tabs">
+    <button class="active" data-tab="home">홈</button>
+  </div>
   <div class="grp">경쟁사 분석</div>
   <div class="tabs">
-    <button class="active" data-tab="table">비교표</button>
+    <button data-tab="table">비교표</button>
     <button data-tab="cmp">경쟁사 비교 점수</button>
     <button data-tab="compare">화면 나란히 비교</button>
     <button data-tab="flow">신청까지 흐름</button>
@@ -224,13 +245,14 @@
   </div>
 </nav>
 <main>
-  <div class="filters">
+  <div class="filters" hidden>
     <select id="f-device" hidden><option value="">전체(최신)</option><option>모바일</option><option>데스크톱</option></select>
     <span>경쟁사</span>
     <select id="f-comp" multiple size="1" style="min-width:160px"></select>
     <span id="stat"></span>
   </div>
-  <section id="tab-table"></section>
+  <section id="tab-home"></section>
+  <section id="tab-table" hidden></section>
   <section id="tab-cmp" hidden></section>
   <section id="tab-compare" hidden></section>
   <section id="tab-site" hidden></section>
@@ -304,5 +326,6 @@
 <script src="adspend.js"></script>
 <script src="compare.js"></script>
 <script src="analytics.js"></script>
+<script src="home.js"></script>
 </body>
 </html>

@@ -37,7 +37,7 @@ function renderAnalytics() {
   const el = $("#tab-an"), d = AN.data; if (!el) return;
   const head = `<div class="cmp-bar"><span>사이트</span><select id="an-site">${(AN.sites.length ? AN.sites : [AN.site || "(없음)"]).map((s) => `<option ${s === AN.site ? "selected" : ""}>${esc(s)}</option>`).join("")}</select><span>기간</span><select id="an-days">${[7, 14, 30, 90].map((n) => `<option value="${n}" ${n === AN.days ? "selected" : ""}>최근 ${n}일</option>`).join("")}</select><button class="sm" id="an-reload">새로고침</button><span style="margin-left:auto;font-size:12px;color:var(--muted)">이벤트 ${d?.rowsRead ?? 0}건 집계</span></div>`;
   if (!d || !d.pageview.total) { el.innerHTML = head + `<div class="empty">아직 수집된 데이터가 없습니다. 아래 한 줄을 우리 사이트에 넣으면 바로 쌓이기 시작합니다.</div>` + installBox(); bindAn(); return; }
-  const P = (n, title, en, body) => `<section class="an-panel"><h3><span class="n">${n}</span>${title}<span class="en">${en}</span></h3>${body}</section>`;
+  const P = (n, title, en, body) => `<section class="an-panel" id="an-p${n}"><h3><span class="n">${n}</span>${title}<span class="en">${en}</span></h3>${body}</section>`;
   const kpi = (v, l) => `<div class="an-kpi"><b>${v}</b><span>${l}</span></div>`;
   const html = `
   <div class="an-grid">
