@@ -2,9 +2,11 @@
 import login from "./netlify/functions/login.mjs";
 import captures from "./netlify/functions/captures.mjs";
 import captureRequest from "./netlify/functions/capture-request.mjs";
+import track from "./netlify/functions/track.mjs";
+import analytics from "./netlify/functions/analytics.mjs";
 import { setRuntimeEnv } from "./lib/core.js";
 
-const ROUTES = { "/api/login": login, "/api/captures": captures, "/api/capture-request": captureRequest };
+const ROUTES = { "/api/login": login, "/api/captures": captures, "/api/capture-request": captureRequest, "/api/track": track, "/api/analytics": analytics };
 
 export default {
   async fetch(request, env, ctx) {

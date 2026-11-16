@@ -574,7 +574,8 @@ function render() {
 }
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
-  ["table", "cmp", "compare", "site", "flow", "ads", "adspend", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  ["table", "cmp", "compare", "site", "flow", "ads", "adspend", "an", "capture", "timeline", "prompt", "tool"].forEach((t) => ($("#tab-" + t).hidden = b.dataset.tab !== t));
+  if (b.dataset.tab === "an" && typeof loadAnalytics === "function" && !AN.data) loadAnalytics();
 }));
 $("#f-device").addEventListener("change", render);
 $("#f-comp").addEventListener("change", render);

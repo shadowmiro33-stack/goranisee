@@ -113,6 +113,19 @@
   .sc { display:flex; flex-direction:column; gap:4px; } .sc-row { display:grid; grid-template-columns:90px 1fr 28px minmax(0,2fr); gap:8px; align-items:center; font-size:12px; }
   .sc-k { color:var(--muted); } .sc-bar { height:8px; background:var(--line); border-radius:4px; overflow:hidden; } .sc-bar i { display:block; height:100%; } .sc-why { color:var(--muted); font-size:11px; }
   @media (max-width:760px) { .sc-row { grid-template-columns:80px 1fr 28px; } .sc-why { grid-column:1/-1; } }
+  /* 우리 사이트 분석 */
+  .an-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:14px; }
+  @media (max-width:900px) { .an-grid { grid-template-columns:1fr; } }
+  .an-panel { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; min-width:0; }
+  .an-panel h3 { margin:0 0 10px; font-size:15px; display:flex; align-items:baseline; gap:8px; } .an-panel h3 .n { color:var(--accent); font-size:12px; font-weight:700; } .an-panel h3 .en { color:var(--muted); font-size:11px; font-weight:400; margin-left:auto; }
+  .an-kpis { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px; } .an-kpi { background:var(--bg); border-radius:8px; padding:8px 12px; min-width:90px; } .an-kpi b { display:block; font-size:20px; } .an-kpi span { font-size:11px; color:var(--muted); }
+  .an-sub { font-size:11px; color:var(--muted); letter-spacing:.02em; margin:10px 0 4px; } .an-note { font-size:11px; color:var(--muted); margin-top:8px; }
+  .an-bars { display:flex; flex-direction:column; gap:4px; } .an-bar { display:grid; grid-template-columns:minmax(80px,1.2fr) 2fr 48px auto; gap:8px; align-items:center; font-size:12px; }
+  .an-bar .k { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .an-bar .b { height:8px; background:var(--bg); border-radius:4px; overflow:hidden; } .an-bar .b i { display:block; height:100%; background:var(--accent); } .an-bar .s { color:var(--muted); font-size:11px; }
+  .an-code { background:#161a24; color:#e6e8ee; padding:10px 12px; border-radius:8px; font-size:12px; overflow:auto; }
+  .an-hm { min-height:60px; } .an-cohort td, .an-cohort th, .an-sess td, .an-sess th { font-size:12px; min-width:0; } .an-cohort td:first-child, .an-sess td:first-child { min-width:0; max-width:none; background:transparent; position:static; font-weight:400; }
+  .an-sess button { white-space:nowrap; } .an-sess td, .an-sess th { white-space:nowrap; } .an-sess td:nth-child(4) { white-space:normal; min-width:160px; } #an-sessions .tablewrap { max-height:420px; overflow:auto; }
+  .an-ab { display:flex; gap:8px; flex-wrap:wrap; } .an-ab-v { background:var(--bg); border-radius:8px; padding:8px 12px; display:flex; flex-direction:column; gap:2px; font-size:12px; min-width:110px; } .an-ab-v b { font-size:14px; } .an-ab-v .r { font-size:18px; font-weight:700; } .an-ab-v.best { outline:2px solid #15803d; }
   .stack { display:flex; height:10px; border-radius:5px; overflow:hidden; background:var(--line); margin:4px 0; } .stack span { display:block; height:100%; }
   .site-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; }
   .site-card { background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; display:flex; flex-direction:column; }
@@ -184,6 +197,7 @@
     <button data-tab="flow">퍼널 흐름</button>
     <button data-tab="ads">광고 채널</button>
     <button data-tab="adspend">광고비 추정</button>
+    <button data-tab="an">우리 사이트 분석</button>
     <button data-tab="capture">URL로 수집</button>
     <button data-tab="timeline">수집 이력 · 변화 추적</button>
     <button data-tab="prompt">AI 분석용 프롬프트</button>
@@ -203,6 +217,7 @@
   <section id="tab-flow" hidden></section>
   <section id="tab-ads" hidden></section>
   <section id="tab-adspend" hidden></section>
+  <section id="tab-an" hidden></section>
   <section id="tab-capture" hidden>
     <div class="box">
       <h2>URL로 수집 (archive.org의 "Save Page Now"처럼)</h2>
@@ -267,5 +282,6 @@
 <script src="app.js"></script>
 <script src="adspend.js"></script>
 <script src="compare.js"></script>
+<script src="analytics.js"></script>
 </body>
 </html>
