@@ -6,8 +6,10 @@ let ALL = [];
 
 function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 1800); }
 
+const TOKEN = { get: () => { try { return localStorage.getItem("fa_token") || ""; } catch { return ""; } }, set: (t) => { try { t ? localStorage.setItem("fa_token", t) : localStorage.removeItem("fa_token"); } catch {} } };
+const authHeaders = () => (TOKEN.get() ? { Authorization: "Bearer " + TOKEN.get() } : {});
 async function api(path, opts = {}) {
-  const r = await fetch(path, { headers: { "Content-Type": "application/json" }, ...opts });
+  const r = await fetch(path, { ...opts, headers: { "Content-Type": "application/json", ...authHeaders(), ...(opts.headers || {}) } });
   if (r.status === 401) { $("#login").classList.add("on"); throw new Error("unauthorized"); }
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || r.statusText);
   return r.json();
@@ -18,12 +20,13 @@ $("#login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   $("#login-err").textContent = "";
   try {
-    await api("/api/login", { method: "POST", body: JSON.stringify({ password: $("#pw").value }) });
+    const res = await api("/api/login", { method: "POST", body: JSON.stringify({ password: $("#pw").value }) });
+    if (res.token) TOKEN.set(res.token);
     $("#login").classList.remove("on"); $("#pw").value = "";
     load();
   } catch (err) { $("#login-err").textContent = err.message === "unauthorized" ? "비밀번호가 틀렸습니다." : err.message; }
 });
-$("#btn-logout").addEventListener("click", async () => { await fetch("/api/login", { method: "DELETE" }); location.reload(); });
+$("#btn-logout").addEventListener("click", async () => { TOKEN.set(""); await fetch("/api/login", { method: "DELETE" }); location.reload(); });
 
 // ---------- 데이터 ----------
 async function load() {
@@ -594,7 +597,7 @@ document.body.addEventListener("click", async (e) => {
 });
 
 (async () => {
-  const { authed } = await fetch("/api/login").then((r) => r.json()).catch(() => ({ authed: false }));
+  const { authed } = await fetch("/api/login", { headers: authHeaders() }).then((r) => r.json()).catch(() => ({ authed: false }));
   if (!authed) $("#login").classList.add("on"); else load();
   try { const t = localStorage.getItem("fa_tab"); const b = t && document.querySelector(`.tabs button[data-tab="${t}"]`); (b || document.querySelector(".tabs button.active")).click(); } catch {}
 })();
