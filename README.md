@@ -152,3 +152,15 @@ Netlify 무료 크레딧이 소진되어 Cloudflare Workers(정적 자산 + API)
 공개된 웹페이지의 **보이는 내용**만 수집합니다. 로그인·DRM 우회, 대량 자동 크롤링은 하지 않으며, 수집한 로고·이미지·문구를 그대로 복제해 쓰지 마세요.
 
 <!-- deploy: 2026-11-05T01:30:40Z -->
+
+## 내 컴퓨터(한국 IP)에서 수집하기
+
+어드민의 "URL로 수집"은 GitHub Actions(해외 서버)에서 돕니다. 해외 접속을 막는 사이트는 **내 컴퓨터**에서 수집하세요. 맥에서 휴대폰 테더링으로 붙이면 한국 모바일 IP로 수집됩니다.
+
+```bash
+git clone https://github.com/shadowmiro33-stack/goranisee.git && cd goranisee
+node collector/local.cjs                       # 대화형: URL → 경쟁사 → 방식(전체/흐름/단일)
+node collector/local.cjs --url https://… --competitor 차즘 --crawl --max-pages 30
+```
+
+처음 한 번 어드민 주소·비밀번호를 물어 `~/.goranisee.json`에 저장하고, 브라우저 엔진(Chromium)을 내려받습니다. 결과는 어드민 "수집 이력"에 `local-…` ID로 올라갑니다.

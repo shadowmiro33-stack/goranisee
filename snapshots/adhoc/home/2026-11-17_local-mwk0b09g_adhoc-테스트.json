@@ -1,0 +1,119 @@
+{
+  "site": "adhoc-테스트",
+  "siteName": "테스트",
+  "stage": "home",
+  "url": "http://localhost:8787/t.html",
+  "capturedAt": "2026-11-17T10:21:22.726+09:00",
+  "ok": true,
+  "httpStatus": 200,
+  "finalUrl": "http://localhost:8787/t.html",
+  "settledMs": 1436,
+  "warning": "본문 텍스트가 거의 없습니다. 로그인이 필요하거나 화면이 늦게 그려지는 페이지일 수 있습니다.",
+  "viewport": {
+    "w": 980,
+    "h": 2121,
+    "pageHeight": 2121
+  },
+  "title": "",
+  "hero": [
+    {
+      "text": "í…ŒìŠ¤íŠ¸ ì¤‘ê³ ì°¨",
+      "fontSize": 32,
+      "y": 0.004,
+      "appeal": []
+    },
+    {
+      "text": "ë‚´ ì°¨ íŒ”ê¸° 90ì´ˆ ê²¬ì ",
+      "fontSize": 16,
+      "y": 0.031,
+      "appeal": []
+    }
+  ],
+  "ctas": [],
+  "promo": [],
+  "overlays": [
+    {
+      "trigger": "load+3s",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>30%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>60%",
+      "overlays": []
+    },
+    {
+      "trigger": "scroll>100%",
+      "overlays": []
+    }
+  ],
+  "appeals": {
+    "urgency": [],
+    "trust": [],
+    "price": []
+  },
+  "counts": {
+    "links": 1,
+    "images": 0,
+    "buttons": 1
+  },
+  "style": {
+    "palette": [
+      {
+        "color": "#efefef",
+        "share": 1,
+        "saturation": 0
+      }
+    ],
+    "brand": [
+      {
+        "color": "#0000ee",
+        "share": 1,
+        "saturation": 1,
+        "by": "count"
+      }
+    ],
+    "fonts": {
+      "body": "Times New Roman",
+      "top": [
+        "Times New Roman",
+        "Arial"
+      ],
+      "heading": "Times New Roman",
+      "baseSize": 16,
+      "headingSize": 32,
+      "boldShare": 0.25
+    },
+    "cta": {
+      "primary": null,
+      "count": 0,
+      "fixedCount": 0,
+      "fullWidthCount": 0,
+      "saturatedCount": 0,
+      "avgHeight": null,
+      "colors": []
+    },
+    "fixedViewportShare": 0
+  },
+  "screenshot": "2026-11-17_local-mwk0b09g_adhoc-테스트.jpg",
+  "forms": {
+    "forms": [],
+    "stepIndicator": null,
+    "loginWall": false
+  },
+  "adTech": {
+    "tags": [],
+    "ids": {},
+    "paidChannels": [],
+    "thirdPartyHosts": []
+  },
+  "viewportKey": "mobile",
+  "device": "모바일",
+  "requestId": "local-mwk0b09g",
+  "admin": {
+    "ok": true,
+    "url": "http://localhost:8787"
+  }
+}
