@@ -257,6 +257,29 @@ $("#cap-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value === "둘 다" ? "둘다" : $("#cap-device").value, flow: $("#cap-mode").value === "flow", crawl: $("#cap-mode").value === "crawl", max_pages: +$("#cap-max").value || 30 };
   $("#cap-go").disabled = true;
+  if ($("#cap-mode").value === "nowcrawl") {
+    const live = $("#cap-live"); live.hidden = false; live.innerHTML = `<div class="m">한국 데이터센터에서 브라우저 시작 중…</div>`;
+    $("#cap-go").textContent = "수집 중…";
+    const comp = body.competitor || new URL(body.url).hostname.replace(/^(m|www)\./, "");
+    try {
+      const r = await fetch("/api/capture-now", { method: "POST", headers: { "Content-Type": "application/json", ...authHeaders() }, body: JSON.stringify({ url: body.url, competitor: comp, mode: "crawl", max_pages: body.max_pages }) });
+      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || r.statusText);
+      const reader = r.body.getReader(); const dec = new TextDecoder(); let buf = "", n = 0;
+      while (true) {
+        const { value, done } = await reader.read(); if (done) break;
+        buf += dec.decode(value, { stream: true });
+        let i; while ((i = buf.indexOf("\n")) >= 0) { const line = buf.slice(0, i); buf = buf.slice(i + 1); if (!line.trim()) continue; let o; try { o = JSON.parse(line); } catch { continue; }
+          if (o.type === "start") live.innerHTML = `<div class="m">데이터센터 ${esc(o.colo || "?")} · 시작</div>`;
+          else if (o.type === "page") { n++; live.insertAdjacentHTML("beforeend", `<div class="${o.ok ? "ok" : "bad"}">#${o.index} ${o.ok ? "✔" : "✖"} ${esc(o.stage)} · ${esc(o.url)}${o.error ? " — " + esc(o.error) : ""}</div>`); live.scrollTop = live.scrollHeight; if (n % 5 === 0) load().catch(() => {}); }
+          else if (o.type === "done") live.insertAdjacentHTML("beforeend", `<div><b>완료</b> ${o.ok}/${o.pages}페이지 · 발견 ${o.discovered} (미방문 ${o.notVisited}) · ${Math.round(o.elapsedMs / 1000)}초</div>`);
+          else if (o.type === "error") live.insertAdjacentHTML("beforeend", `<div class="bad">오류: ${esc(o.error)}</div>`);
+        }
+      }
+      await load(); toast(`사이트 전체 수집 완료 (${n}페이지)`); $("#cap-url").value = "";
+    } catch (err) { live.insertAdjacentHTML("beforeend", `<div class="bad">실패: ${esc(err.message)}</div>`); toast("수집 실패: " + err.message); }
+    finally { $("#cap-go").disabled = false; $("#cap-go").textContent = "수집 시작"; }
+    return;
+  }
   if ($("#cap-mode").value === "now") {
     $("#cap-go").textContent = "수집 중… (최대 60초)";
     try {
@@ -409,7 +432,7 @@ function renderSite() {
   if (!comps.includes(siteState.comp)) siteState.comp = comps[0];
   const mine = rows.filter((c) => c.competitor === siteState.comp);
   // 실행(run) 단위 = id 접두(req-xxxx) 또는 날짜
-  const runOf = (c) => (c.id.match(/^(req-[a-z0-9]+)/) || [null, c.captured_at.slice(0, 10)])[1];
+  const runOf = (c) => (c.id.match(/^((?:req|edge|local)-[a-z0-9]+)/) || [null, c.captured_at.slice(0, 10)])[1];
   const runs = [...new Set(mine.map(runOf))].sort((a, b) => new Date(mine.find((c) => runOf(c) === b).captured_at) - new Date(mine.find((c) => runOf(c) === a).captured_at));
   if (!runs.includes(siteState.run)) siteState.run = runs[0];
   const pages = mine.filter((c) => runOf(c) === siteState.run).sort((a, b) => (a.data.crawl.index || 0) - (b.data.crawl.index || 0));

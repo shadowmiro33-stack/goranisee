@@ -26,10 +26,28 @@ export default {
       if (!env.BROWSER) return new Response(JSON.stringify({ error: "이 배포에 브라우저 바인딩(BROWSER)이 없습니다. wrangler.toml의 [browser] 설정이 반영된 뒤 다시 시도하세요." }), { status: 503, headers: { "Content-Type": "application/json" } });
       let b = {}; try { b = await request.json(); } catch {}
       if (!/^https?:\/\//.test(b.url || "")) return new Response(JSON.stringify({ error: "url이 필요합니다." }), { status: 400, headers: { "Content-Type": "application/json" } });
-      const { edgeCapture } = await import("./lib/edge_capture.js");
+      const { edgeCapture, edgeCrawl } = await import("./lib/edge_capture.js");
       const requestId = Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
-      const payload = await edgeCapture(env, { url: b.url, competitor: String(b.competitor || "경쟁사").trim().slice(0, 80), stage: b.stage || "auto", requestId });
       const colo = request.cf && request.cf.colo ? request.cf.colo : null;
+      const competitor = String(b.competitor || "경쟁사").trim().slice(0, 80);
+      if (b.mode === "crawl") {
+        // 사이트 전체: 진행 상황을 NDJSON 스트림으로 흘려보내고(연결 유지), 페이지마다 바로 저장
+        const { readable, writable } = new TransformStream();
+        const w = writable.getWriter(); const enc = new TextEncoder();
+        const send = (o) => w.write(enc.encode(JSON.stringify(o) + "\n")).catch(() => {});
+        ctx.waitUntil((async () => {
+          try {
+            await send({ type: "start", colo, requestId });
+            const sum = await edgeCrawl(env, { url: b.url, competitor, requestId, maxPages: Math.min(40, Math.max(1, +b.max_pages || 20)),
+              onLog: (m) => send({ type: "log", m }),
+              onPage: async (p) => { p.edgeColo = colo; if (colo) p.note = (p.note || "") + ` · 데이터센터 ${colo}`; const r = await ingest(p); await send({ type: "page", id: r.body && r.body.id, url: p.url, stage: p.stage, ok: !p.captureError, error: p.captureError || null, index: p.crawl && p.crawl.index }); } });
+            await send({ type: "done", ...sum });
+          } catch (e) { await send({ type: "error", error: String(e && e.message || e) }); }
+          finally { try { await w.close(); } catch {} }
+        })());
+        return new Response(readable, { headers: { "Content-Type": "application/x-ndjson; charset=utf-8", "Cache-Control": "no-store", "X-Accel-Buffering": "no" } });
+      }
+      const payload = await edgeCapture(env, { url: b.url, competitor, stage: b.stage || "auto", requestId });
       payload.edgeColo = colo; payload.edgeCountry = request.cf && request.cf.country || null;
       if (colo) payload.note = (payload.note || "") + ` · 데이터센터 ${colo}`;
       const saved = await ingest(payload);
