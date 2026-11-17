@@ -23,4 +23,5 @@ jobs:
         env:
           FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL || 'https://goranisee.netlify.app' }}
           FUNNEL_ADMIN_PASSWORD: ${{ secrets.FUNNEL_ADMIN_PASSWORD }}
+          FUNNEL_PROXY: ${{ secrets.FUNNEL_PROXY }}
         run: node collector/render_snapshot.cjs --id "${{ github.event.client_payload.id }}"

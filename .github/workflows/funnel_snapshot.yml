@@ -47,6 +47,7 @@ jobs:
           # 이 저장소의 어드민 자동 전송. 비우면 저장소에만 쌓임.
           FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL || 'https://goranisee.netlify.app' }}
           FUNNEL_ADMIN_PASSWORD: ${{ secrets.FUNNEL_ADMIN_PASSWORD }}
+          FUNNEL_PROXY: ${{ secrets.FUNNEL_PROXY }}
         run: |
           ARGS=""
           [ -n "${{ github.event.inputs.site }}" ] && ARGS="$ARGS --site ${{ github.event.inputs.site }}"

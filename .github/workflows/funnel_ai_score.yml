@@ -20,6 +20,7 @@ jobs:
           AI_SCORE_MODEL: ${{ vars.AI_SCORE_MODEL }}
           FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL || 'https://goranisee.netlify.app' }}
           FUNNEL_ADMIN_PASSWORD: ${{ secrets.FUNNEL_ADMIN_PASSWORD }}
+          FUNNEL_PROXY: ${{ secrets.FUNNEL_PROXY }}
           P_ID: ${{ github.event.client_payload.id }}
           P_COMP: ${{ github.event.client_payload.competitor }}
         run: |

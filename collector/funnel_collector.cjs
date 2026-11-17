@@ -655,7 +655,10 @@ async function main() {
     log(`단일 URL 수집: ${name} / ${stageKey} / ${ADHOC_URL}${ADHOC_REQUEST ? ' (요청 ' + ADHOC_REQUEST + ')' : ''}`);
   }
 
-  const browser = await chromium.launch({ headless: true, args: ['--lang=ko-KR'] });
+  // FUNNEL_PROXY=http://user:pass@host:port 를 주면 그 경유지(예: 한국 IP 프록시)로 접속합니다
+  const proxyUrl = (process.env.FUNNEL_PROXY || '').trim();
+  let proxy; if (proxyUrl) { try { const u = new URL(proxyUrl); proxy = { server: `${u.protocol}//${u.hostname}${u.port ? ':' + u.port : ''}`, username: decodeURIComponent(u.username || ''), password: decodeURIComponent(u.password || '') }; log(`프록시 경유: ${u.hostname}`); } catch { log('FUNNEL_PROXY 형식 오류 — 무시'); } }
+  const browser = await chromium.launch({ headless: true, args: ['--lang=ko-KR'], proxy });
   const index = { date, capturedAt: nowKst(), stages: cfg.stages, viewports: viewports.map(v => v.key), sites: [] };
   let total = 0, failed = 0;
 

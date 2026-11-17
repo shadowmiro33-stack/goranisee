@@ -31,6 +31,7 @@ jobs:
         env:
           FUNNEL_ADMIN_URL: ${{ secrets.FUNNEL_ADMIN_URL || 'https://goranisee.netlify.app' }}
           FUNNEL_ADMIN_PASSWORD: ${{ secrets.FUNNEL_ADMIN_PASSWORD }}
+          FUNNEL_PROXY: ${{ secrets.FUNNEL_PROXY }}
           P_URL: ${{ github.event.client_payload.url }}
           P_COMP: ${{ github.event.client_payload.competitor }}
           P_STAGE: ${{ github.event.client_payload.stage }}
