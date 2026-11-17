@@ -7,7 +7,6 @@ compatibility_flags = ["nodejs_compat"]
 # 즉시 수집(한국 IP 경유): Browser Run — Free 플랜 하루 10분, 동시 3개
 [browser]
 binding = "BROWSER"
-compatibility_flags = ["nodejs_compat"]
 
 [assets]
 directory = "./public"
