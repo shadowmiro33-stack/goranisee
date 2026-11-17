@@ -261,11 +261,8 @@
     <div class="box">
       <h2>URL로 수집</h2>
       <div class="cap-where">
-        <div><b>① 여기서 버튼 → GitHub 서버(해외 IP)가 수집</b><br><span class="m">편하지만 해외 접속을 막거나 "네트워크 오류" 창을 띄우는 사이트는 실패로 표시됩니다.</span></div>
-        <div><b>② 한국 IP 경유로 서버가 수집 (추천 · 버튼 그대로 사용)</b><br><span class="m">GitHub 저장소 Settings → Secrets 에 <code>FUNNEL_PROXY</code> = <code>http://아이디:비밀번호@호스트:포트</code> (한국 프록시 서비스 주소) 를 넣으면, 이 탭의 수집 버튼이 그 경유지로 접속합니다. 그 뒤로는 아무것도 달라지지 않습니다.</span></div>
-        <div><b>③ 내 맥에서 더블클릭으로 수집 (휴대폰 테더링 등 내 네트워크)</b><br><span class="m"><a href="/goranisee-collector.command" download>goranisee-collector.command</a> 를 받아 더블클릭하면 창이 하나 뜨고 URL·경쟁사·방식을 물어본 뒤 수집해서 여기에 올립니다. 처음 한 번은 파일을 <b>우클릭 → 열기</b>로 열어야 하고(맥 보안 경고), Node.js 가 없으면 설치 페이지를 열어 줍니다.</span></div>
+        <div><b>지금 수집 (기본)</b> — 버튼을 누르면 Cloudflare의 <b>한국 데이터센터</b>에서 브라우저가 떠서 그 페이지를 모바일 화면으로 열고 바로 여기에 올립니다. 해외 IP 차단·"네트워크 오류" 창 문제가 없고 30초 안에 끝납니다. <span class="m">무료 한도 하루 10분(페이지 약 15~20개). 사이트 전체·흐름 수집은 GitHub 서버(해외)로 돕니다.</span></div>
       </div>
-      <p>①을 쓰려면 아래에 주소를 넣고 수집 버튼을 누르세요 (모바일 화면 390px). 자동 스케줄은 없습니다.</p>
       <form id="cap-form" style="display:grid;grid-template-columns:1fr;gap:8px;max-width:720px">
         <input type="url" id="cap-url" placeholder="경쟁사 첫 화면 주소 (예: https://m.encar.com/)" required>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -273,7 +270,7 @@
           <datalist id="cap-comp-list"></datalist>
           <select id="cap-stage"><option>첫 화면(랜딩)</option><option>카테고리/상품 목록</option><option>상품 상세</option><option>장바구니</option><option>결제</option><option>회원가입/로그인</option><option>이벤트/기획전</option><option>기타</option></select>
           <select id="cap-device" hidden><option>모바일</option></select>
-          <select id="cap-mode" title="수집 범위"><option value="crawl">사이트 전체 (링크 따라 최대 N페이지)</option><option value="flow">신청까지 흐름 (첫 화면→리스트→상세→신청)</option><option value="single">이 페이지만</option></select>
+          <select id="cap-mode" title="수집 범위"><option value="now">이 페이지 지금 수집 (한국 IP 경유 · 30초)</option><option value="crawl">사이트 전체 — GitHub 서버 (링크 따라 최대 N페이지)</option><option value="flow">신청까지 흐름 — GitHub 서버 (첫 화면→리스트→상세→신청)</option><option value="single">이 페이지만 — GitHub 서버 (해외 IP)</option></select>
           <input type="number" id="cap-max" value="30" min="1" max="80" style="width:64px" title="사이트 전체 수집 시 최대 페이지 수">
           <button class="primary" type="submit" id="cap-go">수집 시작</button>
         </div>

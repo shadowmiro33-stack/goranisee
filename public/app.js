@@ -257,6 +257,16 @@ $("#cap-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = { url: $("#cap-url").value.trim(), competitor: $("#cap-comp").value.trim(), stage: $("#cap-stage").value, device: $("#cap-device").value === "둘 다" ? "둘다" : $("#cap-device").value, flow: $("#cap-mode").value === "flow", crawl: $("#cap-mode").value === "crawl", max_pages: +$("#cap-max").value || 30 };
   $("#cap-go").disabled = true;
+  if ($("#cap-mode").value === "now") {
+    $("#cap-go").textContent = "수집 중… (최대 60초)";
+    try {
+      const r = await api("/api/capture-now", { method: "POST", body: JSON.stringify({ url: body.url, competitor: body.competitor || new URL(body.url).hostname.replace(/^(m|www)\./, ""), stage: "auto" }) });
+      if (r.error) toast("수집 실패: " + r.error); else toast(`수집 완료 (${r.colo || "엣지"} · ${Math.round((r.elapsedMs || 0) / 1000)}초) — 수집 이력에 올라왔습니다.`);
+      $("#cap-url").value = ""; await load(); document.querySelector('.tabs button[data-tab="timeline"]').click();
+    } catch (err) { toast("수집 실패: " + err.message); }
+    finally { $("#cap-go").disabled = false; $("#cap-go").textContent = "수집 시작"; }
+    return;
+  }
   try {
     const r = await api("/api/capture-request", { method: "POST", body: JSON.stringify(body) });
     CAP_Q.unshift({ id: r.id, at: Date.now(), ...body, actions: r.actions_url }); saveQ();
