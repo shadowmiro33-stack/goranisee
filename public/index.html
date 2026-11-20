@@ -34,11 +34,13 @@
   .empty { padding:70px 20px; text-align:center; color:var(--muted); background:var(--card); border:1px dashed var(--line); border-radius:12px; }
   .empty code { background:var(--bg); padding:2px 6px; border-radius:4px; }
   .scroll { overflow:auto; border:1px solid var(--line); border-radius:12px; background:var(--card); }
+  /* 비교표(.scroll 안의 큰 표)만 셀 폭 고정. 나머지 표는 .ads-table 규칙을 따름 */
   table { border-collapse:separate; border-spacing:0; min-width:100%; }
-  th, td { border-bottom:1px solid var(--line); border-right:1px solid var(--line); padding:10px 12px; vertical-align:top; text-align:left; min-width:250px; max-width:340px; }
+  th, td { border-bottom:1px solid var(--line); padding:10px 12px; vertical-align:top; text-align:left; }
+  .scroll th, .scroll td { border-right:1px solid var(--line); min-width:250px; max-width:340px; }
   th { background:#f1f3f8; font-weight:600; position:sticky; top:0; z-index:2; }
-  th:first-child, td:first-child { min-width:130px; max-width:130px; background:#f9fafc; font-weight:600; position:sticky; left:0; z-index:1; }
-  th:first-child { z-index:3; }
+  .scroll th:first-child, .scroll td:first-child { min-width:130px; max-width:130px; background:#f9fafc; font-weight:600; position:sticky; left:0; z-index:1; }
+  .scroll th:first-child { z-index:3; }
   th:last-child, td:last-child { border-right:0; }
   tr:last-child td { border-bottom:0; }
   th .sub { display:block; font-weight:400; font-size:11px; color:var(--muted); }
@@ -108,6 +110,20 @@
   .diff .k { color:var(--muted); font-size:11px; margin-right:4px; }
   .diff.same { color:var(--muted); }
   /* 광고 채널 */
+  /* 표 공통 (광고 채널·광고비 추정·방문 분석·비교) */
+  .tablewrap { overflow:auto; border:1px solid var(--line); border-radius:10px; background:var(--card); }
+  .ads-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .ads-table th { text-align:left; font-weight:600; color:var(--muted); font-size:11.5px; letter-spacing:.01em; background:var(--bg); padding:9px 12px; border-bottom:1px solid var(--line); white-space:nowrap; position:sticky; top:0; z-index:1; }
+  .ads-table th, .ads-table td { border-right:0; min-width:0; max-width:none; }
+  .ads-table td { padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.45; }
+  .ads-table tbody tr:last-child td { border-bottom:0; } .ads-table tbody tr:hover td { background:#f8faff; }
+  .ads-table td.stage { font-weight:600; white-space:nowrap; } .ads-table td b { font-variant-numeric:tabular-nums; }
+  .ads-table tfoot td, .ads-table tr.total td { background:var(--bg); font-weight:600; }
+  .ch-table td:nth-child(3), .ch-table td:nth-child(4), .ch-table td:nth-child(5), .ch-table td:nth-child(6) { white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .ch-table td:last-child { color:var(--muted); font-size:11.5px; min-width:160px; max-width:260px; } .ch-table th:first-child { min-width:150px; }
+  #tab-adspend h3 { font-size:14px; margin:18px 0 6px; } #tab-adspend h3 span { font-weight:400; color:var(--muted); font-size:12px; }
+  #tab-adspend .box select, #tab-adspend .box input[type=number], #tab-adspend .box input[type=date] { height:32px; }
+  #tab-adspend details summary { padding:8px 0; } #tab-adspend label { display:flex; flex-direction:column; gap:4px; color:var(--muted); } #tab-adspend label input { width:100%; }
   .ads-table td.on { font-weight:600; color:#15803d; }
   .ads-table td.off { color:var(--muted); }
   .chip { display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; background:var(--bg); border:1px solid var(--line); margin:2px 3px 2px 0; }
